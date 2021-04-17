@@ -1,0 +1,26 @@
+{
+  "name": "botdiscordsc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandre78R/ScBotDiscord.git"
+  },
+  "author": "Alexandre78R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexandre78R/ScBotDiscord/issues"
+  },
+  "homepage": "https://github.com/Alexandre78R/ScBotDiscord#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security"
+  }
+}
