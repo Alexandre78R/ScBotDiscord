@@ -1,8 +1,3 @@
-//Module export
-module.exports = {
-    'validateJSON': validateJSON,
-} 
-
 //Vérification du format du fichier 
 function validateJSON(body) {
     try {
@@ -14,3 +9,6 @@ function validateJSON(body) {
       return null;
     }
 }
+
+//Module export
+module.exports = validateJSON

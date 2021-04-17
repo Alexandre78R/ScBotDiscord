@@ -1,5 +1,8 @@
+
+//!IMPORTANT --> Ce fichier n'est pas commenté entièrement risque de grosse modification par la suite.
+
 //Import de la config
-const config = require('../config/config.json')
+const config = require('../config/config')
 
 //Import du module FS
 const fs = require('fs');
@@ -9,10 +12,8 @@ const Discord = require('discord.js');
 
 var tableauResultat = {Guildes : [], Joueurs : {}}
 
-//Module export
-module.exports = {
-    'processing': processing,
-}
+//Import des consoleLog pour un système de historique
+const consoleLog = require("../function/consoleLog.js")
 
 function processing (message) {
 
@@ -24,7 +25,7 @@ function processing (message) {
    
     //Prise en compte du prefix
     if (message.length == 1){
-        if (message[0].charAt(0) == config.prefix) 
+        if (message[0].charAt(0) == config.discord.prefix) 
             message[0] = message[0].slice(1);
 
     }
@@ -35,58 +36,61 @@ function processing (message) {
     let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);
 
+    //Data de l'utilisateur qui a utiliser les commandes 
+    var infoUser = { location : "./commands/processing.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    
     var variantSC = args[0]
 
     let errorArgsVariant = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Traitement  du fichier  :x:`)
-    .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.variantSC1} ${config.variantSC2} ${config.variantSC3} ${config.variantSC4}`) 
-    .setFooter("Erreur : errorArgsVariant  - errorVariant")
+    .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
+    .setFooter("Erreur : errorArgsVariant")
 
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant)
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
 
     switch (variantSC){
                         
-        case config.variantSC1:
+        case config.discord.variantSC1:
             if (fs.existsSync(`./data/SC1/siege.json`)) {
-                console.log("Fichier trouver : ./data/SC1/siege.json")
                 infoSiege = require("../data/SC1/siege.json");
+                consoleLog(`OK : Fichier trouver : ./data/SC1/siege.json - ${variantSC}`);
             }
         break;
-        case config.variantSC2:
+        case config.discord.variantSC2:
             if (fs.existsSync(`./data/SC2/siege.json`)) {
-                console.log("Fichier trouver : ./data/SC2/siege.json")
                 infoSiege = require("../data/SC2/siege.json");
+                consoleLog(`OK : Fichier trouver : ./data/SC2/siege.json - ${variantSC}`);
             }
         break;
-        case config.variantSC3: 
+        case config.discord.variantSC3: 
             if (fs.existsSync(`./data/SC3/siege.json`)) {
-                console.log("Fichier trouver : ./data/SC3/siege.json")
                 infoSiege = require("../data/SC3/siege.json");
+                consoleLog(`OK : Fichier trouver : ./data/SC3/siege.json - ${variantSC}`);
             }
         break;
-        case config.variantSC4:
+        case config.discord.variantSC4:
             if (fs.existsSync(`./data/SC4/siege.json`)) {
-                console.log("Fichier trouver : ./data/SC4/siege.json")
                 infoSiege = require("../data/SC4/siege.json");
+                consoleLog(`OK : Fichier trouver : ./data/SC4/siege.json - ${variantSC}`);
             }
         break;
         default:
             let errorProcessingGuildVariant = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
-            .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.variantSC1} ${config.variantSC2} ${config.variantSC3} ${config.variantSC4}`) 
-            .setFooter("Erreur : errorProcessingGuildVariant - SWITCH")
-            return message.channel.send(errorProcessingGuildVariant)
+            .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
+            .setFooter("Erreur : errorProcessingGuildVariant")
+            return message.channel.send(errorProcessingGuildVariant) | consoleLog(`ERROR : errorProcessingGuildVariant - ${variantSC}`, NaN, infoUser)
     } 
 
     let errorProccessingDataUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Traitement du fichier  :x:`)
-    .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.prefix}dl .`) 
-    .setFooter("Erreur : errorProccessingDataUndefined - FILE DATA UNDEFINED")
+    .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}dl .`) 
+    .setFooter("Erreur : errorProccessingDataUndefined")
 
-    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) | console.log(`Impossible de toruver le fichier : ../data/${variantSC}/siege.json`)
+    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) | consoleLog(`ERROR : errorProccessingDataUndefined - ${variantSC}`, NaN, infoUser)
 
     //Lecture du première argument apr_s la commandes (pour récupérer l'id)
     var siegeId = args[1];
@@ -95,9 +99,9 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: Vous n'avez pas rentrer d'ID !")
-    .setFooter("Erreur : id args = errorArgsId")
+    .setFooter("Erreur : errorArgsId")
 
-    if (siegeId == undefined) return message.channel.send(errorArgsId)
+    if (siegeId == undefined) return message.channel.send(errorArgsId) | consoleLog(`ERROR : errorArgsId - ${variantSC}`, NaN, infoUser)
 
     //Vérification id en caractère
     let idVerife = Number.isNaN(Number(siegeId));
@@ -106,17 +110,17 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: Vous n'avez pas rentrer un id correct !")
-    .setFooter("Erreur : errorValueId = VALUE FORMAT INCORRECT")
+    .setFooter("Erreur : errorValueId")
 
-    if(idVerife == true) return message.channel.send(errorValueId)
+    if(idVerife == true) return message.channel.send(errorValueId) | consoleLog(`ERROR : errorValueId - ${variantSC}`, NaN, infoUser)
 
     let errorAtttackLogUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
-    .setFooter("Erreur : errorAtttackLogUndefined = UNDEFINED ATTAQUE LOG")
+    .setFooter("Erreur : errorAtttackLogUndefined")
 
-    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) | console.log("attack_ log undefined ")
+    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) | consoleLog(`ERROR : errorAtttackLogUndefined - ${variantSC}`, NaN, infoUser)
 
     var attack_log = infoSiege.attack_log.log_list;
 
@@ -126,8 +130,9 @@ function processing (message) {
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur :x:`)
         .setDescription(":x: Impossible de récupérer les informations des attaques !")
-        .setFooter("Erreur : attack_log = errorAttackLog")
+        .setFooter("Erreur : errorAttackLog")
         message.channel.send(errorAttackLog)
+        consoleLog(`ERROR : errorAttackLog - ${variantSC}`, NaN, infoUser)
 
     }else {
 
@@ -141,8 +146,9 @@ function processing (message) {
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur :x:`)
                 .setDescription(":x: Impossible de récupérer les informations du siège. ! ")
-                .setFooter("Erreur : attack_guild_info_list.length = errorAttackGuildInfoList")
+                .setFooter("Erreur : errorAttackGuildInfoList")
                 message.channel.send(errorAttackGuildInfoList)
+                consoleLog(`ERROR : errorAttackGuildInfoList - ${variantSC}`, NaN, infoUser)
 
             }else{
 
@@ -163,6 +169,7 @@ function processing (message) {
                             "total_defense_lose" : 0, 
                         }                   
                         tableauResultat.Guildes.push(guildeInfo)
+                        consoleLog(`OK : DATA - ${variantSC}`, guildeInfo, infoUser)
                     }
                 }
             }
@@ -177,8 +184,9 @@ function processing (message) {
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur :x:`)
                 .setDescription(":x: Impossible de récupérer les informations des guildes. Merci de vérifier l'id ! ")
-                .setFooter("Erreur : tabGuilde.length = errorTabGuildeLength")
+                .setFooter("Erreur : errorTabGuildeLength")
                 message.channel.send(errorTabGuildeLength)
+                consoleLog(`ERROR : errorTabGuildeLength - ${variantSC}`, NaN, infoUser)
 
             }else {
 
@@ -254,9 +262,9 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
-    .setFooter("Erreur : errorDefenseLogUndefined = UNDEFINED ATTAQUE LOG")
+    .setFooter("Erreur : errorDefenseLogUndefined")
 
-    if(infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) | console.log("deffense_ log undefined ")
+    if(infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) | consoleLog(`ERROR : errorDefenseLogUndefined - ${variantSC}`, NaN, infoUser)
 
     var defense_log = infoSiege.defense_log.log_list;
 
@@ -331,7 +339,7 @@ function processing (message) {
     }
 
     if (tableauResultat.Guildes.length == 0){
-        console;Log("error donnée rien trouver")
+        consoleLog(`ERROR : INTERNE="tableauResultat.Guildes.length == 0" - ${variantSC}`, NaN, infoUser)
     } else {
         var winrate_calcul1 = null;
         var winrate_calcul2 =  null;
@@ -347,16 +355,16 @@ function processing (message) {
 
     switch (variantSC){
                         
-        case config.variantSC1:
+        case config.discord.variantSC1:
           
             if (tableauResultat.Guildes.length == 0){
 
             }else {
                 fs.unlink('./data/SC1/tableauResultat.json', function (err) {
                     if (err) {
-                        console.log("Rien a supprimé : ./data/SC1/tableauResultat.json")
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`)
                     }else {
-                        console.log('Fichier supprimé : ./data/SC1/tableauResultat.json');
+                        consoleLog(`OK : Fichier supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`)
                     }
                 });
                 fs.writeFile(`./data/SC1/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -364,9 +372,10 @@ function processing (message) {
                         let errorSaveFile = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
-                        .setDescription(`:x: Problème tecnique sur le traitement ${config.variantSC1} :x:`)
-                        .setFooter("Erreur : errorSaveFile = Filed save")
+                        .setDescription(`:x: Problème tecnique sur le traitement ${config.discord.variantSC1} :x:`)
+                        .setFooter("Erreur : errorSaveFile")
                         message.channel.send(errorSaveFile)
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     } else {
@@ -374,23 +383,24 @@ function processing (message) {
                         let processingEmbed = new Discord.MessageEmbed()
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
-                        .setDescription(`Les traitement des données on été effectuée sur ${config.variantSC1}!`)
+                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC1}!`)
                         message.channel.send(processingEmbed)
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     }
                 }); 
             }       
         break;
-        case config.variantSC2:
+        case config.discord.variantSC2:
             if (tableauResultat.Guildes.length == 0){
 
             }else {
                 fs.unlink('./data/SC2/tableauResultat.json', function (err) {
                     if (err) {
-                        console.log("Rien a supprimé : ./data/SC2/tableauResultat.json")
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`)
                     }else {
-                        console.log('Fichier supprimé : ./data/SC2/tableauResultat.json');
+                        consoleLog(`OK : Fichier supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`)
                     }
                 });
                 fs.writeFile(`./data/SC2/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -398,9 +408,10 @@ function processing (message) {
                         let errorSaveFile = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
-                        .setDescription(`:x: Problème technique sur le traitement ${config.variantSC2} :x:`)
-                        .setFooter("Erreur : errorSaveFile = Filed save")
+                        .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC2} :x:`)
+                        .setFooter("Erreur : errorSaveFile")
                         message.channel.send(errorSaveFile)
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     } else {
@@ -408,23 +419,24 @@ function processing (message) {
                         let processingEmbed = new Discord.MessageEmbed()
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
-                        .setDescription(`Les traitement des données on été effectuée sur ${config.variantSC2}!`)
+                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC2}!`)
                         message.channel.send(processingEmbed)
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     }
                 });        
             }
         break;
-        case config.variantSC3: 
+        case config.discord.variantSC3: 
             if (tableauResultat.Guildes.length == 0){
 
             }else {
                 fs.unlink('./data/SC3/tableauResultat.json', function (err) {
                     if (err) {
-                        console.log("Rien a supprimé : ./data/SC3/tableauResultat.json")
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`)
                     }else {
-                        console.log('Fichier supprimé : ./data/SC3/tableauResultat.json');
+                        consoleLog(`OK : Fichier supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`)
                     }
                 });
                 fs.writeFile(`./data/SC3/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -432,9 +444,10 @@ function processing (message) {
                         let errorSaveFile = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
-                        .setDescription(`:x: Problème technique sur le traitement ${config.variantSC3} :x:`)
-                        .setFooter("Erreur : errorSaveFile = Filed save")
+                        .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC3} :x:`)
+                        .setFooter("Erreur : errorSaveFile")
                         message.channel.send(errorSaveFile)
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     } else {
@@ -442,23 +455,24 @@ function processing (message) {
                         let processingEmbed = new Discord.MessageEmbed()
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
-                        .setDescription(`Les traitement des données on été effectuée sur ${config.variantSC3}!`)
+                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC3}!`)
                         message.channel.send(processingEmbed)
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     }
                 });    
             }
         break;
-        case config.variantSC4:
+        case config.discord.variantSC4:
             if (tableauResultat.Guildes.length == 0){
 
             }else {
                 fs.unlink('./data/SC4/tableauResultat.json', function (err) {
                     if (err) {
-                        console.log("Rien a supprimé : ./data/SC4/tableauResultat.json")
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`)
                     }else {
-                        console.log('Fichier supprimé : ./data/SC4/tableauResultat.json');
+                        consoleLog(`OK : Fichier supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`)
                     }
                 });
                 fs.writeFile(`./data/SC4/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -466,9 +480,10 @@ function processing (message) {
                         let errorSaveFile = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
-                        .setDescription(`:x: Problème technique sur le traitement ${config.variantSC4} :x:`)
-                        .setFooter("Erreur : errorSaveFile = Filed save")
+                        .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC4} :x:`)
+                        .setFooter("Erreur : errorSaveFile")
                         message.channel.send(errorSaveFile)
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     } else {
@@ -476,8 +491,9 @@ function processing (message) {
                         let processingEmbed = new Discord.MessageEmbed()
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
-                        .setDescription(`Les traitement des données on été effectuée sur ${config.variantSC4}!`)
+                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC4}!`)
                         message.channel.send(processingEmbed)
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
                         tableauResultat = {Guildes : [], Joueurs : {}}
                         infoSiege = null;
                     }
@@ -488,8 +504,12 @@ function processing (message) {
             let errorHttpsGuildVariant = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Traitement du fichier  :x:`)
-            .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.variantSC1} ${config.variantSC2} ${config.variantSC3} ${config.variantSC4}`) 
-            .setFooter("Erreur : errorGuildVariant - SWITCH")
+            .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
+            .setFooter("Erreur : errorGuildVariant")
             message.channel.send(errorHttpsGuildVariant)
+            consoleLog(`ERROR : errorGuildVariant - ${variantSC}`, NaN, infoUser)
     } 
 }
+
+//Module export
+module.exports = processing;
