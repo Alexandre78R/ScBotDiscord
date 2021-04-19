@@ -17,6 +17,12 @@ exports.up = function(knex) {
     })
     knex.schema.createTable('team', function (table) {
         table.increments();
+        table.integer('monster_lead');
+        table.integer('monster_2');
+        table.integer('monster_3');
+        table.foreign('monster_lead').references('monster.id');
+        table.foreign('monster_2').references('monster.id');
+        table.foreign('monster_3').references('monster.id');
         table.timestamps();
     })
     knex.schema.createTable('match', function (table) {
@@ -30,15 +36,6 @@ exports.up = function(knex) {
         table.foreign('user_id').references('user.id');
         table.timestamps();
     })
-    knex.schema.createTable('team_monster_join', function (table) {
-        table.increments();
-        table.integer('team_id');
-        table.integer('monster_id');
-        table.primary('team_monster_pk', ['team_id', 'monster_id']);
-        table.foreign('team_id').references('team.id');
-        table.foreign('monster_id').references('monster.id');
-        table.timestamps();
-    })
 };
 
 exports.down = function(knex) {
@@ -46,6 +43,5 @@ exports.down = function(knex) {
         .dropTable("user")
         .dropTable("monster")
         .dropTable("team")
-        .dropTable("match")
-        .dropTable("team_monster_join");
+        .dropTable("match");
 };
