@@ -8,10 +8,11 @@
     - nameTagDiscord VARCHAR
     - NameGuild (SC1 - SC2 - SC3 - SC4 récupérable avec les rôles) CHAR
 
- Monster : 
- - id 
- - idMoster INTEGER UNIQUE 
- - nameMonster CHAR
+ Monster :
+ 
+    - id 
+    - idMoster INTEGER UNIQUE 
+    - nameMonster CHAR
 
  Defense : 
 
@@ -34,7 +35,9 @@
     - id
     - idDefense INT
     - idOffense INT
+    - idUSER INT
     - result (bool) (WIN = true , lose = false)
+    - description TEXT 
     - Date DATE = YYYY-MM-DD = 1000-01-01' to '9999-12-31,
-    
+
 Id des mob dans les tables Defence et Offense a voir si on les sa ou pas, si on les compare avec une liste de mob récupérer par SWARFRAM ou autre...
