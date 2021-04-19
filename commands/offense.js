@@ -14,11 +14,6 @@ var http = require('http')
 var https = require('https');
 const { url } = require('inspector');
 
-//Module export
-module.exports = {
-    'offense': offense,
-}
-
 function offense(message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -279,3 +274,6 @@ function offense(message) {
     //    }
     //}
 }
+
+//Module export
+module.exports = offense;
