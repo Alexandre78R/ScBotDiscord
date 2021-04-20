@@ -17,6 +17,7 @@ module.exports = {
         "hostname" : process.env.HOSTNAMEBDD,
         "port" : process.env.PORTBDD,
         "username" : process.env.USERNAMEBDD,
-        "password" : process.env.PASSWORDBDD
+        "password": process.env.PASSWORDBDD,
+        "database": process.env.DATABASENAME
     }
 }

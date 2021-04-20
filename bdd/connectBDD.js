@@ -8,6 +8,7 @@ var con = mysql.createConnection({
     host: config.bdd.hostname,
     user: config.bdd.username,
     password: config.bdd.password
+    database: config.bdd.database
 });
 
 con.connect(function (err) {

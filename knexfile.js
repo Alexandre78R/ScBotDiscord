@@ -5,7 +5,7 @@ const config = require('./config/config')
 module.exports = {
 
   development: {
-    client: 'mysql',
+    client: 'mysql2',
     connection: {
         database: 'swbotdiscord',
         user: config.bdd.username,
