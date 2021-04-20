@@ -7,7 +7,7 @@ module.exports = {
   development: {
     client: 'mysql2',
     connection: {
-        database: 'swbotdiscord',
+        database: config.bdd.database,
         user: config.bdd.username,
         password: config.bdd.password
     }
