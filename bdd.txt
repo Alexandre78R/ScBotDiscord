@@ -28,6 +28,7 @@
     - id
     - idDefense INT
     - idOffense INT
+    - idUSER INT
     - result (bool) (WIN = true , lose = false)
     - TimeStamp (created_at, updated_at)
     
