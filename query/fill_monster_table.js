@@ -26,7 +26,6 @@ function populateMonsterList() {
                 return;
             }
             monsterNewList.push(monster);
-            console.log(monsterNewList);
             return;
         })
     });
