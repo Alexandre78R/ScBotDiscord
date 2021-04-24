@@ -1,8 +1,11 @@
 //Import de la config
-const config = require('../config/config.json')
+const config = require('../config/config.js')
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
+
+//Import offense query
+const sqlOffense = require("../query/offense.js");
 
 //Import du module fs
 var fs = require("fs")
@@ -14,6 +17,70 @@ var http = require('http')
 var https = require('https');
 const { url } = require('inspector');
 
+async function checkTeam(team, side, message) {
+    var result = await sqlOffense.checkNameValidity(team);
+    console.log(!result);
+    if (!result) {
+        let nameValidityError = new Discord.MessageEmbed()
+            .setColor("#F00E0E")
+            .setTitle(`:x: Noms incorrects  :x:`)
+            .setDescription(":x: Un ou plusieurs monstres en " + side + " n'existent pas dans la base de donnees")
+            .setFooter("Erreur : nameValidityError")
+        message.channel.send(nameValidityError)
+        return "invalid";
+    }
+}
+
+async function checkOutcome(outcome, message) {
+    if (outcome == "L") {
+        return false;
+    } else if (outcome == "W") {
+        return true
+    } else {
+        let outcomeValidityError = new Discord.MessageEmbed()
+            .setColor("#F00E0E")
+            .setTitle(`:x: Resultat incorrect  :x:`)
+            .setDescription(":x: Seul 'W' pour la victoire et 'L' pour la defaite est accepte.")
+            .setFooter("Erreur : outcomeValidityError")
+        message.channel.send(outcomeValidityError)
+        return "invalid";
+    }
+}
+
+async function checkUserId(userDiscordIde) {
+    var result = await sqlOffense.checkNameValidity(team);
+    return result;
+}
+
+async function processRequest(offense, defense, outcome, userDiscordId, message) {
+
+    //Check offense monster validity and return ids
+    const monsterOffenseId = await checkTeam(offense, "offense", message);
+    if (monsterOffenseId != "invalid") {
+
+        //Check defense monster validity and return ids
+        const monsterDefenseId = await checkTeam(defense, "offense", message);
+        if (monsterDefenseId != "invalid") {
+
+            //Check outcome validity and return boolean
+            const outComeId = await checkOutcome(outcome, message);
+            if (outComeId != "invalid") {
+
+                //Check userId validity and return user_id
+                const userId = await checkUserId(userDiscordId);
+                if (outComeId != "invalid") {
+
+                    //Create battle entry in DB
+                    const success = await sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId);
+                    if (success) {
+
+                        //Successful message
+                    }
+                }
+            }
+        }
+    }
+}
 function offense(message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -34,19 +101,16 @@ function offense(message) {
     let offenseMonsters = messageArray[0].split(" ").slice(1).filter(Boolean);
     let defenseMonsters = messageArray[1].split(" ").filter(Boolean);
     let outcome = messageArray[2];
+    let userDiscordId = message.author.id;
 
     //Argument pour url juste après la commande
 
-    console.log("Monster in the offense", offenseMonsters)
-    console.log("Monster in the defense", defenseMonsters)
-    console.log("Outcome", outcome)
+    console.log("Monster in the offense", offenseMonsters);
+    console.log("Monster in the defense", defenseMonsters);
+    console.log("Outcome", outcome);
 
     //Vérifier la validité des noms des monstres
-    let nameValidityError = new Discord.MessageEmbed()
-        .setColor("#F00E0E")
-        .setTitle(`:x: Noms incorrects  :x:`)
-        .setDescription(":x: Les noms suivants sont incorrects ou n'existent pas dans notre base de données:")
-        .setFooter("Erreur : urlJsonError - undefined")
+    processRequest(offenseMonsters, defenseMonsters, outcome, userDiscordId, message);
 
     //Vérifier le nombre de monstre
 

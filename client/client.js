@@ -26,6 +26,9 @@ const cmdHelp = require('../commands/help.js')
 
 const cmdTest = require('../commands/test.js')
 
+//Import de la commande Offense
+const cmdOffense = require('../commands/offense.js')
+
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -70,7 +73,8 @@ function getCmdFunction(cmd) {
     'processing' : cmdProcessing,
     'player' : cmdPlayer,
     'listplayer' : cmdListPlayer,
-    'help' : cmdHelp,
+    'help': cmdHelp,
+    'offense': cmdOffense,
     'test' : cmdTest
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
