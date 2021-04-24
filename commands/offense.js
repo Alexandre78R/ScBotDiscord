@@ -19,7 +19,6 @@ const { url } = require('inspector');
 
 async function checkTeam(team, side, message) {
     var result = await sqlOffense.checkNameValidity(team);
-    console.log(!result);
     if (!result) {
         let nameValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
@@ -59,7 +58,7 @@ async function processRequest(offense, defense, outcome, userDiscordId, message)
     if (monsterOffenseId != "invalid") {
 
         //Check defense monster validity and return ids
-        const monsterDefenseId = await checkTeam(defense, "offense", message);
+        const monsterDefenseId = await checkTeam(defense, "defense", message);
         if (monsterDefenseId != "invalid") {
 
             //Check outcome validity and return boolean
@@ -81,6 +80,7 @@ async function processRequest(offense, defense, outcome, userDiscordId, message)
         }
     }
 }
+
 function offense(message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
