@@ -22,7 +22,6 @@ function checkUserId(message) {
     }
     if (userDiscordId != "" && userDiscordName != "" && userGuildTag != "") {
         return knex.from('user').where({ idNameDiscord: userDiscordId }).select('id', 'nameGuild').then(rows => {
-            console.log(rows)
             if (rows.length >= 1) {
                 var listDB = rows.map(row => [row.id, row.nameGuild])
                 if (listDB[0][1] != userGuildTag) {

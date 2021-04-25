@@ -97,5 +97,11 @@ function checkNameValidity(monsterListUntreated) {
     }
 }
 
+function getNameMonster(monsterId) {
+    return knex.from('monster').where({ id: monsterId }).pluck('nameMonster').then(names => {
+        return names[0];
+    });
+}
 
 module.exports.checkNameValidity = checkNameValidity;
+module.exports.getNameMonster = getNameMonster;

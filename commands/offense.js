@@ -91,7 +91,7 @@ async function processRequest(offense, defense, outcome, message) {
 
                         //Successful message
                         let inaccessibilityError = new Discord.MessageEmbed()
-                            .setColor("#F00E0E")
+                            .setColor("#01E007")
                             .setTitle(`:white_check_mark: Super \\o/  :white_check_mark:`)
                             .setDescription(":tada: Merci " + message.author.username+" pour ta contribution! :star_struck:")
                         message.channel.send(inaccessibilityError)
