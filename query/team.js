@@ -4,6 +4,9 @@ const configKnex = require('../knexfile')
 
 const knex = require('knex')(configKnex.development);
 
+//Import monster query
+const sqlMonster = require('./monster.js')
+
 //Requete ID team et/ou création
 function checkTeamId(monsterIdList) {
     return knex.from('team').whereIn(['monster_lead', 'monster_2', 'monster_3'], [monsterIdList, [monsterIdList[0], monsterIdList[2], monsterIdList[1]]]).select('id').pluck('id').then(idList => {
@@ -17,4 +20,20 @@ function checkTeamId(monsterIdList) {
     });
 }
 
+function getAllMonsterId(teamId) {
+    return knex.from('team').where({ id: teamId }).select('monster_lead', 'monster_2', 'monster_3').then(rows => {
+        return rows[0]
+    });
+}
+
+async function getNameTeam(teamId) {
+    const ids = await getAllMonsterId(teamId);
+    var nameTeam = ""
+    nameTeam = await sqlMonster.getNameMonster(ids['monster_lead']);
+    nameTeam += " " + await sqlMonster.getNameMonster(ids['monster_2']);
+    nameTeam += " " + await sqlMonster.getNameMonster(ids['monster_3']);
+    return nameTeam
+}
+
 module.exports.checkTeamId = checkTeamId;
+module.exports.getNameTeam = getNameTeam;
