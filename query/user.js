@@ -1,4 +1,4 @@
-//Import des paramètres de connexion
+//Import des paramï¿½tres de connexion
 const consoleLog = require('../function/consoleLog');
 const configKnex = require('../knexfile')
 
@@ -7,8 +7,8 @@ const config = require('../config/config.js')
 
 const knex = require('knex')(configKnex.development);
 
-//Requete ID team et/ou création
-function checkUserId(message) {
+//Requete ID team et/ou crï¿½ation
+function checkUserId(message, infoUser) {
     const userDiscordId = message.author.id;
     const userDiscordName = message.author.username;
     var userGuildTag = ""
@@ -22,9 +22,16 @@ function checkUserId(message) {
     }
     if (userDiscordId != "" && userDiscordName != "" && userGuildTag != "") {
         return knex.from('user').where({ idNameDiscord: userDiscordId }).select('id', 'nameGuild').then(rows => {
-            console.log(rows)
             if (rows.length >= 1) {
                 var listDB = rows.map(row => [row.id, row.nameGuild])
+                    var ObjetUserWhere = {
+                        id : listDB[0][0],
+                        idNameDiscord: userDiscordId,
+                        nameTagDiscord: userDiscordName,
+                        nameGuild: listDB[0][1] 
+                    }
+                    consoleLog(`OK : alreadyUserBdd`, ObjetUserWhere, infoUser)
+
                 if (listDB[0][1] != userGuildTag) {
                     return knex('user').where({ id: listDB[0, 0] }).update({ nameGuild: listDB[0, 1] }).then(function () {
                         return listDB[0][0];
@@ -33,7 +40,13 @@ function checkUserId(message) {
                 return listDB[0][0];
             } else {
                 return knex.insert([{ idNameDiscord: userDiscordId, nameTagDiscord: userDiscordName, nameGuild: userGuildTag }], ['id']).into('user').then(function (id) {
-                    console.log(id[0]);
+                    var ObjetUserCreate = {
+                        id : id[0],
+                        idNameDiscord: userDiscordId,
+                        nameTagDiscord: userDiscordName,
+                        nameGuild: userGuildTag 
+                    }
+                    consoleLog(`OK : SaveUserBdd`, ObjetUserCreate, infoUser)
                     return id[0];
                 });
             }
