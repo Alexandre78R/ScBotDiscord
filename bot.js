@@ -20,6 +20,5 @@ app.set('port', (config.discord.port))
 app.listen(app.get('port'), function(){
     consoleLog(`Le bot fonctionne sur le port : ${app.get('port')} `);
 })
-
 //Connexion bot Discord
 client.login(config.discord.token)

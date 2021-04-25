@@ -25,6 +25,7 @@ const { url } = require('inspector');
 
 async function checkTeam(team, side, message) {
     var result = await sqlMonster.checkNameValidity(team);
+
     if (!result) {
         let nameValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
@@ -39,6 +40,8 @@ async function checkTeam(team, side, message) {
 }
 
 async function checkOutcome(outcome, message) {
+
+    console.log('outcome', outcome)
     if (outcome == "L") {
         return false;
     } else if (outcome == "W") {
@@ -101,8 +104,8 @@ async function processRequest(offense, defense, outcome, message) {
                         //Unlikely outcome but just in case DB is inaccessible
                         let inaccessibilityError = new Discord.MessageEmbed()
                             .setColor("#F00E0E")
-                            .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-                            .setDescription(":x: Il semblerait que nous rencontrions des problèmes, passe nous revoir un peu plus tard ;)")
+                            .setTitle(`:x: Impossible d'envoyer les donnï¿½es  :x:`)
+                            .setDescription(":x: Il semblerait que nous rencontrions des problï¿½mes, passe nous revoir un peu plus tard ;)")
                             .setFooter("Erreur : DB Inaccessible")
                         message.channel.send(inaccessibilityError)
                     }
@@ -114,10 +117,10 @@ async function processRequest(offense, defense, outcome, message) {
 
 function offense(message) {
 
-    //Sécurité pour pas que le bot réagi avec lui-même
+    //SÃ©curitÃ© pour pas que le bot rÃ©agi avec lui-mÃªme
     if (message.author.bot) return;
 
-    //Permet d'éviter de répondre aux messages privés
+    //Permet d'Ã©viter de rÃ©pondre aux messages privÃ©s
     if (message.channel.type === "dm") return;
 
     //Prise en compte du prefix
@@ -133,13 +136,13 @@ function offense(message) {
     let defenseMonsters = messageArray[1].split(" ").filter(Boolean);
     let outcome = messageArray[2].trim();
 
-    //Argument pour url juste après la commande
+    //Argument pour url juste aprÃ¨s la commande
 
     console.log("Monster in the offense", offenseMonsters);
     console.log("Monster in the defense", defenseMonsters);
     console.log("Outcome", "|"+outcome+"|");
 
-    //Vérifier la validité des noms des monstres
+    //Vï¿½rifier la validitï¿½ des noms des monstres
     processRequest(offenseMonsters, defenseMonsters, outcome, message);
 }
 
