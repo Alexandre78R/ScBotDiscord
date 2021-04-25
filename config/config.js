@@ -10,7 +10,13 @@ module.exports = {
         "variantSC1" : "SC1",
         "variantSC2" : "SC2",
         "variantSC3" : "SC3",
-        "variantSC4" : "SC4",
+        "variantSC4": "SC4",
+        "roles_id": {
+            "SC1": "835838255139651614",
+            "SC2": "835838256859578400",
+            "SC3": "835849090466185247",
+            "SC4": "835849148309176350",
+        },
         "channelWelcome" : "811292323895705682"
     },
     "bdd" : {
