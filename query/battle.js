@@ -26,6 +26,7 @@ function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, i
         }
     });
 }
+
 function populateOffenseWinRate(offense, defense) {
     return knex.from('battle').where({ defense_id: defense, offense_id: offense }).pluck('result').then(results => {
         var winCount = 0;

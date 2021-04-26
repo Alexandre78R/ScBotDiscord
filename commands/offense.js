@@ -17,18 +17,41 @@ const consoleLog = require('../function/consoleLog.js')
 
 async function checkTeam(team, side, message, infoUser) {
     var result = await sqlMonster.checkNameValidity(team, infoUser);
-
-    if (!result) {
-        let nameValidityError = new Discord.MessageEmbed()
-            .setColor("#F00E0E")
-            .setTitle(`:x: Noms incorrects  :x:`)
-            .setDescription(":x: Un ou plusieurs monstres en " + side + " n'existent pas dans la base de donnees")
-            .setFooter("Erreur : nameValidityError")
-        message.channel.send(nameValidityError)
-        consoleLog(`ERROR : nameValidityError`, NaN, infoUser)
-        return "invalid";
+    console.log("Team", team)
+    console.log('result', result)
+    console.log('side', side )
+    if (!result.status) {
+        if (result.code == 1){
+            let nameValidityResultCode1Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: Un ou plusieurs monstres en ${side} n'existent pas dans la base de donnée !`)
+                .setFooter("Erreur : nameValidityResultCode1Error")
+            message.channel.send(nameValidityResultCode1Error)
+            consoleLog(`ERROR : nameValidityResultCode1Error`, NaN, infoUser)
+            return "invalid";
+        } else if (result.code == 2){
+            let nameValidityResultCode2Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects CODE2 :x:`)
+                .setDescription(`:x: Un ou plusieurs monstres en ${side} n'existent pas dans la base de donnée !`)
+                .setFooter("Erreur : nameValidityResultCode2Error")
+            message.channel.send(nameValidityResultCode2Error)
+            consoleLog(`ERROR : nameValidityResultCode2Error`, NaN, infoUser)
+            return "invalid";
+        } else if (result.code == 3){
+            let nameValidityResultCode3Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects CODE3 :x:`)
+                .setDescription(`:x: Merci de préciser 3 nom de monstre dans votre ${side} !`)
+                .setFooter("Erreur : nameValidityResultCode3Error")
+            message.channel.send(nameValidityResultCode3Error)
+            consoleLog(`ERROR : nameValidityResultCode3Error`, NaN, infoUser)
+            return "invalid";
+        }
     } else {
-        return result;
+        console.log('result status', result.status)
+        return result.status;
     }
 }
 
@@ -41,7 +64,7 @@ async function checkOutcome(outcome, message, infoUser) {
         let outcomeValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Resultat incorrect  :x:`)
-            .setDescription(":x: Seul 'W' pour la victoire et 'L' pour la defaite est accepte.")
+            .setDescription(":x: Seul 'W' pour la victoire et 'L' pour la defaite est accepter.")
             .setFooter("Erreur : outcomeValidityError")
         message.channel.send(outcomeValidityError)
         consoleLog(`ERROR : outcomeValidityError`, NaN, infoUser)
@@ -88,7 +111,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
                         let inaccessibilityError = new Discord.MessageEmbed()
                             .setColor("#01E007")
                             .setTitle(`:white_check_mark: Super :white_check_mark:`)
-                            .setDescription(":tada: Merci " + message.author.username+" pour ta contribution! :star_struck:")
+                            .setDescription(`:tada: Merci ${message.author.username} pour ta contribution! :star_struck:`)
                         message.channel.send(inaccessibilityError)
                         var newOffense = {
                             offense : offense,
@@ -204,6 +227,7 @@ function offense(message) {
 
     //V�rifier la validit� des noms des monstres
     processRequest(offenseMonsters, defenseMonsters, outcome, message, infoUser);
+
 }
 
 //Module export

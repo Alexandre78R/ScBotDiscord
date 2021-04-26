@@ -41,7 +41,7 @@ client.on('reconnecting', () => console.log('Je reconnecte maintenant !'));
 //Status du bot discord 
 client.on('ready', () => {
 	//Génération du profils du bot sur discord.
-    client.user.setActivity('By Alexandre78R', { type: 'PLAYING' });
+    client.user.setActivity('By Alexandre78R, Tzzat', { type: 'PLAYING' });
 })
 
 // client.on('guildMemberAdd', member => {

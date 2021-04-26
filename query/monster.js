@@ -1,4 +1,4 @@
-//Import des paramètres de connexion
+//Import des paramÃ¨tres de connexion
 const consoleLog = require('../function/consoleLog');
 const configKnex = require('../knexfile')
 
@@ -7,10 +7,10 @@ const sqlTeam = require("./team.js");
 
 const knex = require('knex')(configKnex.development);
 
-//Création de liste des monstres qui ne sont pas dans la base de données
+//CrÃ©ation de liste des monstres qui ne sont pas dans la base de donnÃ©es
 function checkNameValidity(monsterListUntreated) {
 
-    //On s'assure que les monstres ont bien une lettre majuscule au début
+    //On s'assure que les monstres ont bien une lettre majuscule au dÃ©but
     var monsterList = [];
     for (var x = 0; x < monsterListUntreated.length; x++) {
         monsterList.push(monsterListUntreated[x].charAt(0).toUpperCase() + monsterListUntreated[x].slice(1));
@@ -34,9 +34,9 @@ function checkNameValidity(monsterListUntreated) {
                 }
             })
             if (invalidResult) {
-                return false;
+                return {status : false, code : 1};
             } else {
-                return sqlTeam.checkTeamId(monsterIdList);
+                return { status : sqlTeam.checkTeamId(monsterIdList), code : 0};
             }
         });
     } else if (monsterList.length > 3) {
@@ -55,7 +55,8 @@ function checkNameValidity(monsterListUntreated) {
                         }
                     });
                     var maxArg = 0;
-                    var idealCandidate;
+                    //Modif d'alex par default null pour la condition 
+                    var idealCandidate = null;
                     listPotentialCandidate.forEach(function (candidate, index) {
                         if (candidate[1] == monster) {
                             if (maxArg <= 1) {
@@ -75,8 +76,14 @@ function checkNameValidity(monsterListUntreated) {
                             }
                         };
                     });
-                    idMonster = idealCandidate[0];
-                    pointerList += maxArg;
+                    //Correction du bug syntax Ã  +3 argument de nom (A check Tzzat)
+                    if(idealCandidate == null){
+                        idMonster = -1;
+                        invalidResult = true;
+                    }else{
+                        idMonster = idealCandidate[0];
+                        pointerList += maxArg;
+                    }
                 } else {
                     idMonster = -2;
                 };
@@ -87,13 +94,13 @@ function checkNameValidity(monsterListUntreated) {
                 }
             })
             if (invalidResult) {
-                return false;
+                return {status : false, code : 2};
             } else {
-                return sqlTeam.checkTeamId(monsterIdList);
+                return { status : sqlTeam.checkTeamId(monsterIdList), code : 0};
             }
         });
     } else {
-        return false;
+        return {status : false, code : 3};
     }
 }
 
