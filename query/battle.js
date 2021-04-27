@@ -28,6 +28,7 @@ function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, i
 }
 
 function populateOffenseWinRate(offense, defense) {
+    // console.log('offense', offense, "defense", defense)
     return knex.from('battle').where({ defense_id: defense, offense_id: offense }).pluck('result').then(results => {
         var winCount = 0;
         var loseCount = 0;
@@ -48,10 +49,12 @@ async function datatableDefense(defense) {
     const offenses = await offenseUsedList(defense);
     var tableResult = [];
     for (let index = 0; index < offenses.length; index++) {
+        // console.log("offenses[index]", offenses[offenses])
         var result = await populateOffenseWinRate(offenses[index], defense);
         var teamName = await sqlTeam.getNameTeam(offenses[index]);
         tableResult.push([teamName, result[1], result[0]]);
     }
+
     return tableResult;
 }
 

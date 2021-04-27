@@ -89,22 +89,27 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
 
     //Check offense monster validity and return ids
     const monsterOffenseId = await checkTeam(offense, "offense", message, infoUser);
+    console.log("monsterOffenseId", monsterOffenseId)
     if (monsterOffenseId != "invalid") {
 
         //Check defense monster validity and return ids
         const monsterDefenseId = await checkTeam(defense, "defense", message, infoUser);
+        // console.log("monsterDefenseId", monsterDefenseId)
         if (monsterDefenseId != "invalid") {
 
             //Check outcome validity and return boolean
             const outComeId = await checkOutcome(outcome, message, infoUser);
+            // console.log("outComeId", outComeId)
             if (outComeId != "invalid") {
 
                 //Check userId validity and return user_id
                 const userId = await checkUserId(message, infoUser);
+                // console.log('userId', userId)
                 if (userId != "invalid") {
 
                     //Create battle entry in DB
                     const success = await sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, infoUser);
+                    // console.log('success', success)
                     if (success) {
 
                         //Successful message

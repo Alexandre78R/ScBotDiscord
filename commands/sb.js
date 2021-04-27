@@ -15,7 +15,7 @@ const sqlUser = require("../query/user.js");
 //Import battle query
 const sqlBattle = require("../query/battle.js");
 
-async function checkTeam(team, side, message) {
+async function checkTeam(team, side, message, infoUser) {
     var result = await sqlMonster.checkNameValidity(team);
     console.log("team", team)
     console.log("result object", result)
@@ -35,7 +35,7 @@ async function checkTeam(team, side, message) {
 }
 
 function buildSuccessfulMessage(results, defense, infoUser) {
-    console.log("results", results)
+
     if (results.length == 0){
         const defenseNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
@@ -45,18 +45,119 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         consoleLog(`ERROR : defenseNotFound`, NaN, infoUser)
         return defenseNotFound;
     } else {
+        //code d'origin avant modif 
+        // const defenseEmbed = new Discord.MessageEmbed()
+        // .setColor('#0099ff')
+        // .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
+        // results.forEach(result => {
+        //     defenseEmbed.addField(result[0], "Team", true)
+        //     defenseEmbed.addField(result[1], "Win", true)
+        //     defenseEmbed.addField(result[2], "Lose", true)
+        // })
+        // // let successfulMessage = new Discord.MessageEmbed()
+        // //     .setColor("#01E007")
+        // //     .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
+        // //     .setDescription(description)
+        // consoleLog(`Ok : defenseEmbed`, results, infoUser)
+        // return defenseEmbed;
+
+
+
+         //Je garde ça pour l'insant je pense il y a des meillieurs solutions...
+        // .setDescription("test format max....")
+        // .addFields(
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+            // { name: 'Chandra Vigor Perna', value: '2/1 (win/lose) 100% (Winrate)', inline: true },
+        // )
+        // results.forEach(result => {
+        //     // console.log('result', result[0])
+        //     winrate =  result[1] /result[2] * 100
+        //     // console.log('winrate', winrate)
+        //     // console.log("results dans forEach", result)
+        //     defenseEmbed.addField(result[0], "Team", true)
+        //     defenseEmbed.addField(`${result[1]}/${result[2]}`, "Win/lose", true)
+        //     //Rip cache misère pas toruver mieux pour l'instant.... (Alex)
+        //     if(winrate == Infinity){
+        //         defenseEmbed.addField(`100%`, "Winrate", true)
+        //     } else if(winrate >= 100){
+        //         defenseEmbed.addField(`100%`, "Winrate", true)
+        //     }else {
+        //         defenseEmbed.addField(`${winrate.toFixed(0)}%`, "Winrate", true)
+        //     }      
+        // })
+
+        var winrate = null;
+        
+        var tabObject = []
+        var newTabObject = []
+        results.forEach(result => {
+            console.log('result', result)
+
+            
+            winrate =  result[1] / result[2] * 100
+            if(winrate == Infinity){
+                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `100`})
+                // tabObject.push({ name: `${result[0]}`, value: `${result[1]}/${result[2]} (win/lose) - 100% (Winrate)`, inline: true })
+            } else if(winrate >= 100){
+                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `100`})
+                // tabObject.push({ name: `${result[0]}`, value: `${result[1]}/${result[2]} (win/lose) - 100% (Winrate)`, inline: true })
+            }else {
+                // defenseEmbed.addField(`${winrate.toFixed(0)}%`, "Winrate", true)
+                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`})
+                // tabObject.push({ name: `${result[0]}`, value: `${result[1]}/${result[2]} (win/lose) - ${winrate.toFixed(0)}% (Winrate)`, inline: true })
+            } 
+        })
+
+        tabObject.sort(function(a, b) {
+            return b.win - a.win;
+        })
+        tabObject.sort(function(a, b) {
+            return b.winrate - a.winrate;
+        })
+
+        for (let n = 0; n < tabObject.length; n++) {
+
+            console.log('tabObject', tabObject[n])
+            if (newTabObject.length <= 9){
+                newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true })
+            }
+        }
+
         const defenseEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
-        results.forEach(result => {
-            defenseEmbed.addField(result[0], "Team", true)
-            defenseEmbed.addField(result[1], "Win", true)
-            defenseEmbed.addField(result[2], "Lose", true)
-        })
-        // let successfulMessage = new Discord.MessageEmbed()
-        //     .setColor("#01E007")
-        //     .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
-        //     .setDescription(description)
+        .setDescription(`Voici la liste des 10 meilleurs offenses contre la défense : ${defense[0]} ${defense[1]} ${defense[2]}`)
+        .addFields(newTabObject)
+
         consoleLog(`Ok : defenseEmbed`, results, infoUser)
         return defenseEmbed;
     } 
@@ -78,10 +179,11 @@ async function processRequest(defense, message, infoUser) {
             consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser)
 
         } else {
+              
             //Successful message
             const successfulMessage = buildSuccessfulMessage(result, defense, infoUser)
             message.channel.send(successfulMessage)
-            
+
         }
     }
 };
