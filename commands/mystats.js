@@ -44,42 +44,25 @@ function buildSuccessfulMessage(results, infoUser) {
         //console.log("Results dans buildSuccessFulMessage", results)
         var tableResultOffense = results[1];
         
-        var newTableOffense1 = [];
-        var newTableOffense2 = [];
+        var newTableOffense = [];
 
         for (let o = 0; o < tableResultOffense.length; o++) {
-            if (o <= 8) {
-                //console.log('tableResultOffense', tableResultOffense[o])
-                var percentage = Math.round(tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10) / 10
-                var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
-                newTableOffense1.push({ name: tableResultOffense[o].teamName, value: 'Team', inline: true })
-                newTableOffense1.push({ name: percentage + "%", value: 'Win rate (%)', inline: true })
-                newTableOffense1.push({ name: 'Combats : ' + frequency, value: 'Nombre de combats', inline: true })
-            } else {
-                //console.log('tableResultOffense', tableResultOffense[o])
-                var percentage = Math.round(tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10) / 10
-                var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
-                newTableOffense2.push({ name: tableResultOffense[o].teamName, value: 'Team', inline: true })
-                newTableOffense2.push({ name: percentage + "%", value: 'Win rate (%)', inline: true })
-                newTableOffense2.push({ name: 'Combats : ' + frequency, value: 'Nombre de combats', inline: true })
-            }
+            //console.log('tableResultOffense', tableResultOffense[o])
+            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10
+            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
+            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true })
         }
 
         var startDate = new Date();
         startDate.setMonth(startDate.getMonth() - 1);
 
         // {name: 'name 1', value: 'value1', inline : true}
-        const infoUserEmbed1 = new Discord.MessageEmbed()
+        const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} (1/2) \n\nNombre de combats depuis le ${startDate.toISOString().split('T')[0]} : ${results[0]} \n\nListe des offenses utilisées:`)
-            .addFields(newTableOffense1)
+            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${startDate.toISOString().split('T')[0]} : ${results[0]} \n\nListe des offenses utilisées:`)
+            .addFields(newTableOffense)
 
-        const infoUserEmbed2 = new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} (2/2) \n\nNombre de combats depuis le ${startDate.toISOString().split('T')[0]} : ${results[0]} \n\nListe des offenses utilisées:`)
-            .addFields(newTableOffense2)
-
-        return [infoUserEmbed1, infoUserEmbed2] ;
+        return infoUserEmbed;
     }
 }
 
@@ -100,8 +83,7 @@ async function processRequest (message, infoUser){
    
             //Successful message
             const successfulMessage = buildSuccessfulMessage(listBattle, infoUser)
-            message.channel.send(successfulMessage[0])
-            message.channel.send(successfulMessage[1])
+            message.channel.send(successfulMessage)
             
         }else{
 
