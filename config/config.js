@@ -6,7 +6,7 @@ module.exports = {
     "discord" : {
         "token" : process.env.TOKENBOTDISCORD,
         "port" : process.env.PORTBOTDISCORD,
-        "prefix": process.env.PREFIXBOTDISCORD, 
+        "prefix" : process.env.PREFIXBOTDISCORD, 
         "variantSC1" : "SC1",
         "variantSC2" : "SC2",
         "variantSC3" : "SC3",

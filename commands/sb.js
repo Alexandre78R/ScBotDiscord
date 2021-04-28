@@ -123,7 +123,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
             // console.log('result', result)
 
             
-            winrate =  result[1] / result[2] * 100
+            winrate = result[1] / (result[1] + result[2]) * 100
             if(winrate == Infinity){
                 tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `100`})
                 // tabObject.push({ name: `${result[0]}`, value: `${result[1]}/${result[2]} (win/lose) - 100% (Winrate)`, inline: true })

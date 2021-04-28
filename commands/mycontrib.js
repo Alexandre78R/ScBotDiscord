@@ -62,10 +62,10 @@ function buildSuccessfulMessage(results, infoUser) {
         const infoUserEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`Information de ${infoUser.username} (#${infoUser.id})`)
-        .setDescription(`Nombre d’offense proposée : ${results[0]}`, true)
+        .setDescription(`Nombre d’offense proposée : ${results[0]}`)
         .addField(`TOP 3 d'offense les plus utilisé :`, '\u200b')
         .addFields(newTableOffense)
-        infoUserEmbed.addField(`TOP 3 des défenses participers :`,'\u200b')
+        infoUserEmbed.addField(`TOP 3 des défenses participer :`,'\u200b')
         infoUserEmbed.addFields(newTableDefense)
         
         return infoUserEmbed;
@@ -80,14 +80,13 @@ async function processRequest (message, infoUser){
     const userId = await checkUserId(message, infoUser);
 
     if (userId != "invalid") {
+        
         console.log("userId", userId)
-        // message.channel.send(`userId BDD ${userId}`)
-            //Check userId validity and return user_id
+        //Check userId validity and return user_id
         const listBattle = await listBattleMyUser(userId, infoUser);
         
         if(listBattle != "invalid"){
-            // console.log( "ListBattle", listBattle)
-   
+
             //Successful message
             const successfulMessage = buildSuccessfulMessage(listBattle, infoUser)
             message.channel.send(successfulMessage)
