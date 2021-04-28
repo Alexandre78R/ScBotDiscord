@@ -44,25 +44,30 @@ function buildSuccessfulMessage(results, infoUser) {
         // console.log("Results dans buildSuccessFulMessage", results)
         var tableResultOffense = results[1];
         var tableResultDeffense = results[2];
+        
+        var newTableOffense = [];
+        var newTableDefense = [];
 
         for (let o = 0; o < tableResultOffense.length; o++) {
             console.log('tableResultOffense', tableResultOffense[o])
+            newTableOffense.push({name: tableResultOffense[o].teamName, value: tableResultOffense[o].offense_idFrequency, inline : true})
         }
 
         for (let d = 0; d < tableResultDeffense.length; d++) {
             console.log('tableResultDeffense', tableResultDeffense[d])
-            
+            newTableDefense.push({name: tableResultDeffense[d].teamName, value: tableResultDeffense[d].defense_idFrequency, inline : true})
         }
 
+        // {name: 'name 1', value: 'value1', inline : true}
         const infoUserEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`Information de ${infoUser.username} (#${infoUser.id})`)
         .setDescription(`Nombre d’offense proposée : ${results[0]}`, true)
-        .addFields([{name: 'name 1', value: 'value1', inline : true}, {name: 'name 1', value: 'value1', inline : true}, {name: 'name 1', value: 'value1', inline : true}])
-        // var tableADDfields = infoUserEmbed.addFields({name: 'name 1', value: 'value1', inline : true})
-        // console.log('infoUserEmbed.addFields', infoUserEmbed.addFields({name: 'name 1', value: 'value1', inline : true}))
-        infoUserEmbed.addField(`TOP 3 d'offense les plus utilisé :`, infoUserEmbed.addFields([{name: 'name 1', value: 'value1', inline : true}, {name: 'name 1', value: 'value1', inline : true}, {name: 'name 1', value: 'value1', inline : true}]))
-        infoUserEmbed.addField(`TOP 3 sur la participation défense :`)
+        .addField(`TOP 3 d'offense les plus utilisé :`, '\u200b')
+        .addFields(newTableOffense)
+        infoUserEmbed.addField(`TOP 3 des défenses participers :`,'\u200b')
+        infoUserEmbed.addFields(newTableDefense)
+        
         return infoUserEmbed;
     }
 }
