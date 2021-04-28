@@ -120,7 +120,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         var tabObject = []
         var newTabObject = []
         results.forEach(result => {
-            console.log('result', result)
+            // console.log('result', result)
 
             
             winrate =  result[1] / result[2] * 100
@@ -146,7 +146,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
 
         for (let n = 0; n < tabObject.length; n++) {
 
-            console.log('tabObject', tabObject[n])
+            // console.log('tabObject', tabObject[n])
             if (newTabObject.length <= 15){
                 newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true })
             }
@@ -155,7 +155,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         const defenseEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
-        .setDescription(`Voici la liste des ${newTabObject.length} meilleurs offenses contre la défense : ${defense[0]} ${defense[1]} ${defense[2]}`)
+        .setDescription(`Voici la liste des ${newTabObject.length} meilleures offenses contre la défense : ${defense[0]} ${defense[1]} ${defense[2]}`)
         .addFields(newTabObject)
 
         consoleLog(`Ok : defenseEmbed`, results, infoUser)

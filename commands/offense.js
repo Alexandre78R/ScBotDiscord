@@ -33,7 +33,7 @@ async function checkTeam(team, side, message, infoUser) {
         } else if (result.code == 2){
             let nameValidityResultCode2Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
-                .setTitle(`:x: Noms incorrects CODE2 :x:`)
+                .setTitle(`:x: Noms incorrects :x:`)
                 .setDescription(`:x: Un ou plusieurs monstres en ${side} n'existent pas dans la base de donnée !`)
                 .setFooter("Erreur : nameValidityResultCode2Error")
             message.channel.send(nameValidityResultCode2Error)
@@ -42,7 +42,7 @@ async function checkTeam(team, side, message, infoUser) {
         } else if (result.code == 3){
             let nameValidityResultCode3Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
-                .setTitle(`:x: Noms incorrects CODE3 :x:`)
+                .setTitle(`:x: Noms incorrects :x:`)
                 .setDescription(`:x: Merci de préciser 3 nom de monstre dans votre ${side} !`)
                 .setFooter("Erreur : nameValidityResultCode3Error")
             message.channel.send(nameValidityResultCode3Error)
@@ -104,6 +104,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
 
                 //Check userId validity and return user_id
                 const userId = await checkUserId(message, infoUser);
+                
                 // console.log('userId', userId)
                 if (userId != "invalid") {
 
@@ -164,6 +165,7 @@ function offense(message) {
 
     var checkMessageContent = message.content.split(" ");
 
+    console.log('checkMessageContent', checkMessageContent)
     for (let i = 0; i < checkMessageContent.length; i++) {
         if (checkMessageContent[i] === "-"){
             tiret++
@@ -177,7 +179,8 @@ function offense(message) {
     .setFooter("Erreur : errorArgsTiretInferior");
 
     if (tiret < 2) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser)
-
+    console.log('tiret', tiret)
+   
     let errorArgsTiretSuperior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
@@ -187,7 +190,7 @@ function offense(message) {
     if (tiret > 2) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser)
 
     let messageArray = message.content.split("-");
-
+    console.log('messageArray', messageArray)
     let offenseMonsters = messageArray[0].split(" ").slice(1).filter(Boolean);
 
     let errorArgsOffenseMonsters = new Discord.MessageEmbed()
