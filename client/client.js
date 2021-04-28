@@ -32,8 +32,11 @@ const cmdOffense = require('../commands/offense.js')
 //Import de la commande Sb
 const cmdSb = require('../commands/sb.js')
 
-//Import de la commande MyStats
+//Import de la commande mycontrib
 const cmdMyContrib = require('../commands/mycontrib.js')
+
+//Import de la commande MyStats
+const cmdMyStats = require('../commands/mystats.js')
 
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
@@ -83,6 +86,7 @@ function getCmdFunction(cmd) {
     'offense': cmdOffense,
     'sb': cmdSb,
     'mycontrib': cmdMyContrib,
+    'mystats': cmdMyStats,
     'test' : cmdTest
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};

@@ -61,6 +61,18 @@ function listBattleDeffenseFrequencyByUser (userId){
     })
 }
 
+function listOffenseByUser(userId) {
+    // select offense_id, count(offense_id) as offense_idFrequency from battle where user_id=4 group by offense_id order by offense_idFrequency desc limit 15;
+    return knex.select('offense_id').count(`offense_id`, { as: "offense_idFrequency" }).from('battle').where({ user_id: userId }).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(15).then(offense => {
+        return offense;
+    })
+}
+
+function getOutcomeByTeam(teamId, outcome, userId) {
+    return knex.from('battle').select('offense_id').count(`offense_id`, { as: "win" }).where({ user_id: userId, result: outcome, offense_id: teamId }).then(offenses => {
+        return offenses[0].win;
+    });
+}
 
 function listBattleByUser (userId){
     return knex.from('battle').where({ user_id: userId }).then(results => {
@@ -105,6 +117,30 @@ async function dataTableByUser (userId){
     return [countBattle, tableResultOffense, tableResultDefense]
 }
 
+async function dataTableByUserMyStats(userId) {
+    var tableResultOffense = []
+    var countBattle = 0;
+
+    //Number d'offense
+    const listByUser = await listBattleByUser(userId)
+    countBattle = listByUser.length
+    // console.log("countBattle -->", countBattle)
+
+    const listOffenseFrequencyByUser = await listOffenseByUser(userId);
+    //console.log('listOffenseFrequencyByUserByOutcome', listOffenseFrequencyByUserByOutcome);
+
+    for (let o = 0; o < listOffenseFrequencyByUser.length; o++) {
+        // console.log('id offense', listOffenseFrequencyByUser[o].offense_id)
+        var teamName = await sqlTeam.getNameTeam(listOffenseFrequencyByUser[o].offense_id);
+        var offenseWin = await getOutcomeByTeam(listOffenseFrequencyByUser[o].offense_id, 1, userId);
+        var offenseLose = await getOutcomeByTeam(listOffenseFrequencyByUser[o].offense_id, 0, userId);
+        tableResultOffense.push({ teamName: teamName, win: offenseWin, lose: offenseLose })
+        // console.log('id offense Frequency', listOffenseFrequencyByUser[o].offense_idFrequency)
+    }
+    console.log(tableResultOffense)
+    return [countBattle, tableResultOffense]
+}
+
 async function datatableDefense(defense) {
     const offenses = await offenseUsedList(defense);
     var tableResult = [];
@@ -119,6 +155,7 @@ async function datatableDefense(defense) {
     return tableResult;
 }
 
+module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
 module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;
 module.exports.datatableDefense = datatableDefense;
