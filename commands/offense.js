@@ -15,6 +15,9 @@ const sqlBattle = require("../query/battle.js");
 
 const consoleLog = require('../function/consoleLog.js')
 
+//Function checkMaintenance
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 async function checkTeam(team, side, message, infoUser) {
     var result = await sqlMonster.checkNameValidity(team, infoUser);
     console.log("Team", team)
@@ -119,6 +122,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
                             .setTitle(`:white_check_mark: Super :white_check_mark:`)
                             .setDescription(`:tada: Merci ${message.author.username} pour ta contribution! :star_struck:`)
                         message.channel.send(inaccessibilityError)
+                        
                         var newOffense = {
                             offense : offense,
                             defense : defense,
@@ -161,6 +165,9 @@ function offense(message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/offense.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
     
+    var statutcommand = checkMaintenance (message, "offense", infoUser)
+    if(statutcommand == false) return;
+
     var tiret = 0;
 
     var checkMessageContent = message.content.split(" ");

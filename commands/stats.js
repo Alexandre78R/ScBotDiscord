@@ -10,6 +10,9 @@ const fs = require('fs')
 //Import des consoleLog pour un système de historique
 const consoleLog = require("../function/consoleLog.js")
 
+//Function checkMaintenance
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 function stats (message){
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -27,7 +30,10 @@ function stats (message){
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/listplayer.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
-
+    
+    var statutcommand = checkMaintenance (message, "stats", infoUser)
+    if(statutcommand == false) return;
+    
     //On définit une variable null
     var tableauResultat = null;
 

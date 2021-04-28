@@ -13,6 +13,9 @@ var keyJson = require("../function/keyJson")
 //Import des consoleLog pour un système de historique
 const consoleLog = require("../function/consoleLog.js")
 
+//Function check commandes
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 function listplayer (message){
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -38,6 +41,9 @@ function listplayer (message){
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/listplayer.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
 
+    var statutcommand = checkMaintenance (message, "listplayer", infoUser)
+    if(statutcommand == false) return;
+    
     //Premier argument
     var variantSC = args[0]
 

@@ -4,6 +4,9 @@ const config = require('../config/config')
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
+//Function checkMaintenance
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 function help (message){
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -18,6 +21,12 @@ function help (message){
             message[0] = message[0].slice(1);
 
     }
+
+    //Data de l'utilisateur qui a utiliser les commandes 
+    var infoUser = { location : "./commands/help.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+
+    var statutcommand = checkMaintenance (message, "help", infoUser)
+    if(statutcommand == false) return;
 
     //Message d'information sur la commande DL
     let helpDLEmbed = new Discord.MessageEmbed()

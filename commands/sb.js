@@ -15,6 +15,9 @@ const sqlUser = require("../query/user.js");
 //Import battle query
 const sqlBattle = require("../query/battle.js");
 
+//Function checkMaintenance 
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 async function checkTeam(team, side, message, infoUser) {
     var result = await sqlMonster.checkNameValidity(team);
     console.log("team", team)
@@ -205,6 +208,9 @@ function sb (message) {
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/sb.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+
+    var statutcommand = checkMaintenance (message, "sb", infoUser)
+    if(statutcommand == false) return;
 
     //Lecture du corps du message
     let defenseMonsters = message.content.split(" ").slice(1).filter(Boolean);

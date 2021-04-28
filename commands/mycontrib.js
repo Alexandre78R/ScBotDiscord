@@ -11,6 +11,9 @@ const sqlUser = require("../query/user.js");
 
 const sqlBattle = require("../query/battle.js");
 
+//Function checkMaintenance
+var checkMaintenance = require("../function/checkMaintenance.js")
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -80,7 +83,7 @@ async function processRequest (message, infoUser){
     const userId = await checkUserId(message, infoUser);
 
     if (userId != "invalid") {
-        
+
         console.log("userId", userId)
         //Check userId validity and return user_id
         const listBattle = await listBattleMyUser(userId, infoUser);
@@ -122,6 +125,9 @@ function myContrib (message) {
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/mycontrib.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+
+    var statutcommand = checkMaintenance (message, "mycontrib", infoUser)
+    if(statutcommand == false) return;
 
     processRequest(message, infoUser);
 }

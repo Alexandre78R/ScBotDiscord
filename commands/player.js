@@ -1,5 +1,5 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../config/config.js')
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
@@ -11,7 +11,10 @@ const fs = require("fs")
 const consoleLog = require("../function/consoleLog.js")
 
 //Import function KeyJson
-const keyJson = require('../function/keyJson')
+const keyJson = require('../function/keyJson.js')
+
+//Function checkMaintenance 
+var checkMaintenance = require("../function/checkMaintenance.js")
 
 function player (message){
 
@@ -37,6 +40,9 @@ function player (message){
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/test.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+
+    var statutcommand = checkMaintenance (message, "player", infoUser)
+    if(statutcommand == false) return;
 
     //Premier argument
     var variantSC = args[0]

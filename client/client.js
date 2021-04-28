@@ -38,6 +38,9 @@ const cmdMyContrib = require('../commands/mycontrib.js')
 //Import de la commande MyStats
 const cmdMyStats = require('../commands/mystats.js')
 
+//Import de la commande MyStats
+const cmdMaintenance = require('../commands/maintenance.js')
+
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -87,6 +90,7 @@ function getCmdFunction(cmd) {
     'sb': cmdSb,
     'mycontrib': cmdMyContrib,
     'mystats': cmdMyStats,
+    'maintenance' : cmdMaintenance,
     'test' : cmdTest
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};

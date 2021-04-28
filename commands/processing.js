@@ -15,6 +15,9 @@ var tableauResultat = {Guildes : [], Joueurs : {}}
 //Import des consoleLog pour un système de historique
 const consoleLog = require("../function/consoleLog.js")
 
+//Function checkMaintence 
+var checkMaintenance = require("../function/checkMaintenance")
+
 function processing (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -39,6 +42,9 @@ function processing (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = { location : "./commands/processing.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
     
+    var statutcommand = checkMaintenance (message, "processing", infoUser)
+    if(statutcommand == false) return;
+
     var variantSC = args[0]
 
     let errorArgsVariant = new Discord.MessageEmbed()
