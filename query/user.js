@@ -9,6 +9,8 @@ const knex = require('knex')(configKnex.development);
 
 //Requete ID team et/ou cr�ation
 function checkUserId(message, infoUser) {
+    console.log('test');
+    console.log(knex.fn.now());
     const userDiscordId = message.author.id;
     const userDiscordName = message.author.username;
     var userGuildTag = ""

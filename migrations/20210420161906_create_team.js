@@ -8,7 +8,7 @@ exports.up = async (knex) => {
         t.foreign('monster_lead').references('id').inTable('monster');
         t.foreign('monster_2').references('id').inTable('monster');
         t.foreign('monster_3').references('id').inTable('monster');
-        t.timestamps();
+        t.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 

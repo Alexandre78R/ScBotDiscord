@@ -9,7 +9,7 @@ exports.up = async (knex) => {
         t.foreign('defense_id').references('id').inTable('team');
         t.integer('user_id').unsigned();
         t.foreign('user_id').references('id').inTable('user');
-        t.timestamps();
+        t.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 

@@ -5,7 +5,7 @@ exports.up = async (knex) => {
         t.integer('idMonster');
         t.unique('idMonster');
         t.string('nameMonster');
-        t.timestamps();
+        t.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 

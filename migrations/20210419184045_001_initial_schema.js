@@ -6,7 +6,7 @@ exports.up = async (knex) => {
         t.unique('idNameDiscord');
         t.string('nameTagDiscord');
         t.string('nameGuild');
-        t.timestamps();
+        t.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 
