@@ -25,23 +25,6 @@ function test (message) {
     consoleLog("arg1", "arg2")
     consoleLog("arg1", "arg2", infoUser)
 
-    // consoleLog("guild test", guild)
-
-    // consoleLog('Message', message.guild.roles)
-
-    var roles = message.guild.roles.cache
-    console.log('Roles --->', roles)
-    // roles.map(x => console.log("x", x.id, x.name))
-
-    // roles.forEach(element => {
-    // for (const key in roles) {
-    //     console.log('Roles --->', roles[key])
-    // }
-
-    // console.log("member", member)
-    // membre.roles.cache.some(role => role.name);
-
-
     message.channel.send("Command test")
 }
 

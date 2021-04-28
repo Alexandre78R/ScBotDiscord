@@ -11,7 +11,7 @@ function consoleLog(desc,data,dataUser) {
 
     } else {
 
-        return console.log(desc, data, dataUser);
+        // return console.log(desc, data, dataUser);
 
     }
 
