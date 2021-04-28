@@ -75,8 +75,11 @@ function checkNameValidity(monsterListUntreated) {
                             }
                         };
                     });
-                    idMonster = idealCandidate[0];
-                    pointerList += maxArg;
+                    if (idealCandidate[0]) {
+                        idMonster = idealCandidate[0];
+                    }
+                    idMonster = -1;
+                    pointerList += monsterList.length;
                 } else {
                     idMonster = -2;
                 };
