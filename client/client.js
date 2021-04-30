@@ -38,7 +38,7 @@ const cmdMyContrib = require('../commands/mycontrib.js')
 //Import de la commande MyStats
 const cmdMyStats = require('../commands/mystats.js')
 
-//Import de la commande MyStats
+//Import de la commande Maintenance
 const cmdMaintenance = require('../commands/maintenance.js')
 
 //En cas d'erreur pour le bot discord

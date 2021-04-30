@@ -38,7 +38,6 @@ async function checkTeam(team, side, message, infoUser) {
 }
 
 function buildSuccessfulMessage(results, defense, infoUser) {
-
     if (results.length == 0){
         const defenseNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
@@ -154,13 +153,13 @@ function buildSuccessfulMessage(results, defense, infoUser) {
                 newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true })
             }
         }
-
         const defenseEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`Resultat pour la defense: ${defense[0]} ${defense[1]} ${defense[2]}`)
         .setDescription(`Voici la liste des ${newTabObject.length} meilleures offenses contre la défense : ${defense[0]} ${defense[1]} ${defense[2]}`)
         .addFields(newTabObject)
 
+        console.log('liste Défense --->',`${defense[0]} ${defense[1]} ${defense[2]}`)
         consoleLog(`Ok : defenseEmbed`, results, infoUser)
         return defenseEmbed;
     } 

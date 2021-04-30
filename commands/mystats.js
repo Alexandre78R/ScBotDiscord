@@ -11,6 +11,8 @@ const sqlUser = require("../query/user.js");
 
 const sqlBattle = require("../query/battle.js");
 
+var dateFormat =require("../function/dateFormat.js")
+
 //Function checkMaintenance
 var checkMaintenance = require("../function/checkMaintenance.js")
 
@@ -26,7 +28,7 @@ async function checkUserId (message, infoUser) {
 async function listBattleMyUser (userId, infoUser) {
     var result = await sqlBattle.dataTableByUserMyStats(userId)
     // console.log("result", result)
-    if (!result) {
+    if (result.length == 0) {
         return "invalid";
     } else {
         return result;
@@ -34,6 +36,9 @@ async function listBattleMyUser (userId, infoUser) {
 }
 
 function buildSuccessfulMessage(results, infoUser) {
+
+    // console.log("results dans buildsucces my stats", results)
+
     //  results = []
     if (results.length == 0){
         const infouserNotFound = new Discord.MessageEmbed()
@@ -56,13 +61,14 @@ function buildSuccessfulMessage(results, infoUser) {
             newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true })
         }
 
+        
         var startDate = new Date();
         startDate.setMonth(startDate.getMonth() - 1);
 
         // {name: 'name 1', value: 'value1', inline : true}
         const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${startDate.toISOString().split('T')[0]} : ${results[0]} \n\nListe des offenses utilisées:`)
+            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${dateFormat(startDate)} : ${results[0]} \n\nListe des offenses utilisées:`)
             .addFields(newTableOffense)
 
         return infoUserEmbed;
@@ -93,7 +99,7 @@ async function processRequest (message, infoUser){
             let inaccessibilityListBattleError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-            .setDescription(`:x: Il semblerait que nous rencontrions des problèmes, passe nous revoir un peu plus tard...`)
+            .setDescription(`:x: Impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande !offense.`)
             .setFooter("Erreur : inaccessibilityListBattleError")
             message.channel.send(inaccessibilityListBattleError)
             consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)

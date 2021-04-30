@@ -7,6 +7,9 @@ const knex = require('knex')(configKnex.development);
 //Import team query
 const sqlTeam = require('./team.js')
 
+//Import format date dateFormatBDD
+var dateFormat = require("../function/dateFormat.js")
+
 //Envoyer les donn�es du combat vers la BD
 function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, infoUser) {
     return knex.insert([{ offense_id: monsterOffenseId, defense_id: monsterDefenseId, result: outComeId, user_id: userId }], ['id']).into('battle').then(function (id) {
@@ -47,23 +50,30 @@ function offenseUsedList(defense) {
     })
 }
 
-function listBattleOffenseFrequencyByUser (userId){
+function listBattleOffenseFrequencyByUser (userId, limit){
     // select offense_id, count(offense_id) as offense_idFrequency from battle where user_id=4 group by offense_id order by offense_idFrequency desc limit 3;
-    return knex.select('offense_id').count(`offense_id`, {as : "offense_idFrequency"}).from('battle').where({ user_id : userId}).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(3).then(offense => {
+    return knex.select('offense_id').count(`offense_id`, {as : "offense_idFrequency"}).from('battle').where({ user_id : userId}).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(limit).then(offense => {
         return offense;
     })
 }
 
-function listBattleDeffenseFrequencyByUser (userId){
+function listBattleDeffenseFrequencyByUser (userId, limit){
     // select defense_id, count(defense_id) as defense_idFrequency from battle where user_id=4 group by defense_id order by defense_idFrequency desc limit 3;
-    return knex.select('defense_id').count(`defense_id`, {as : "defense_idFrequency"}).from('battle').where({ user_id : userId}).groupBy('defense_id').orderBy('defense_idFrequency', 'desc').limit(3).then(defense => {
+    return knex.select('defense_id').count(`defense_id`, {as : "defense_idFrequency"}).from('battle').where({ user_id : userId}).groupBy('defense_id').orderBy('defense_idFrequency', 'desc').limit(limit).then(defense => {
         return defense;
     })
 }
 
-function listOffenseByUser(userId) {
-    // select offense_id, count(offense_id) as offense_idFrequency from battle where user_id=4 group by offense_id order by offense_idFrequency desc limit 15;
-    return knex.select('offense_id').count(`offense_id`, { as: "offense_idFrequency" }).from('battle').where({ user_id: userId }).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(15).then(offense => {
+function listOffenseByUser(userId, currentDate, oneMonthBefore, limit) {
+    // select offense_id, count(offense_id) as offense_idFrequency from battle where created_at BETWEEN "2021-04-30 00:00:00" AND "2021-04-30 23:00:00" && user_id=1 group by offense_id order by offense_idFrequency desc limit 15;
+    //SELECT * FROM battle WHERE created_at BETWEEN "2021-04-30 00:00:00" AND "2021-04-30 23-00-00";
+    // return knex.select('offense_id').count(`offense_id`, { as: "offense_idFrequency" }).from('battle').where({ user_id: userId }).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(15).then(offense => {
+    //     return offense;
+    // })
+    // console.log("currentDate listOffenseByUser", currentDate)
+    // console.log("oneMonthBefore listOffenseByUser", oneMonthBefore)
+    return knex.select('offense_id').count(`offense_id`, { as: "offense_idFrequency" }).from('battle').whereBetween('created_at', [oneMonthBefore, currentDate]).where({ user_id: userId }).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(limit).then(offense => {
+        // console.log("offense  knex reponse", offense)
         return offense;
     })
 }
@@ -89,11 +99,11 @@ async function dataTableByUser (userId){
     var countBattle = 0;
 
     //Number d'offense d'offense 
-    const listByUser = await listBattleByUser(userId)
+    const listByUser = await listBattleByUser(userId, 3)
     countBattle = listByUser.length
     // console.log("countBattle -->", countBattle)
 
-    const listOffenseFrequencyByUser = await listBattleOffenseFrequencyByUser(userId);
+    const listOffenseFrequencyByUser = await listBattleOffenseFrequencyByUser(userId, 3);
     // console.log('listOffenseFrequencyByUser', listOffenseFrequencyByUser)
 
     for (let o = 0; o < listOffenseFrequencyByUser.length; o++) {
@@ -118,18 +128,26 @@ async function dataTableByUser (userId){
 }
 
 async function dataTableByUserMyStats(userId) {
+
     var tableResultOffense = []
     var countBattle = 0;
 
+    var currentDate = new Date();
+    console.log('currentDate', currentDate)
+
+    var OneMonthBefore = new Date();
+    OneMonthBefore.setMonth(OneMonthBefore.getMonth() - 1);
+    console.log("OneMonthBefore", OneMonthBefore);
+
     //Number d'offense
-    const listByUser = await listBattleByUser(userId)
-    countBattle = listByUser.length
+    var listByUser = await listBattleByUser(userId);
+    countBattle = listByUser.length;
     // console.log("countBattle -->", countBattle)
 
-    const listOffenseFrequencyByUser = await listOffenseByUser(userId);
+    var listOffenseFrequencyByUser = await listOffenseByUser(userId, currentDate, OneMonthBefore, 15);
     //console.log('listOffenseFrequencyByUserByOutcome', listOffenseFrequencyByUserByOutcome);
 
-    for (let o = 0; o < listOffenseFrequencyByUser.length; o++) {
+    for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
         // console.log('id offense', listOffenseFrequencyByUser[o].offense_id)
         var teamName = await sqlTeam.getNameTeam(listOffenseFrequencyByUser[o].offense_id);
         var offenseWin = await getOutcomeByTeam(listOffenseFrequencyByUser[o].offense_id, 1, userId);
