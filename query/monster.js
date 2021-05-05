@@ -12,12 +12,14 @@ const knex = require('knex')(configKnex.development);
 
 //Création de liste des monstres qui ne sont pas dans la base de données
 function checkNameValidity(monsterListUntreated) {
-
+    
     //On s'assure que les monstres ont bien une lettre majuscule au début
+    var monsterListUntranslated = [];
     var monsterList = [];
     for (var x = 0; x < monsterListUntreated.length; x++) {
-        monsterList.push(monsterListUntreated[x].charAt(0).toUpperCase() + monsterListUntreated[x].slice(1));
+        monsterListUntranslated.push(monsterListUntreated[x].charAt(0).toUpperCase() + monsterListUntreated[x].slice(1).toLowerCase());
     }
+    monsterList = translator.translateMonsterNames(monsterListUntranslated)
     if (monsterList.length == 3) {
         return knex.from('monster').select('nameMonster', 'id').then(rows => {
             var monsterIdList = [];
