@@ -11,6 +11,7 @@ module.exports = {
         "Refroidissement": "Chilling",
         "Herné": "Herne",
         "Galion": "Galleon",
+        "Gallion": "Galleon",
         "Borsalino": "Fedora",
         "Tracteur": "Tractor",
         "Ophelia": "Ophilia",
@@ -45,6 +46,10 @@ module.exports = {
         "Rachid": "Rasheed",
         "Kumaé": "Kumae",
         "Buldo": "Bulldozer",
-        "Bulldo": "Bulldozer"
+        "Bulldo": "Bulldozer",
+        "Ken": "KEN",
+        "Mhw": "Mei Hou Wang",
+        "Fy": "Feng Yan",
+        "Xz": "Xing Zhe"
     }
 }
