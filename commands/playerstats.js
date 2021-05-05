@@ -2,20 +2,18 @@
 const config = require('../config/config')
 
 //Import function consoleLog
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../function/consoleLog.js");
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
-//Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
+// Import userInfo
+const userInfo = require('../function/userInfo.js');
 
 //Function checkMaintenance 
-const checkMaintenance = require('../function/checkMaintenance.js')
+const checkMaintenance = require('../function/checkMaintenance.js');
 
-const userInfo = require('../function/userInfo.js')
-
-function test (message) {
+function playerstats (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
     if(message.author.bot) return;
@@ -31,17 +29,14 @@ function test (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = userInfo("./commands/test.js", message);
+    var infoUser = userInfo("./commands/playerstats.js", message);
 
-    var statutcommand = checkMaintenance (message, "test", infoUser)
-    if(statutcommand == false) return;
+    var statutcommand = checkMaintenance(message, "playerstats", infoUser);
+    if (statutcommand == false) return;
 
+    message.channel.send('command playerstats');
 
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser)
-    if (checkPerm == false) return;
-
-    message.channel.send("test");
 }
 
 //Module export
-module.exports = test;
+module.exports = playerstats;

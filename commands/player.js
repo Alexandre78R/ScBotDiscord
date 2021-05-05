@@ -16,6 +16,8 @@ const keyJson = require('../function/keyJson.js')
 //Function checkMaintenance 
 var checkMaintenance = require("../function/checkMaintenance.js")
 
+var userInfo = require("../function/userInfo.js");
+
 function player (message){
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -39,7 +41,7 @@ function player (message){
     let args = messageArray.slice(1);
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/test.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/player.js", message);
 
     var statutcommand = checkMaintenance (message, "player", infoUser)
     if(statutcommand == false) return;

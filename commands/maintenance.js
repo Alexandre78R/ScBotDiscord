@@ -10,6 +10,8 @@ const Discord = require("discord.js");
 //Import function checkRolePerm
 const checkRolePerm = require('../function/checkRolePerm.js');
 
+var userInfo = require("../function/userInfo.js")
+
 function maintenance (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -26,7 +28,7 @@ function maintenance (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/test.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/maintenance.js", message);
 
     var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser)
     if (checkPerm == false) return;
@@ -64,120 +66,120 @@ function maintenance (message) {
 
             case "help" :
 
-                config.discord.maintenance.help = !config.discord.maintenance.help
+                config.discord.maintenance.help = !config.discord.maintenance.help;
 
                 let statusChangeHelp = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes help à était channger en ${config.discord.maintenance.help} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes help à était channger en ${config.discord.maintenance.help} !`)
                 message.channel.send(statusChangeHelp) | consoleLog(`OK : statusChangeHelp`, NaN, infoUser)
 
             break;
 
             case "listplayer" :
 
-                config.discord.maintenance.listplayer = !config.discord.maintenance.listplayer
+                config.discord.maintenance.listplayer = !config.discord.maintenance.listplayer;
 
                 let statusChangeListplayer = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes listplayer à était channger en ${config.discord.maintenance.listplayer} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes listplayer à était channger en ${config.discord.maintenance.listplayer} !`)
                 message.channel.send(statusChangeListplayer) | consoleLog(`OK : statusChangeListplayer`, NaN, infoUser)
 
             break;
 
             case "mycontrib" :
 
-                config.discord.maintenance.mycontrib = !config.discord.maintenance.mycontrib
+                config.discord.maintenance.mycontrib = !config.discord.maintenance.mycontrib;
 
                 let statusChangeMycontrib = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes mycontrib à était channger en ${config.discord.maintenance.mycontrib} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes mycontrib à était channger en ${config.discord.maintenance.mycontrib} !`)
                 message.channel.send(statusChangeMycontrib) | consoleLog(`OK : statusChangeMycontrib`, NaN, infoUser)
 
             break;
 
             case "mystats" :
 
-                config.discord.maintenance.mystats = !config.discord.maintenance.mystats
+                config.discord.maintenance.mystats = !config.discord.maintenance.mystats;
 
                 let statusChangeMystats = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes mystats à était channger en ${config.discord.maintenance.mystats} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes mystats à était channger en ${config.discord.maintenance.mystats} !`)
                 message.channel.send(statusChangeMystats) | consoleLog(`OK : statusChangeMystats`, NaN, infoUser)
 
             break;
 
             case "offense" :
                 
-                config.discord.maintenance.offense = !config.discord.maintenance.offense
+                config.discord.maintenance.offense = !config.discord.maintenance.offense;
 
                 let statusChangeOffense = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes offense à était channger en ${config.discord.maintenance.offense} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes offense à était channger en ${config.discord.maintenance.offense} !`)
                 message.channel.send(statusChangeOffense) | consoleLog(`OK : statusChangeOffense`, NaN, infoUser)
 
             break;
 
             case "player" :
 
-                config.discord.maintenance.player = !config.discord.maintenance.player
+                config.discord.maintenance.player = !config.discord.maintenance.player;
 
                 let statusChangePlayer = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes player à était channger en ${config.discord.maintenance.player} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes player à était channger en ${config.discord.maintenance.player} !`)
                 message.channel.send(statusChangePlayer) | consoleLog(`OK : statusChangePlayer`, NaN, infoUser)
 
             break;
 
             case "processing" :
 
-                config.discord.maintenance.processing = !config.discord.maintenance.processing
+                config.discord.maintenance.processing = !config.discord.maintenance.processing;
 
                 let statusChangeProcessing = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes processing à était channger en ${config.discord.maintenance.processing} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes processing à était channger en ${config.discord.maintenance.processing} !`)
                 message.channel.send(statusChangeProcessing) | consoleLog(`OK : statusChangeProcessing`, NaN, infoUser)
 
             break;
 
             case "sb" :
 
-                config.discord.maintenance.sb = !config.discord.maintenance.sb
+                config.discord.maintenance.sb = !config.discord.maintenance.sb;
 
                 let statusChangeSb = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes sb à était channger en ${config.discord.maintenance.sb} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes sb à était channger en ${config.discord.maintenance.sb} !`)
                 message.channel.send(statusChangeSb) | consoleLog(`OK : statusChangeSb`, NaN, infoUser)
 
             break;
 
             case "stats" :
 
-                config.discord.maintenance.stats = !config.discord.maintenance.stats
+                config.discord.maintenance.stats = !config.discord.maintenance.stats;
 
                 let statusStats = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes stats à était channger en ${config.discord.maintenance.stats} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes stats à était channger en ${config.discord.maintenance.stats} !`)
                 message.channel.send(statusStats) | consoleLog(`OK : statusStats`, NaN, infoUser)
 
             break;
 
             case "test" :
 
-                config.discord.maintenance.test = !config.discord.maintenance.test
+                config.discord.maintenance.test = !config.discord.maintenance.test;
 
                 let statusTest = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: Le status de la commandes test à était channger en ${config.discord.maintenance.test} !`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes test à était channger en ${config.discord.maintenance.test} !`)
                 message.channel.send(statusTest) | consoleLog(`OK : statusTest`, NaN, infoUser)
 
             break;
@@ -187,7 +189,7 @@ function maintenance (message) {
                 let commandNotFound = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Impossible de trouver la commande :x:`)
-                .setDescription(`:x: Impossible de trouver la commande : ${args[0]} !`)
+                .setDescription(`:x: ${infoUser.username}, impossible de trouver la commande : ${args[0]} !`)
                 .setFooter("Erreur : commandNotFound")
                 message.channel.send(commandNotFound) - consoleLog(`ERROR : commandNotFound`, NaN, infoUser)
 

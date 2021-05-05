@@ -1,8 +1,5 @@
-//Module pour stocker les infos privés dans un fichier .env
-require('dotenv').config()
-
 //Import environment variable
-const environment = require('../environment.js')
+const environment = require("../environment.js")
 
 //Module export
 module.exports = {

@@ -11,14 +11,22 @@ const sqlUser = require("../query/user.js");
 
 const sqlBattle = require("../query/battle.js");
 
-var dateFormat =require("../function/dateFormat.js")
+var dateFormat = require("../function/dateFormat.js");
 
 //Function checkMaintenance
-var checkMaintenance = require("../function/checkMaintenance.js")
+var checkMaintenance = require("../function/checkMaintenance.js");
+
+var userInfo = require("../function/userInfo.js");
 
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
+        const noPermUserSC = new Discord.MessageEmbed()
+        .setColor("#F00E0E")
+        .setTitle(`:x: Permission refuser :x:`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setFooter("Erreur : noPermUserSC");
+        message.channel.send(noPermUserSC)
         return "invalid";
     } else {
         return result;
@@ -27,7 +35,6 @@ async function checkUserId (message, infoUser) {
 
 async function listBattleMyUser (userId, infoUser) {
     var result = await sqlBattle.dataTableByUserMyStats(userId)
-    // console.log("result", result)
     if (result.length == 0) {
         return "invalid";
     } else {
@@ -37,26 +44,24 @@ async function listBattleMyUser (userId, infoUser) {
 
 function buildSuccessfulMessage(results, infoUser) {
 
-    // console.log("results dans buildsucces my stats", results)
-
-    //  results = []
     if (results.length == 0){
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: Désolé on n'a aucune information sur vous...`)
-        .setFooter("Erreur : infouserNotFound")
-        //consoleLog(`ERROR : infouserNotFound`, NaN, infoUser)
+        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur vous...`)
+        .setFooter("Erreur : infouserNotFound");
         return infouserNotFound;
     } else {
-        //console.log("Results dans buildSuccessFulMessage", results)
+        var countTotal = results[0].total;
+        var countWin = results[0].win;
+        var countLose = results[0].lose;
         var tableResultOffense = results[1];
+        var winrateTotal = Math.round( countWin * 100 / (countWin + countLose) * 10 ) / 10;
         
         var newTableOffense = [];
 
         for (let o = 0; o < tableResultOffense.length; o++) {
-            //console.log('tableResultOffense', tableResultOffense[o])
-            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10
+            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
             var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
             newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true })
         }
@@ -65,31 +70,26 @@ function buildSuccessfulMessage(results, infoUser) {
         var startDate = new Date();
         startDate.setMonth(startDate.getMonth() - 1);
 
-        // {name: 'name 1', value: 'value1', inline : true}
         const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${dateFormat(startDate)} : ${results[0]} \n\nListe des offenses utilisées:`)
-            .addFields(newTableOffense)
-
+            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
+            .addFields(newTableOffense);
         return infoUserEmbed;
     }
 }
 
 async function processRequest (message, infoUser){
-    // message.channel.send('Test command Mycontrib processRequest')
-    // consoleLog("Message")
 
     //Check userId validity and return user_id
     const userId = await checkUserId(message, infoUser);
 
     if (userId != "invalid") {
-        // message.channel.send(`userId BDD ${userId}`)
-            //Check userId validity and return user_id
+
+        //Check userId validity and return user_id
         const listBattle = await listBattleMyUser(userId, infoUser);
         
         if(listBattle != "invalid"){
-            // console.log( "ListBattle", listBattle)
-   
+
             //Successful message
             const successfulMessage = buildSuccessfulMessage(listBattle, infoUser)
             message.channel.send(successfulMessage)
@@ -99,7 +99,7 @@ async function processRequest (message, infoUser){
             let inaccessibilityListBattleError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-            .setDescription(`:x: Impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande !offense.`)
+            .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande !offense.`)
             .setFooter("Erreur : inaccessibilityListBattleError")
             message.channel.send(inaccessibilityListBattleError)
             consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)
@@ -124,7 +124,7 @@ function mystats (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/mystats.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/mystats.js", message);
 
     var statutcommand = checkMaintenance (message, "mystats", infoUser)
     if(statutcommand == false) return;
