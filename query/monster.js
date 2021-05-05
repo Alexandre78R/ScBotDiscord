@@ -5,6 +5,9 @@ const configKnex = require('../knexfile')
 //Import team query
 const sqlTeam = require("./team.js");
 
+//Import monster name translation
+const translator = require("../function/name_translation.js")
+
 const knex = require('knex')(configKnex.development);
 
 //Création de liste des monstres qui ne sont pas dans la base de données
