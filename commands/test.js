@@ -13,7 +13,7 @@ const checkRolePerm = require('../function/checkRolePerm.js');
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js')
 
-const userInfo = require('../function/userInfo.js')
+const userInfo = require('../function/userinfo.js')
 
 function test (message) {
 

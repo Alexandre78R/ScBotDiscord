@@ -16,7 +16,7 @@ const consoleLog = require("../function/consoleLog.js")
 //Function check commandes
 var checkMaintenance = require("../function/checkMaintenance.js")
 
-var userInfo = require("../function/userInfo.js")
+var userInfo = require("../function/userinfo.js")
 
 function listplayer (message){
 

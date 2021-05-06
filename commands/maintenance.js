@@ -10,7 +10,7 @@ const Discord = require("discord.js");
 //Import function checkRolePerm
 const checkRolePerm = require('../function/checkRolePerm.js');
 
-var userInfo = require("../function/userInfo.js")
+var userInfo = require("../function/userinfo.js")
 
 function maintenance (message) {
 

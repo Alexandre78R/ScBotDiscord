@@ -11,7 +11,7 @@ const sqlUser = require("../query/user.js");
 
 const sqlBattle = require("../query/battle.js");
 
-var userInfo = require("../function/userInfo.js");
+var userInfo = require("../function/userinfo.js");
 
 //Function checkMaintenance
 var checkMaintenance = require("../function/checkMaintenance.js")

@@ -22,7 +22,7 @@ const consoleLog = require("../function/consoleLog.js");
 //Function check maintenance
 var checkMaintenance = require("../function/checkMaintenance.js")
 
-var userInfo = require('../function/userInfo.js')
+var userInfo = require('../function/userinfo.js')
 
 function dl (message){
 

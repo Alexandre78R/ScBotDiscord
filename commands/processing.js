@@ -18,7 +18,7 @@ const consoleLog = require("../function/consoleLog.js")
 //Function checkMaintence 
 var checkMaintenance = require("../function/checkMaintenance")
 
-var userInfo = require("../function/userInfo.js")
+var userInfo = require("../function/userinfo.js")
 
 function processing (message) {
 

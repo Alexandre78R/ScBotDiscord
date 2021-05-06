@@ -8,7 +8,7 @@ const consoleLog = require("../function/consoleLog.js");
 const Discord = require("discord.js");
 
 // Import userInfo
-const userInfo = require('../function/userInfo.js');
+const userInfo = require('../function/userinfo.js');
 
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js');

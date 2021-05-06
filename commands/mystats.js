@@ -16,7 +16,7 @@ var dateFormat = require("../function/dateFormat.js");
 //Function checkMaintenance
 var checkMaintenance = require("../function/checkMaintenance.js");
 
-var userInfo = require("../function/userInfo.js");
+var userInfo = require("../function/userinfo.js");
 
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
