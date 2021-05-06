@@ -231,7 +231,7 @@ function offense(message) {
 
     if (defenseMonsters.length == 0) return message.channel.send(errorArgsDefenseEmptyBoard) | consoleLog(`ERROR : errorArgsDefenseEmptyBoard`, NaN, infoUser);
 
-    let checkArgsOutcome = messageArray[2].toUpperCase();
+    let checkArgsOutcome = messageArray[2];
 
     let errorArgsOutcome = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -241,7 +241,7 @@ function offense(message) {
 
     if (checkArgsOutcome == undefined) return message.channel.send(errorArgsOutcome) | consoleLog(`ERROR : errorArgsOutcome`, NaN, infoUser);
 
-    let outcome = messageArray[2].trim();
+    let outcome = messageArray[2].trim().toUpperCase();
 
     //V�rifier la validit� des noms des monstres
     processRequest(offenseMonsters, defenseMonsters, outcome, message, infoUser);
