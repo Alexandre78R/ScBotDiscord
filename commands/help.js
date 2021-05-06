@@ -10,7 +10,7 @@ var consoleLog = require('../function/consoleLog.js');
 //Function checkMaintenance
 var checkMaintenance = require("../function/checkMaintenance.js")
 
-var userInfo = require('../function/userInfo.js')
+var userInfo = require('../function/userinfo.js')
 
 function help (message){
 
