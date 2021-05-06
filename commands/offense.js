@@ -228,7 +228,7 @@ function offense(message) {
 
     if (defenseMonsters.length == 0) return message.channel.send(errorArgsDefenseEmptyBoard) | consoleLog(`ERROR : errorArgsDefenseEmptyBoard`, NaN, infoUser)
 
-    let checkArgsOutcome = messageArray[2];
+    let checkArgsOutcome = messageArray[2].toUpperCase();
 
     let errorArgsOutcome = new Discord.MessageEmbed()
     .setColor("#F00E0E")

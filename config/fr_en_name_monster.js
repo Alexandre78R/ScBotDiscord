@@ -45,6 +45,7 @@ module.exports = {
         "Rachid": "Rasheed",
         "Kumaé": "Kumae",
         "Buldo": "Bulldozer",
-        "Bulldo": "Bulldozer"
+        "Bulldo": "Bulldozer",
+        "Tesa": "Tesarion"
     }
 }
