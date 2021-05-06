@@ -46,7 +46,8 @@ function help (message){
         { name: `${config.discord.prefix}offense`, value: `${config.discord.prefix}help offense`, inline: true },
         { name: `${config.discord.prefix}sb`, value: `${config.discord.prefix}help sb`, inline: true },
         { name: `${config.discord.prefix}mystats`, value: `${config.discord.prefix}help mystats`, inline: true },
-        { name: `${config.discord.prefix}mycontrib`, value: `${config.discord.prefix}help mycontrib`, inline: true }
+        { name: `${config.discord.prefix}mycontrib`, value: `${config.discord.prefix}help mycontrib`, inline: true },
+        { name: `${config.discord.prefix}playerstats`, value: `${config.discord.prefix}help playerstats`, inline: true }
     )
     .setFooter(`Tapez ${config.discord.prefix}help + le nom de la commandes pour avoir plus d'information !`);
 
@@ -59,7 +60,7 @@ function help (message){
             .setColor("#FEAC09")
             .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
             .setDescription(`${infoUser.username}, commande qui permet d'indiquer votre offense pour une defense et de l'enregistrer dans notre base de données.`)
-            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobOffense] [2NameMobOffense] [3NameMobOffense] - [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense] - [W/L]`);
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobOffense] [2NameMobOffense] [3NameMobOffense] - [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense] - [W/L] \n Ex : ${config.discord.prefix}${notCommand} galion tiana poseidon - khmun orion savannah - W`);
             message.channel.send(helpCommandOffense);
             consoleLog("OK : helpCommandOffense", NaN, infoUser);
         break;
@@ -69,7 +70,7 @@ function help (message){
             .setColor("#FEAC09")
             .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
             .setDescription(`${infoUser.username}, commande qui permet d'afficher une liste de nos meillieurs offenses pour cette defense.`)
-            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense]`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense] \n Ex : ${config.discord.prefix}${notCommand} khmun orion savannah`)
             message.channel.send(helpCommandSb);
             consoleLog("OK : helpCommandSb", NaN, infoUser);
         break;
@@ -78,7 +79,7 @@ function help (message){
             let helpCommandMystats = new Discord.MessageEmbed()
             .setColor("#FEAC09")
             .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
-            .setDescription(`${infoUser.username}, commande qui permet d'afficher la liste des offenses du dernier mois.`)
+            .setDescription(`${infoUser.username}, commande qui permet d'afficher ta liste des offenses du dernier mois.`)
             .setFooter(`Aide : ${config.discord.prefix}${notCommand}`);
             message.channel.send(helpCommandMystats);
             consoleLog("OK : helpCommandMystats", NaN, infoUser);
@@ -92,6 +93,16 @@ function help (message){
             .setFooter(`Aide : ${config.discord.prefix}${notCommand}`);
             message.channel.send(helpCommandMycontrib);
             consoleLog("OK : helpCommandMycontrib", NaN, infoUser);
+        break;
+
+        case "playerstats":
+            let helpCommandPlayerStats = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet d'afficher la liste des offenses du dernier mois d'une autre personne.`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [idDiscord/TagDiscord] \n Ex : ${config.discord.prefix}${notCommand} Alexandre78R#7666 ou ${config.discord.prefix}${notCommand} 272712335284502529`);
+            message.channel.send(helpCommandPlayerStats);
+            consoleLog("OK : helpCommandPlayerStats", NaN, infoUser);
         break;
 
         default:
