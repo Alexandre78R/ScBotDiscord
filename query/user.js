@@ -7,11 +7,16 @@ const config = require('../config/config.js')
 
 const knex = require('knex')(configKnex.development);
 
+var checkNumber = require('../function/checkNumber.js')
+
 //Requete ID team et/ou cr�ation
 function checkUserId(message, infoUser) {
-    const userDiscordId = message.author.id;
-    const userDiscordName = message.author.username;
-    var userGuildTag = ""
+    const userDiscordId = infoUser.id;
+    const userDiscordName = `${infoUser.username}#${infoUser.tagNumber}`;
+
+    console.log("userDiscordId", userDiscordId, "userDiscordName", userDiscordName)
+
+    var userGuildTag = "";
     for (const [key, value] of message.guild.members.cache) {
         if (key == userDiscordId) {
             if (value._roles.includes(config.discord.roles_id.SC1)) userGuildTag = 'SC1';
@@ -21,19 +26,24 @@ function checkUserId(message, infoUser) {
         };
     }
     if (userDiscordId != "" && userDiscordName != "" && userGuildTag != "") {
-        return knex.from('user').where({ idNameDiscord: userDiscordId }).select('id', 'nameGuild').then(rows => {
+        return knex.from('user').where({ idNameDiscord: userDiscordId }).select('id', 'nameGuild', 'nameTagDiscord').then(rows => {
             if (rows.length >= 1) {
-                var listDB = rows.map(row => [row.id, row.nameGuild])
+                var listDB = rows.map(row => [row.id, row.nameGuild, row.nameTagDiscord])
                     var ObjetUserWhere = {
                         id : listDB[0][0],
                         idNameDiscord: userDiscordId,
-                        nameTagDiscord: userDiscordName,
+                        nameTagDiscord: listDB[0][2],
                         nameGuild: listDB[0][1] 
                     }
                     consoleLog(`OK : alreadyUserBdd`, ObjetUserWhere, infoUser)
-
+                    console.log('listDB', listDB[0][0], listDB[0][1] , listDB[0][2] )
                 if (listDB[0][1] != userGuildTag) {
-                    return knex('user').where({ id: listDB[0, 0] }).update({ nameGuild: listDB[0, 1] }).then(function () {
+                    return knex('user').where({ id: listDB[0][0] }).update({ nameGuild: listDB[0][1] }).then(function () {
+                        return listDB[0][0];
+                    });
+                }
+                if (listDB[0][2] != userDiscordName) {
+                    return knex('user').where({ id: listDB[0][0] }).update({ nameTagDiscord: userDiscordName}).then(function () {
                         return listDB[0][0];
                     });
                 }
@@ -56,4 +66,35 @@ function checkUserId(message, infoUser) {
     }
 }
 
+function searchUserBdd (searchUser, message, infoUser) {
+
+    var checkValueSearchUser = checkNumber(searchUser)
+    console.log("checkValueSearchUser", checkValueSearchUser)
+
+    if (checkValueSearchUser == "Yes a number!"){
+ 
+        return knex.from('user').where({ idNameDiscord: searchUser }).then(rows => {
+            if (rows.length == 0) {
+                return false
+            } else {
+                var user = rows.map(row => [row.id, row.nameTagDiscord]);
+                return user[0];
+            }
+        });
+
+    } else if (checkValueSearchUser == "Not a Number!"){
+        return knex.from('user').where({ nameTagDiscord: searchUser }).then(rows => {
+            if (rows.length == 0) {
+                return false
+            } else {
+                var user = rows.map(row => [row.id, row.nameTagDiscord]);
+                return user[0];
+            }
+        });
+    } else {
+        return false;
+    }
+}
+
+module.exports.searchUserBdd = searchUserBdd;
 module.exports.checkUserId = checkUserId;

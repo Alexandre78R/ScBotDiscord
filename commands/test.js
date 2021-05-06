@@ -13,6 +13,8 @@ const checkRolePerm = require('../function/checkRolePerm.js');
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js')
 
+const userInfo = require('../function/userinfo.js')
+
 function test (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -29,29 +31,11 @@ function test (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/test.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/test.js", message);
 
     var statutcommand = checkMaintenance (message, "test", infoUser)
     if(statutcommand == false) return;
 
-    // var checkRoleDev = false
-
-    // for (const [key, value] of message.guild.members.cache) {
-    //     if (key == infoUser.id) {
-    //         // console.log("value", value._roles)
-    //         if (value._roles.includes(config.discord.roles_id.DEV)) checkRoleDev = !checkRoleDev;
-    //     };
-    // }
-
-
-    // let permissionNotAllowed = new Discord.MessageEmbed()
-    // .setColor("#F00E0E")
-    // .setTitle(`:x: Permission refusé :x:`)
-    // .setDescription(`:x: Vous n'avez pas l'autorisation d'utiliser cette commande !`)
-    // .setFooter("Erreur : permissionNotAllowed")
-
-  
-    // if(checkRoleDev == false) return message.channel.send(permissionNotAllowed) | consoleLog(`ERROR : permissionNotAllowed`, NaN, infoUser)
 
     var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser)
     if (checkPerm == false) return;

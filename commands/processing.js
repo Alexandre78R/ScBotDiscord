@@ -18,6 +18,8 @@ const consoleLog = require("../function/consoleLog.js")
 //Function checkMaintence 
 var checkMaintenance = require("../function/checkMaintenance")
 
+var userInfo = require("../function/userinfo.js")
+
 function processing (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -40,7 +42,7 @@ function processing (message) {
     let args = messageArray.slice(1);
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/processing.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/processing.js", message);
     
     var statutcommand = checkMaintenance (message, "processing", infoUser)
     if(statutcommand == false) return;

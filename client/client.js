@@ -11,35 +11,38 @@ var config = require("../config/config");
 const cmdStats = require('../commands/stats.js');
 
 //Import de la commande DL
-const cmdDL = require('../commands/dl.js')
+const cmdDL = require('../commands/dl.js');
 
 //Import de la commande Processing
-const cmdProcessing = require('../commands/processing.js')
+const cmdProcessing = require('../commands/processing.js');
 
 //Import de la commande Player
-const cmdPlayer = require("../commands/player.js")
+const cmdPlayer = require("../commands/player.js");
 
 //Import de la commande ListPlayer
-const cmdListPlayer = require('../commands/listplayer.js')
+const cmdListPlayer = require('../commands/listplayer.js');
 
-const cmdHelp = require('../commands/help.js')
+const cmdHelp = require('../commands/help.js');
 
-const cmdTest = require('../commands/test.js')
+const cmdTest = require('../commands/test.js');
 
 //Import de la commande Offense
-const cmdOffense = require('../commands/offense.js')
+const cmdOffense = require('../commands/offense.js');
 
 //Import de la commande Sb
-const cmdSb = require('../commands/sb.js')
+const cmdSb = require('../commands/sb.js');
 
 //Import de la commande mycontrib
-const cmdMyContrib = require('../commands/mycontrib.js')
+const cmdMyContrib = require('../commands/mycontrib.js');
 
 //Import de la commande MyStats
-const cmdMyStats = require('../commands/mystats.js')
+const cmdMyStats = require('../commands/mystats.js');
 
 //Import de la commande Maintenance
-const cmdMaintenance = require('../commands/maintenance.js')
+const cmdMaintenance = require('../commands/maintenance.js');
+
+//Import de la commande playerstats
+const cmdPlayerStats = require("../commands/playerstats.js");
 
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
@@ -53,17 +56,25 @@ client.on('ready', () => {
     client.user.setActivity('By Alexandre78R, Tzzat', { type: 'PLAYING' });
 })
 
-// client.on('guildMemberAdd', member => {
-    //     console.log('test', member)
-    //     member.guild.channels.find("name", "recrutement").send(`Bienvenu chez Sacré Cœur, ${member.user}. Merci de préciser si tu es intéressé par une guilde ou déjà dans une.`)
-    //     // member.guild.channels.cache.get('392029583945367568').send(`Bienvenu chez Sacré Cœur, ${member.user}. Merci de préciser si tu es intéressé par une guilde ou déjà dans une.`)
-    //     const channel = member.guild.channels.cache.get(config.discord.channelWelcome)
-    //     if (!channel) return console.log("Imposible de trouver le channel de bienvenue.")
-    //     member.guild.channels.cache.get(config.discord.channelWelcome).send(`Bienvenu chez Sacré Cœur, ${member.user}. Merci de préciser si tu es intéressé par une guilde ou déjà dans une.`)
-// });
+client.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.cache.get(config.discord.channelWelcome)
+    if (!channel) return console.log("Imposible de trouver le channel de bienvenue.")
+    member.guild.channels.cache.get(config.discord.channelWelcome).send(`Bienvenu chez Sacré Cœur, ${member.user}. Merci de préciser si tu es intéressé par une guilde ou déjà dans une.`)
+});
 
 //Préfix du bot 
 var prefixDiscord = config.discord.prefix;
+
+client.on("messageUpdate", msg => { 
+    if (msg.reactions.message.author.bot || msg.reactions.message.channel.type != 'text')
+        return;
+
+    if (!msg.reactions.message.content.startsWith(prefixDiscord))
+        return;
+
+    let cmd = msg.reactions.message.content.split(/\s+/)[0].slice(prefixDiscord.length).toLowerCase();
+    getCmdFunction(cmd)(msg.reactions.message);
+});
 
 //Les commandes pour discord
 client.on('message', msg => {
@@ -91,7 +102,8 @@ function getCmdFunction(cmd) {
     'mycontrib': cmdMyContrib,
     'mystats': cmdMyStats,
     'maintenance' : cmdMaintenance,
-    'test' : cmdTest
+    'test' : cmdTest,
+    "playerstats" : cmdPlayerStats
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }

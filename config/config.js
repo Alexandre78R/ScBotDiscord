@@ -1,8 +1,5 @@
-//Module pour stocker les infos privés dans un fichier .env
-require('dotenv').config()
-
 //Import environment variable
-const environment = require('../environment.js')
+const environment = require("../environment.js")
 
 //Module export
 module.exports = {
@@ -15,17 +12,18 @@ module.exports = {
         "variantSC3" : "SC3",
         "variantSC4": "SC4",
         "maintenance" : {
-            "dl": true,
+            "dl": false,
             "help": true,
-            "listplayer": true,
+            "listplayer": false,
             "mycontrib": true,
             "mystats" : true,
             "offense": true,
-            "player": true,
-            "processing": true,
+            "player": false,
+            "processing": false,
             "sb": true,
-            "stats": true,
+            "stats": false,
             "test": true,
+            "playerstats": true
         },
         "roles_id": {
             "DEV": environment.roles_id.DEV,

@@ -22,6 +22,8 @@ const consoleLog = require("../function/consoleLog.js");
 //Function check maintenance
 var checkMaintenance = require("../function/checkMaintenance.js")
 
+var userInfo = require('../function/userinfo.js')
+
 function dl (message){
 
     //Sécurité pour pas que le bot réagi avec lui-même
@@ -42,7 +44,7 @@ function dl (message){
     let args = messageArray.slice(1);
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = { location : "./commands/dl.js", id : message.author.id, username : message.author.username, avatar : message.author.avatar, isBot : message.author.bot };
+    var infoUser = userInfo("./commands/dl.js", message);
 
     var statutcommand = checkMaintenance (message, "dl", infoUser)
     if(statutcommand == false) return;

@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-//"channelWelcome" : "811292323895705682"
-
 // Express pour gestion port de la partie discord
 const express = require("express");
 
