@@ -47,7 +47,7 @@ module.exports = {
         "Kumaé": "Kumae",
         "Buldo": "Bulldozer",
         "Bulldo": "Bulldozer",
-        "Tesa": "Tesarion"
+        "Tesa": "Tesarion",
         "Ken": "KEN",
         "Mhw": "Mei Hou Wang",
         "Fy": "Feng Yan",
