@@ -66,7 +66,7 @@ function buildSuccessfulMessage(results, objectUserSearch, infoUser) {
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur ${objectUserSearch.username}...`)
+        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur ${objectUserSearch.usernameDiscord}...`)
         .setFooter("Erreur : infouserNotFound");
         return infouserNotFound;
     } else {
