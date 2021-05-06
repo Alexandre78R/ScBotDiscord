@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Express pour gestion port de la partie discord
 const express = require("express");
 
