@@ -51,18 +51,27 @@ function checkNameValidity(monsterListUntreated) {
             var listDB = rows.map(row => [row.id, row.nameMonster]);
             let pointerList = 0;
             monsterList.forEach(function (monster, index) {
+                console.log("monsterlist debut", monster)
                 let idMonster = -1;
                 if (pointerList <= index) {
-                    var listPotentialCandidate = []
+                    // console.log('pointerList', pointerList, 'index', index)
+                    var listPotentialCandidate = [];
+                    // console.log('listPotentialCandidate avant listdb', listPotentialCandidate);
                     listDB.forEach(function (dbEntry, index) {
+        
+                        // console.log('dbEntry', dbEntry)
                         if (dbEntry[1].startsWith(monster)) {
+                            // console.log('dbEntry', dbEntry)
+                            // console.log("dbEntry[1].startsWith(monster) dans if", dbEntry[1].startsWith(monster))
                             listPotentialCandidate.push(dbEntry);
                         }
                     });
+                    // console.log('listPotentialCandidate après list db', listPotentialCandidate)
                     var maxArg = 0;
                     //Modif d'alex par default null pour la condition 
                     var idealCandidate = null;
                     listPotentialCandidate.forEach(function (candidate, index) {
+                        // console.log('candidate', candidate)
                         if (candidate[1] == monster) {
                             if (maxArg <= 1) {
                                 maxArg = 1;

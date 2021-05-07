@@ -51,6 +51,18 @@ module.exports = {
         "Ken": "KEN",
         "Mhw": "Mei Hou Wang",
         "Fy": "Feng Yan",
-        "Xz": "Xing Zhe"
+        "Xz": "Xing Zhe",
+        "Homunculus Water": 'Homunculus - Attack (Water)',
+        "Homunculus Fire": 'Homunculus - Attack (Fire)',
+        "Homunculus Wind": 'Homunculus - Attack (Wind)',
+        "Homunculus Light": 'Homunculus - Support (Light)',
+        "Homunculus Dark": 'Homunculus - Support (Dark)',
+        "Homunculus Eau": 'Homunculus - Attack (Water)',
+        "Homunculus Feu": 'Homunculus - Attack (Fire)',
+        "Homunculus Vent": 'Homunculus - Attack (Wind)',
+        "Homunculus Lumière": 'Homunculus - Support (Light)',
+        "Homunculus Lumiere": 'Homunculus - Support (Light)',
+        "Homunculus Sombre": 'Homunculus - Support (Dark)',
+        "Homunculus Sonbre": 'Homunculus - Support (Dark)'
     }
 }
