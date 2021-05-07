@@ -62,7 +62,7 @@ module.exports = {
         "Homunculus Vent": 'Homunculus - Attack (Wind)',
         "Homunculus Lumière": 'Homunculus - Support (Light)',
         "Homunculus Lumiere": 'Homunculus - Support (Light)',
-        "Homunculus Sombre": 'Homunculus - Support (Dark)',
-        "Homunculus Sonbre": 'Homunculus - Support (Dark)'
+        "Homunculus Ténèbre": 'Homunculus - Support (Dark)',
+        "Homunculus Tenebre": 'Homunculus - Support (Dark)'
     }
 }
