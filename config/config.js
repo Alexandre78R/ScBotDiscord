@@ -23,7 +23,10 @@ module.exports = {
             "sb": true,
             "stats": false,
             "test": true,
-            "playerstats": true
+            "playerstats": true,
+            "lastoffense": false,
+            "deloffense": false,
+            "upoffense": false
         },
         "roles_id": {
             "DEV": environment.roles_id.DEV,

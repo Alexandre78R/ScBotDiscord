@@ -56,7 +56,10 @@ function maintenance (message) {
             { name: 'sb', value: config.discord.maintenance.sb, inline: true },
             { name: 'stats', value: config.discord.maintenance.stats, inline: true },
             { name: 'test', value: config.discord.maintenance.test, inline: true },
-            { name: 'playerstats', value: config.discord.maintenance.playerstats, inline: true }
+            { name: 'playerstats', value: config.discord.maintenance.playerstats, inline: true },
+            { name: 'lastoffense', value: config.discord.maintenance.lastoffense, inline: true },
+            { name: 'deloffense', value: config.discord.maintenance.deloffense, inline: true },
+            { name: 'upoffense', value: config.discord.maintenance.upoffense, inline: true }
         )
         .setFooter(`Pour désactiver ou activer une commandes merci de taper ${config.discord.prefix}maintenance + le nom de la commande.`);
         return message.channel.send(undefinedNameCommand) | consoleLog(`Ok : undefinedNameCommand`, NaN, infoUser)
@@ -72,7 +75,7 @@ function maintenance (message) {
                 let statusChangeHelp = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes help à était channger en ${config.discord.maintenance.help} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.help} !`);
                 message.channel.send(statusChangeHelp) | consoleLog(`OK : statusChangeHelp`, NaN, infoUser);
 
             break;
@@ -84,7 +87,7 @@ function maintenance (message) {
                 let statusChangeListplayer = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes listplayer à était channger en ${config.discord.maintenance.listplayer} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.listplayer} !`);
                 message.channel.send(statusChangeListplayer) | consoleLog(`OK : statusChangeListplayer`, NaN, infoUser);
 
             break;
@@ -96,7 +99,7 @@ function maintenance (message) {
                 let statusChangeMycontrib = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes mycontrib à était channger en ${config.discord.maintenance.mycontrib} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.mycontrib} !`);
                 message.channel.send(statusChangeMycontrib) | consoleLog(`OK : statusChangeMycontrib`, NaN, infoUser);
 
             break;
@@ -108,7 +111,7 @@ function maintenance (message) {
                 let statusChangeMystats = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes mystats à était channger en ${config.discord.maintenance.mystats} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.mystats} !`);
                 message.channel.send(statusChangeMystats) | consoleLog(`OK : statusChangeMystats`, NaN, infoUser);
 
             break;
@@ -120,7 +123,7 @@ function maintenance (message) {
                 let statusChangeOffense = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes offense à était channger en ${config.discord.maintenance.offense} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.offense} !`);
                 message.channel.send(statusChangeOffense) | consoleLog(`OK : statusChangeOffense`, NaN, infoUser);
 
             break;
@@ -132,7 +135,7 @@ function maintenance (message) {
                 let statusChangePlayer = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes player à était channger en ${config.discord.maintenance.player} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.player} !`);
                 message.channel.send(statusChangePlayer) | consoleLog(`OK : statusChangePlayer`, NaN, infoUser);
 
             break;
@@ -144,7 +147,7 @@ function maintenance (message) {
                 let statusChangeProcessing = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes processing à était channger en ${config.discord.maintenance.processing} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.processing} !`);
                 message.channel.send(statusChangeProcessing) | consoleLog(`OK : statusChangeProcessing`, NaN, infoUser);
 
             break;
@@ -156,7 +159,7 @@ function maintenance (message) {
                 let statusChangeSb = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes sb à était channger en ${config.discord.maintenance.sb} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.sb} !`);
                 message.channel.send(statusChangeSb) | consoleLog(`OK : statusChangeSb`, NaN, infoUser);
 
             break;
@@ -168,7 +171,7 @@ function maintenance (message) {
                 let statusStats = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes stats à était channger en ${config.discord.maintenance.stats} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.stats} !`);
                 message.channel.send(statusStats) | consoleLog(`OK : statusStats`, NaN, infoUser);
 
             break;
@@ -180,7 +183,7 @@ function maintenance (message) {
                 let statusTest = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes test à était channger en ${config.discord.maintenance.test} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.test} !`);
                 message.channel.send(statusTest) | consoleLog(`OK : statusTest`, NaN, infoUser);
 
             break;
@@ -192,8 +195,44 @@ function maintenance (message) {
                 let statusPlayerstats = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes playerstats à était channger en ${config.discord.maintenance.playerstats} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.playerstats} !`);
                 message.channel.send(statusPlayerstats) | consoleLog(`OK : statusPlayerstats`, NaN, infoUser);
+
+            break;
+
+            case "lastoffense" :
+
+                config.discord.maintenance.lastoffense = !config.discord.maintenance.lastoffense;
+
+                let statusLastoffense = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.lastoffense} !`);
+                message.channel.send(statusLastoffense) | consoleLog(`OK : statusLastoffense`, NaN, infoUser);
+
+            break;
+
+            case "deloffense" :
+
+                config.discord.maintenance.deloffense = !config.discord.maintenance.deloffense;
+
+                let statusDelOffense = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.deloffense} !`);
+                message.channel.send(statusDelOffense) | consoleLog(`OK : statusDelOffense`, NaN, infoUser);
+
+            break;
+
+            case "upoffense" :
+
+                config.discord.maintenance.upoffense = !config.discord.maintenance.upoffense;
+
+                let statusUpoffense = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était channger en ${config.discord.maintenance.upoffense} !`);
+                message.channel.send(statusUpoffense) | consoleLog(`OK : statusUpoffense`, NaN, infoUser);
 
             break;
 

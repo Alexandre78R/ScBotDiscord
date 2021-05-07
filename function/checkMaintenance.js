@@ -95,7 +95,25 @@ function checkMaintenance (message, command, infoUser) {
                 checkMaintenanceStatus = config.discord.maintenance.playerstats;
 
             break;
-    
+
+            case "lastoffense" :
+
+                checkMaintenanceStatus = config.discord.maintenance.lastoffense;
+
+            break;
+
+            case "deloffense" :
+
+                checkMaintenanceStatus = config.discord.maintenance.deloffense;
+
+            break;
+
+            case "upoffense" :
+
+                checkMaintenanceStatus = config.discord.maintenance.upoffense;
+
+            break;
+
             default:
     
                 let commandNotFound = new Discord.MessageEmbed()

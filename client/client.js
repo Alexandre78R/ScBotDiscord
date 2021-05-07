@@ -44,6 +44,15 @@ const cmdMaintenance = require('../commands/maintenance.js');
 //Import de la commande playerstats
 const cmdPlayerStats = require("../commands/playerstats.js");
 
+//Import de la commande playerstats
+const cmdLastOffense = require("../commands/lastoffense.js");
+
+//Import de la commande playerstats
+const cmdDelOffense = require("../commands/deloffense.js");
+
+//Import de la commande playerstats
+const cmdUpOffense = require("../commands/upoffense.js");
+
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -103,7 +112,10 @@ function getCmdFunction(cmd) {
     'mystats': cmdMyStats,
     'maintenance' : cmdMaintenance,
     'test' : cmdTest,
-    "playerstats" : cmdPlayerStats
+    "playerstats" : cmdPlayerStats,
+    "lastoffense" : cmdLastOffense,
+    "deloffense" : cmdDelOffense,
+    "upoffense" : cmdUpOffense
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }

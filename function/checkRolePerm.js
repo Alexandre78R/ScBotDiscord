@@ -32,4 +32,4 @@ function checkRolePerm (message, roleId, infoUser) {
 }
 
 //Module export
-module.exports = checkRolePerm
+module.exports = checkRolePerm;
