@@ -66,7 +66,7 @@ async function checkOutcome(outcome, message, infoUser) {
     } else {
         let outcomeValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
-            .setTitle(`:x: Resultat incorrect  :x:`)
+            .setTitle(`:x: Résultat incorrect  :x:`)
             .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la defaite est accepter.`)
             .setFooter("Erreur : outcomeValidityError");
         message.channel.send(outcomeValidityError);

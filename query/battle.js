@@ -57,6 +57,7 @@ function listBattleDeffenseFrequencyByUser (userId, limit){
 }
 
 function listOffenseByUser(userId, currentDate, oneMonthBefore, limit) {
+    //select offense_id, count(offense_id) as offense_idFrequency from battle where created_at BETWEEN "2021-04-30 00:00:00" AND "2021-04-30 23-00-00" && user_id=1 group by offense_id order by offense_idFrequency desc limit 15;
     return knex.select('offense_id').count(`offense_id`, { as: "offense_idFrequency" }).from('battle').whereBetween('created_at', [oneMonthBefore, currentDate]).where({ user_id: userId }).groupBy('offense_id').orderBy('offense_idFrequency', 'desc').limit(limit).then(offense => {
         return offense;
     });
@@ -77,6 +78,14 @@ function listBattleByUser (userId){
         });
         return [winCount, loseCount];
     });
+}
+
+function listLastBattles (userId, currentDate, OneDayBefore, limit) {
+    // select * from battle where created_at between "2021-05-07 00:00:00" and "2021-05-08 00:00:00" && user_id="1" order by created_at desc limit 10;
+    return knex.from('battle').whereBetween('created_at', [OneDayBefore, currentDate]).where({ user_id : userId}).orderBy('created_at', "desc").limit(limit).then(battles => {
+        // console.log("battles", battles)
+        return battles;
+    })
 }
 
 async function dataTableByUser (userId){
@@ -141,6 +150,28 @@ async function dataTableByUserMyStats(userId) {
     return [{"total" : countBattle, "win" : countWinBattle, "lose" : countLoseBattle}, tableResultOffense];
 }
 
+async function dataTableLastoffense(userId) {
+
+    var currentDate = new Date();
+
+    var OneDayBefore = new Date();
+    OneDayBefore.setHours(OneDayBefore.getHours() - 24);
+
+    var listBattle = await listLastBattles(userId, currentDate, OneDayBefore, 10);
+
+    var newTabBattle = [];
+
+    for (let i = 0; i < listBattle.length; i++) {
+        var teamNameOffense = await sqlTeam.getNameTeam(listBattle[i].offense_id);
+        var teamNameDefense = await sqlTeam.getNameTeam(listBattle[i].defense_id);
+        newTabBattle.push({"id" : listBattle[i].id, "result" : listBattle[i].result == 1 ? "W" : "L" , "offenseName" : teamNameOffense, "defenseName" : teamNameDefense});
+    }
+
+    // console.log("newTabBattle", newTabBattle);
+
+    return [newTabBattle];
+}
+
 async function datatableDefense(defense) {
 
     const offenses = await offenseUsedList(defense);
@@ -156,6 +187,7 @@ async function datatableDefense(defense) {
     return tableResult;
 }
 
+module.exports.dataTableLastoffense = dataTableLastoffense;
 module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
 module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;

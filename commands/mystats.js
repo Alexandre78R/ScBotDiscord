@@ -9,6 +9,7 @@ const Discord = require("discord.js");
 //Import user query
 const sqlUser = require("../query/user.js");
 
+//Import battle query
 const sqlBattle = require("../query/battle.js");
 
 var dateFormat = require("../function/dateFormat.js");
@@ -62,8 +63,8 @@ function buildSuccessfulMessage(results, infoUser) {
 
         for (let o = 0; o < tableResultOffense.length; o++) {
             var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
-            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
-            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true })
+            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose;
+            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
         }
 
         
