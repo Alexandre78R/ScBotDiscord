@@ -33,7 +33,7 @@ function upoffense (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/upoffense.js", message);
 
-    var statutcommand = checkMaintenance (message, "test", infoUser);
+    var statutcommand = checkMaintenance (message, "upoffense", infoUser);
     if(statutcommand == false) return;
 
 

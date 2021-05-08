@@ -88,6 +88,19 @@ function listLastBattles (userId, currentDate, OneDayBefore, limit) {
     })
 }
 
+function delBattles (valueId) {
+    // delete from battle where id="100";   
+    return knex('battle').del().where({ id : valueId }).then(delBattle => {
+        if (delBattle == 0){
+            console.log("if delbattle", delBattle);
+            return "invalid";
+        }else{
+            console.log('else delbattle', delBattle);
+            return "true";
+        }
+    })
+}
+
 async function dataTableByUser (userId){
     
     var tableResultOffense = [];
@@ -167,8 +180,6 @@ async function dataTableLastoffense(userId) {
         newTabBattle.push({"id" : listBattle[i].id, "result" : listBattle[i].result == 1 ? "W" : "L" , "offenseName" : teamNameOffense, "defenseName" : teamNameDefense});
     }
 
-    // console.log("newTabBattle", newTabBattle);
-
     return [newTabBattle];
 }
 
@@ -187,6 +198,7 @@ async function datatableDefense(defense) {
     return tableResult;
 }
 
+module.exports.delBattles = delBattles;
 module.exports.dataTableLastoffense = dataTableLastoffense;
 module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
 module.exports.dataTableByUser = dataTableByUser;

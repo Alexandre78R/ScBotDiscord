@@ -71,7 +71,7 @@ function buildSuccessfulMessage(results, infoUser) {
 
         for (let i = 0; i < tableResult.length; i++) {
             // newTable.push({ name: `Offense : ${tableResult[i].offenseName} Defense : ${tableResult[i].defenseName}`, value: tableResult[i].id, inline: true });
-            newTable.push({ name: tableResult[i].id , value: `Offense : ${tableResult[i].offenseName} \n Deffense : ${tableResult[i].defenseName} \n ${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+            newTable.push({ name: tableResult[i].id , value: `Offense : ${tableResult[i].offenseName} \n Défense : ${tableResult[i].defenseName} \n ${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
         }
 
         const infoUserEmbed = new Discord.MessageEmbed()
@@ -81,6 +81,7 @@ function buildSuccessfulMessage(results, infoUser) {
         return infoUserEmbed;
     }
 }
+
 async function processRequest (message, infoUser){
 
     //Check userId validity and return user_id
@@ -116,7 +117,7 @@ function lastoffense (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/lastoffense.js", message);
 
-    var statutcommand = checkMaintenance (message, "test", infoUser);
+    var statutcommand = checkMaintenance (message, "lastoffense", infoUser);
     if(statutcommand == false) return;
 
 
