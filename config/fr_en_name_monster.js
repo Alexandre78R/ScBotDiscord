@@ -47,7 +47,6 @@ module.exports = {
         "Kumaé": "Kumae",
         "Buldo": "Bulldozer",
         "Bulldo": "Bulldozer",
-        "Tesa": "Tesarion",
         "Ken": "KEN",
         "Mhw": "Mei Hou Wang",
         "Fy": "Feng Yan",
@@ -63,6 +62,7 @@ module.exports = {
         "Homunculus Lumière": 'Homunculus - Support (Light)',
         "Homunculus Lumiere": 'Homunculus - Support (Light)',
         "Homunculus Ténèbre": 'Homunculus - Support (Dark)',
-        "Homunculus Tenebre": 'Homunculus - Support (Dark)'
+        "Homunculus Tenebre": 'Homunculus - Support (Dark)',
+        "kona" : "Konamiya", 
     }
 }
