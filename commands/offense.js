@@ -187,7 +187,7 @@ function offense(message) {
     let errorArgsTiretInferior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer assez de tiret !`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré assez de tiret !`) 
     .setFooter("Erreur : errorArgsTiretInferior");
 
     if (tiret < 2) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
@@ -195,7 +195,7 @@ function offense(message) {
     let errorArgsTiretSuperior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous avez rentrer trop de tiret !`) 
+    .setDescription(`:x: ${infoUser.username}, vous avez entré trop de tiret !`) 
     .setFooter("Erreur : errorArgsTiretSuperior");
 
     if (tiret > 2) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser);
@@ -206,7 +206,7 @@ function offense(message) {
     let errorArgsOffenseMonsters = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team pour l'offense.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré de team pour l'offense.`) 
     .setFooter("Erreur : errorArgsOffenseMonsters");
 
     if (offenseMonsters.length == 0) return message.channel.send(errorArgsOffenseMonsters) | consoleLog(`ERROR : errorArgsOffenseMonsters`, NaN, infoUser);
@@ -216,7 +216,7 @@ function offense(message) {
     let errorArgsDefenseMonstersUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré de team défense.`) 
     .setFooter("Erreur : errorArgsDefenseMonstersUndefined");
 
     if (checkDefenseMonsters == undefined) return message.channel.send(errorArgsDefenseMonstersUndefined) | consoleLog(`ERROR : errorArgsDefenseMonstersUndefined`, NaN, infoUser);
@@ -226,7 +226,7 @@ function offense(message) {
     let errorArgsDefenseEmptyBoard = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré de team défense.`) 
     .setFooter("Erreur : errorArgsDefenseEmptyBoard");
 
     if (defenseMonsters.length == 0) return message.channel.send(errorArgsDefenseEmptyBoard) | consoleLog(`ERROR : errorArgsDefenseEmptyBoard`, NaN, infoUser);
@@ -236,7 +236,7 @@ function offense(message) {
     let errorArgsOutcome = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer sois le W ou L.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré sois le W ou L.`) 
     .setFooter("Erreur : errorArgsOutcome");
 
     if (checkArgsOutcome == undefined) return message.channel.send(errorArgsOutcome) | consoleLog(`ERROR : errorArgsOutcome`, NaN, infoUser);

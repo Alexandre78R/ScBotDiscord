@@ -126,6 +126,7 @@ function checkMaintenance (message, command, infoUser) {
                 return false;
         }
     
+        console.log('stattus check', checkMaintenanceStatus)
         if (checkMaintenanceStatus == true){
     
             return true;

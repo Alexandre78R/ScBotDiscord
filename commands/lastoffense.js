@@ -121,10 +121,6 @@ function lastoffense (message) {
     var statutcommand = checkMaintenance (message, "lastoffense", infoUser);
     if(statutcommand == false) return;
 
-
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser);
-    if (checkPerm == false) return;
-
     processRequest(message, infoUser);
 }
 

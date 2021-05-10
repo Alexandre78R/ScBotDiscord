@@ -233,11 +233,6 @@ function upoffense (message) {
     var statutcommand = checkMaintenance (message, "upoffense", infoUser);
     if(statutcommand == false) return;
 
-
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser);
-    if (checkPerm == false) return;
-
-
     var tiret = 0;
 
     var checkMessageContent = message.content.split(" ");
@@ -252,7 +247,7 @@ function upoffense (message) {
     let errorArgsTiretInferior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer assez de tiret !`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré assez de tiret !`) 
     .setFooter("Erreur : errorArgsTiretInferior");
 
     if (tiret < 3) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
@@ -260,7 +255,7 @@ function upoffense (message) {
     let errorArgsTiretSuperior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous avez rentrer trop de tiret !`) 
+    .setDescription(`:x: ${infoUser.username}, vous avez entré trop de tiret !`) 
     .setFooter("Erreur : errorArgsTiretSuperior");
 
     if (tiret > 3) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser);
@@ -281,7 +276,7 @@ function upoffense (message) {
     let errorArgsDefenseMonstersUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré de team défense.`) 
     .setFooter("Erreur : errorArgsDefenseMonstersUndefined");
 
     if (checkDefenseMonsters == undefined) return message.channel.send(errorArgsDefenseMonstersUndefined) | consoleLog(`ERROR : errorArgsDefenseMonstersUndefined`, NaN, infoUser);
@@ -291,7 +286,7 @@ function upoffense (message) {
     let errorArgsDefenseEmptyBoard = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré de team défense.`) 
     .setFooter("Erreur : errorArgsDefenseEmptyBoard");
 
     if (defenseMonsters.length == 0) return message.channel.send(errorArgsDefenseEmptyBoard) | consoleLog(`ERROR : errorArgsDefenseEmptyBoard`, NaN, infoUser);
@@ -301,7 +296,7 @@ function upoffense (message) {
     let errorArgsOutcome = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer sois le W ou L.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré sois le W ou L.`) 
     .setFooter("Erreur : errorArgsOutcome");
 
     if (outcome == "") return message.channel.send(errorArgsOutcome) | consoleLog(`ERROR : errorArgsOutcome`, NaN, infoUser);
@@ -311,7 +306,7 @@ function upoffense (message) {
     let errorIdBattle = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer sois le W ou L.`) 
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré sois le W ou L.`) 
     .setFooter("Erreur : errorIdBattle");
 
     if (idBattle == "") return message.channel.send(errorIdBattle) | consoleLog(`ERROR : errorIdBattle`, NaN, infoUser);
@@ -321,7 +316,7 @@ function upoffense (message) {
     let errorIdBattleNotFormat = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Resultat incorrect  :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous avez rentrez une farmat d'id incorrect.`) 
+    .setDescription(`:x: ${infoUser.username}, vous avez entré une farmat d'id incorrect.`) 
     .setFooter("Erreur : errorIdBattle");
 
     if (checkNumperIdBattle == "Not a Number!") return message.channel.send(errorIdBattleNotFormat) | consoleLog(`ERROR : errorIdBattleNotFormat`, NaN, infoUser);

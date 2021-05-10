@@ -138,10 +138,6 @@ function deloffense (message) {
     var statutcommand = checkMaintenance (message, "deloffense", infoUser);
     if(statutcommand == false) return;
 
-
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser);
-    if (checkPerm == false) return;
-
     // Récupération des arguments après la commandes
     let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);
@@ -149,7 +145,7 @@ function deloffense (message) {
     const argumentUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Argument introuvable  :x:`)
-    .setDescription(`:x: ${infoUser.username}, impossible vous n'avez pas renter d'argument à coter de la commande !`)
+    .setDescription(`:x: ${infoUser.username}, impossible vous n'avez pas entré d'argument à coter de la commande !`)
     .setFooter("Erreur : argumentUndefined");
 
     if (args[0] == undefined) return message.channel.send(argumentUndefined) | consoleLog(`ERROR : argumentUndefined`, NaN, infoUser);
@@ -159,7 +155,7 @@ function deloffense (message) {
     const noNumberValue = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Argument introuvable  :x:`)
-    .setDescription(`:x: ${infoUser.username}, merci de rentrer un vrais id !`)
+    .setDescription(`:x: ${infoUser.username}, merci de entré un vrais id !`)
     .setFooter("Erreur : noNumberValue");
 
     if (checkArgsNum == "Not a Number!") return message.channel.send(noNumberValue) | consoleLog(`ERROR : noNumberValue`, NaN, infoUser);
