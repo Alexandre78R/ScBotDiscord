@@ -47,7 +47,10 @@ function help (message){
         { name: `${config.discord.prefix}sb`, value: `${config.discord.prefix}help sb`, inline: true },
         { name: `${config.discord.prefix}mystats`, value: `${config.discord.prefix}help mystats`, inline: true },
         { name: `${config.discord.prefix}mycontrib`, value: `${config.discord.prefix}help mycontrib`, inline: true },
-        { name: `${config.discord.prefix}playerstats`, value: `${config.discord.prefix}help playerstats`, inline: true }
+        { name: `${config.discord.prefix}playerstats`, value: `${config.discord.prefix}help playerstats`, inline: true },
+        { name: `${config.discord.prefix}lastoffense`, value: `${config.discord.prefix}help lastoffense`, inline: true },
+        { name: `${config.discord.prefix}deloffense`, value: `${config.discord.prefix}help deloffense`, inline: true },
+        { name: `${config.discord.prefix}upoffense`, value: `${config.discord.prefix}help upoffense`, inline: true }
     )
     .setFooter(`Tapez ${config.discord.prefix}help + le nom de la commandes pour avoir plus d'information !`);
 
