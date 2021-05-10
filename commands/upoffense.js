@@ -11,9 +11,206 @@ const Discord = require("discord.js");
 const checkRolePerm = require('../function/checkRolePerm.js');
 
 //Function checkMaintenance 
-const checkMaintenance = require('../function/checkMaintenance.js')
+const checkMaintenance = require('../function/checkMaintenance.js');
 
-const userInfo = require('../function/userinfo.js')
+//Import function userInfo
+const userInfo = require('../function/userinfo.js');
+
+//Import function checkNummer
+const checkNumber = require('../function/checkNumber.js');
+
+//Import mmonster query
+const sqlMonster = require("../query/monster.js");
+
+//Import user query
+const sqlUser = require("../query/user.js");
+
+//Import battle query
+const sqlBattle = require("../query/battle.js");
+
+async function checkUserId(message, infoUser) {
+    var result = await sqlUser.checkUserId(message, infoUser);
+    if (!result) {
+        const noPermUserSC = new Discord.MessageEmbed()
+        .setColor("#F00E0E")
+        .setTitle(`:x: Permission refuser :x:`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setFooter("Erreur : noPermUserSC");
+        message.channel.send(noPermUserSC);
+        return "invalid";
+    } else {
+        return result;
+    }
+}
+
+async function listBattleLastoffense (userId, infoUser, message) {
+    var result = await sqlBattle.dataTableLastoffense(userId)
+    // result = []
+        if (result[0].length == 0) {
+        const battleUndefined = new Discord.MessageEmbed()
+        .setColor("#F00E0E")
+        .setTitle(`:x: Résultat incorrect :x:`)
+        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
+        .setFooter("Erreur : battleUndefined");
+        message.channel.send(battleUndefined)
+        return "invalid";
+    } else {
+        return result;
+    }
+}
+
+async function checkValueIdTable (valueId, listBattle, infoUser, message) {
+    // console.log("ValueID", valueId)
+    var newTabId = []
+    for (let i = 0; i < listBattle[0].length; i++) {
+        newTabId.push(`${listBattle[0][i].id}`);
+    }
+    console.log("newTabId", newTabId)
+    if (newTabId.indexOf(valueId) == -1){
+        const valueIdNotFound = new Discord.MessageEmbed()
+        .setColor("#F00E0E")
+        .setTitle(`:x: Résultat incorrect :x:`)
+        .setDescription(`:x: ${infoUser.username}, impossible on n'a pas trouver cette id ou sois vous n'avez pas accès à la battle de cette id !`)
+        .setFooter("Erreur : valueIdNotFound");
+        message.channel.send(valueIdNotFound)
+        return "invalid";
+        
+    } else {
+        return true;
+    }
+}
+
+async function checkTeam (team, side, message, infoUser) {
+    var result = await sqlMonster.checkNameValidity(team, infoUser);
+
+    if (!result.status) {
+        if (result.code == 1){
+            let nameValidityResultCode1Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, un ou plusieurs monstres en ${side} n'existent pas dans la base de donnée !`)
+                .setFooter("Erreur : nameValidityResultCode1Error");
+            message.channel.send(nameValidityResultCode1Error);
+            consoleLog(`ERROR : nameValidityResultCode1Error`, NaN, infoUser);
+            return "invalid";
+        } else if (result.code == 2){
+            let nameValidityResultCode2Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, un ou plusieurs monstres en ${side} n'existent pas dans la base de donnée !`)
+                .setFooter("Erreur : nameValidityResultCode2Error");
+            message.channel.send(nameValidityResultCode2Error);
+            consoleLog(`ERROR : nameValidityResultCode2Error`, NaN, infoUser);
+            return "invalid";
+        } else if (result.code == 3){
+            let nameValidityResultCode3Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 nom de monstre dans votre ${side} !`)
+                .setFooter("Erreur : nameValidityResultCode3Error");
+            message.channel.send(nameValidityResultCode3Error);
+            consoleLog(`ERROR : nameValidityResultCode3Error`, NaN, infoUser);
+            return "invalid";
+        }
+    } else {
+        console.log('result status', result.status);
+        return result.status;
+    }
+}
+
+async function checkOutcome (outcome, message, infoUser) {
+    if (outcome == "L") {
+        return false;
+    } else if (outcome == "W") {
+        return true;
+    } else {
+        let outcomeValidityError = new Discord.MessageEmbed()
+            .setColor("#F00E0E")
+            .setTitle(`:x: Résultat incorrect  :x:`)
+            .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la defaite est accepter.`)
+            .setFooter("Erreur : outcomeValidityError");
+        message.channel.send(outcomeValidityError);
+        consoleLog(`ERROR : outcomeValidityError`, NaN, infoUser);
+        return "invalid";
+    }
+}
+
+async function upBattleData (monsterOffenseId, monsterDefenseId, outComeId, valueId, infoUser) {
+    return await sqlBattle.upBattleData(monsterOffenseId, monsterDefenseId, outComeId, valueId, infoUser);
+}
+
+async function processRequest (offense, defense, outcome, valueId, message, infoUser) {
+
+    const userId = await checkUserId(message, infoUser);
+
+    if (userId != "invalid") {
+
+        // console.log('userId', userId);
+
+        const listBattle = await listBattleLastoffense(userId, infoUser, message);
+
+        if(listBattle != "invalid"){
+
+            // console.log('listBattle', listBattle);
+
+            const checkValue = await checkValueIdTable(valueId, listBattle, infoUser, message);
+
+            if(checkValue != "invalid"){
+
+                // console.log("checkValue --->", checkValue);
+                
+                const monsterOffenseId = await checkTeam(offense, "offense", message, infoUser);
+
+                if (monsterOffenseId != "invalid") {
+
+                    // console.log('monsterOffenseID', monsterOffenseId);
+                    
+                    const monsterDefenseId = await checkTeam(defense, "defense", message, infoUser);
+
+                    if (monsterDefenseId != "invalid") {
+
+                        // console.log('mosnterDefenseId', monsterDefenseId);
+
+                        const outComeId = await checkOutcome(outcome, message, infoUser);
+                
+                        if (outComeId != "invalid") {
+
+                            // console.log("outComeId", outComeId);
+
+                            const success = await upBattleData(monsterOffenseId, monsterDefenseId, outComeId, valueId, infoUser);
+
+                            if (success) {
+
+                                let upOffenseDefense = new Discord.MessageEmbed()
+                                    .setColor("#01E007")
+                                    .setTitle(`:white_check_mark: Super :white_check_mark:`)
+                                    .setDescription(`:tada: ${message.author.username}, La modification pour l'offense ${valueId} à bien était éffectué dans notre base de données.`);
+                                message.channel.send(upOffenseDefense);
+                                
+                                var upOffense = {
+                                    offense : offense,
+                                    defense : defense,
+                                    outcome : outcome,
+                                }
+                                consoleLog(`OK : upOffenseDefense`, upOffense, infoUser);
+
+                            } else {
+
+                                let inaccessibilityError = new Discord.MessageEmbed()
+                                    .setColor("#F00E0E")
+                                    .setTitle(`:x: Impossible d'envoyer les données  :x:`)
+                                    .setDescription(`:x:  ${infoUser.username}, il  semblerait que nous rencontrions des problémes, passe nous revoir un peu plus tard ;)`)
+                                    .setFooter("Erreur : DB Inaccessible");
+                                message.channel.send(inaccessibilityError);
+                                consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 function upoffense (message) {
 
@@ -40,7 +237,97 @@ function upoffense (message) {
     var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser);
     if (checkPerm == false) return;
 
-    message.channel.send("command upoffense");
+
+    var tiret = 0;
+
+    var checkMessageContent = message.content.split(" ");
+
+    console.log('checkMessageContent', checkMessageContent)
+    for (let i = 0; i < checkMessageContent.length; i++) {
+        if (checkMessageContent[i] === "-"){
+            tiret++;
+        }
+    }
+
+    let errorArgsTiretInferior = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer assez de tiret !`) 
+    .setFooter("Erreur : errorArgsTiretInferior");
+
+    if (tiret < 3) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
+   
+    let errorArgsTiretSuperior = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous avez rentrer trop de tiret !`) 
+    .setFooter("Erreur : errorArgsTiretSuperior");
+
+    if (tiret > 3) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser);
+
+    let messageArray = message.content.split("-");
+    let offenseMonsters = messageArray[0].split(" ").slice(1).filter(Boolean);
+
+    let errorArgsOffenseMonsters = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team pour l'offense.`) 
+    .setFooter("Erreur : errorArgsOffenseMonsters");
+
+    if (offenseMonsters.length == 0) return message.channel.send(errorArgsOffenseMonsters) | consoleLog(`ERROR : errorArgsOffenseMonsters`, NaN, infoUser);
+
+    let checkDefenseMonsters = messageArray[1]
+
+    let errorArgsDefenseMonstersUndefined = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setFooter("Erreur : errorArgsDefenseMonstersUndefined");
+
+    if (checkDefenseMonsters == undefined) return message.channel.send(errorArgsDefenseMonstersUndefined) | consoleLog(`ERROR : errorArgsDefenseMonstersUndefined`, NaN, infoUser);
+
+    let defenseMonsters = messageArray[1].split(" ").filter(Boolean);
+
+    let errorArgsDefenseEmptyBoard = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer de team défense.`) 
+    .setFooter("Erreur : errorArgsDefenseEmptyBoard");
+
+    if (defenseMonsters.length == 0) return message.channel.send(errorArgsDefenseEmptyBoard) | consoleLog(`ERROR : errorArgsDefenseEmptyBoard`, NaN, infoUser);
+
+    let outcome = messageArray[2].trim().toUpperCase();
+
+    let errorArgsOutcome = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer sois le W ou L.`) 
+    .setFooter("Erreur : errorArgsOutcome");
+
+    if (outcome == "") return message.channel.send(errorArgsOutcome) | consoleLog(`ERROR : errorArgsOutcome`, NaN, infoUser);
+
+    let idBattle = messageArray[3].trim();
+
+    let errorIdBattle = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer sois le W ou L.`) 
+    .setFooter("Erreur : errorIdBattle");
+
+    if (idBattle == "") return message.channel.send(errorIdBattle) | consoleLog(`ERROR : errorIdBattle`, NaN, infoUser);
+
+    var checkNumperIdBattle = checkNumber(idBattle);
+
+    let errorIdBattleNotFormat = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous avez rentrez une farmat d'id incorrect.`) 
+    .setFooter("Erreur : errorIdBattle");
+
+    if (checkNumperIdBattle == "Not a Number!") return message.channel.send(errorIdBattleNotFormat) | consoleLog(`ERROR : errorIdBattleNotFormat`, NaN, infoUser);
+
+    //V�rifier la validit� des noms des monstres
+    processRequest(offenseMonsters, defenseMonsters, outcome, idBattle, message, infoUser);
 }
 
 //Module export

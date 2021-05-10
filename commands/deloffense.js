@@ -41,11 +41,11 @@ async function checkUserId (message, infoUser) {
 async function listBattleLastoffense (userId, infoUser, message) {
     var result = await sqlBattle.dataTableLastoffense(userId)
     // result = []
-    if (result.length == 0) {
+    if (result[0].length == 0) {
         const battleUndefined = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Résultat incorrect :x:`)
-        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense !`)
+        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
         .setFooter("Erreur : battleUndefined");
         message.channel.send(battleUndefined)
         return "invalid";

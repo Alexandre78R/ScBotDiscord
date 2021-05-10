@@ -52,6 +52,8 @@ function help (message){
     .setFooter(`Tapez ${config.discord.prefix}help + le nom de la commandes pour avoir plus d'information !`);
 
     if (notCommand == undefined) return message.channel.send(notCommandEmbed) | consoleLog("OK : notCommandEmbed", NaN, infoUser);
+    
+    notCommand = notCommand.toLowerCase();
 
     switch (notCommand) {
 
@@ -103,6 +105,36 @@ function help (message){
             .setFooter(`Aide : ${config.discord.prefix}${notCommand} [idDiscord/TagDiscord] \n Ex : ${config.discord.prefix}${notCommand} Alexandre78R#7666 ou ${config.discord.prefix}${notCommand} 272712335284502529`);
             message.channel.send(helpCommandPlayerStats);
             consoleLog("OK : helpCommandPlayerStats", NaN, infoUser);
+        break;
+
+        case "lastoffense":
+            let helpCommandLastOffense = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet d'afficher la liste des offenses des dernières 24h.`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand}`);
+            message.channel.send(helpCommandLastOffense);
+            consoleLog("OK : helpCommandLastOffense", NaN, infoUser);
+        break;
+
+        case "deloffense":
+            let helpCommandDelOffense = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet de supprimer une offense avec un id récupérable avec la commade : ${config.discord.prefix}lastoffense .`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [idOffense] \n Ex : ${config.discord.prefix}${notCommand} 1`);
+            message.channel.send(helpCommandDelOffense);
+            consoleLog("OK : helpCommandDelOffense", NaN, infoUser);
+        break;
+
+        case "upoffense":
+            let helpCommandUpOffense = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet de modifier votre offense pour une defense dans notre base de données. L'id se récupère avec la commande ${config.discord.prefix}lastoffense !`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobOffense] [2NameMobOffense] [3NameMobOffense] - [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense] - [W/L] - [idOffense]\n Ex : ${config.discord.prefix}${notCommand} galion tiana poseidon - khmun orion savannah - W - 1`);
+            message.channel.send(helpCommandUpOffense);
+            consoleLog("OK : helpCommandUpOffense", NaN, infoUser);
         break;
 
         default:

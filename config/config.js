@@ -24,9 +24,9 @@ module.exports = {
             "stats": false,
             "test": true,
             "playerstats": true,
-            "lastoffense": false,
-            "deloffense": false,
-            "upoffense": false
+            "lastoffense": true,
+            "deloffense": true,
+            "upoffense": true
         },
         "roles_id": {
             "DEV": environment.roles_id.DEV,

@@ -27,6 +27,17 @@ function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, i
     });
 }
 
+function upBattleData(monsterOffenseId, monsterDefenseId, outComeId, valueId, infoUser) {
+    return knex('battle').where('id', '=', valueId).update({ result : outComeId, offense_id : monsterOffenseId, defense_id: monsterDefenseId}).then(results => {
+        // console.log('results', results);
+        if (results == 1) {
+            return true;
+        } else{
+            return false;
+        }
+    });
+}
+
 function populateOffenseWinRate(offense, defense) {
     return knex.from('battle').where({ defense_id: defense, offense_id: offense }).pluck('result').then(results => {
         let winCount = 0;
@@ -203,4 +214,5 @@ module.exports.dataTableLastoffense = dataTableLastoffense;
 module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
 module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;
+module.exports.upBattleData = upBattleData;
 module.exports.datatableDefense = datatableDefense;

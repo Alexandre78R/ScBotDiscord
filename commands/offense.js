@@ -132,7 +132,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
                             offense : offense,
                             defense : defense,
                             outcome : outcome,
-                        }
+                        };
                         consoleLog(`OK : NewOffense`, newOffense, infoUser);
 
                     } else {
