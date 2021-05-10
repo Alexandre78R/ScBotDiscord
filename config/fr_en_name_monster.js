@@ -63,6 +63,6 @@ module.exports = {
         "Homunculus Lumiere": 'Homunculus - Support (Light)',
         "Homunculus Ténèbre": 'Homunculus - Support (Dark)',
         "Homunculus Tenebre": 'Homunculus - Support (Dark)',
-        "kona" : "Konamiya", 
+        "Kona" : "Konamiya", 
     }
 }
