@@ -22,9 +22,9 @@ async function checkUserId (message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
     } else {
         return result;
@@ -32,7 +32,7 @@ async function checkUserId (message, infoUser) {
 }
 
 async function listBattleMyUser (userId, infoUser) {
-    var result = await sqlBattle.dataTableByUser(userId)
+    var result = await sqlBattle.dataTableByUser(userId);
     if (!result) {
         return "invalid";
     } else {
@@ -102,7 +102,7 @@ async function processRequest (message, infoUser){
             let inaccessibilityListBattleError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-            .setDescription(`:x: ${infoUser.username}, il semblerait que nous rencontrions des problèmes, passe nous revoir un peu plus tard...`)
+            .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande ${config.discord.prefix}offense.`)
             .setFooter("Erreur : inaccessibilityListBattleError")
             message.channel.send(inaccessibilityListBattleError)
             consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)

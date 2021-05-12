@@ -7,9 +7,6 @@ const consoleLog = require("../function/consoleLog.js")
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
-//Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
-
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js')
 
@@ -27,9 +24,9 @@ async function checkUserId (message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
     } else {
         return result;
@@ -46,7 +43,7 @@ async function listBattleLastoffense (userId, infoUser, message) {
         .setTitle(`:x: Résultat incorrect :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
         .setFooter("Erreur : battleUndefined");
-        message.channel.send(battleUndefined)
+        message.channel.send(battleUndefined);
         return "invalid";
     } else {
         return result;
@@ -60,7 +57,7 @@ function buildSuccessfulMessage(results, infoUser) {
         const battleUndefinedBuildMessage = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense !`)
+        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commande ${config.discord.prefix}offense !`)
         .setFooter("Erreur : battleUndefinedBuildMessage");
         return battleUndefinedBuildMessage;
     } else {
@@ -94,8 +91,8 @@ async function processRequest (message, infoUser){
 
         if(listBattle != "invalid"){
 
-            const successfulMessage = buildSuccessfulMessage(listBattle, infoUser)
-            message.channel.send(successfulMessage)
+            const successfulMessage = buildSuccessfulMessage(listBattle, infoUser);
+            message.channel.send(successfulMessage);
         }
     }
 }

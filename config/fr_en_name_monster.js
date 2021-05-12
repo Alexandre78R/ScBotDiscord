@@ -64,6 +64,10 @@ module.exports = {
         "Homunculus Ténèbre": 'Homunculus - Support (Dark)',
         "Homunculus Tenebre": 'Homunculus - Support (Dark)',
         "Kona" : "Konamiya", 
-        "Tesa": "Tesarion"
+        "Tesa" : "Tesarion", 
+        "Theo" : "Theomars",
+        "Théo" : "Theomars",
+        "Théomars" : "Theomars",
+        "Zairos" : "Zaiross"
     }
 }

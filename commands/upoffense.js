@@ -7,9 +7,6 @@ const consoleLog = require("../function/consoleLog.js")
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
-//Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
-
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js');
 
@@ -34,7 +31,7 @@ async function checkUserId(message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
         message.channel.send(noPermUserSC);
         return "invalid";
@@ -44,7 +41,7 @@ async function checkUserId(message, infoUser) {
 }
 
 async function listBattleLastoffense (userId, infoUser, message) {
-    var result = await sqlBattle.dataTableLastoffense(userId)
+    var result = await sqlBattle.dataTableLastoffense(userId);
     // result = []
         if (result[0].length == 0) {
         const battleUndefined = new Discord.MessageEmbed()
@@ -52,7 +49,7 @@ async function listBattleLastoffense (userId, infoUser, message) {
         .setTitle(`:x: Résultat incorrect :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
         .setFooter("Erreur : battleUndefined");
-        message.channel.send(battleUndefined)
+        message.channel.send(battleUndefined);
         return "invalid";
     } else {
         return result;
@@ -72,7 +69,7 @@ async function checkValueIdTable (valueId, listBattle, infoUser, message) {
         .setTitle(`:x: Résultat incorrect :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible on n'a pas trouver cette id ou sois vous n'avez pas accès à la battle de cette id !`)
         .setFooter("Erreur : valueIdNotFound");
-        message.channel.send(valueIdNotFound)
+        message.channel.send(valueIdNotFound);
         return "invalid";
         
     } else {
@@ -106,7 +103,7 @@ async function checkTeam (team, side, message, infoUser) {
             let nameValidityResultCode3Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Noms incorrects :x:`)
-                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 nom de monstre dans votre ${side} !`)
+                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 noms de monstre dans votre ${side} !`)
                 .setFooter("Erreur : nameValidityResultCode3Error");
             message.channel.send(nameValidityResultCode3Error);
             consoleLog(`ERROR : nameValidityResultCode3Error`, NaN, infoUser);
@@ -127,7 +124,7 @@ async function checkOutcome (outcome, message, infoUser) {
         let outcomeValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Résultat incorrect  :x:`)
-            .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la defaite est accepter.`)
+            .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la défaite est accepter.`)
             .setFooter("Erreur : outcomeValidityError");
         message.channel.send(outcomeValidityError);
         consoleLog(`ERROR : outcomeValidityError`, NaN, infoUser);
@@ -184,13 +181,13 @@ async function processRequest (offense, defense, outcome, valueId, message, info
                                 let upOffenseDefense = new Discord.MessageEmbed()
                                     .setColor("#01E007")
                                     .setTitle(`:white_check_mark: Super :white_check_mark:`)
-                                    .setDescription(`:tada: ${message.author.username}, La modification pour l'offense ${valueId} à bien était éffectué dans notre base de données.`);
+                                    .setDescription(`:tada: ${message.author.username}, La modification pour l'offense n°${valueId} à bien était effectué dans notre base de données.`);
                                 message.channel.send(upOffenseDefense);
                                 
                                 var upOffense = {
                                     offense : offense,
                                     defense : defense,
-                                    outcome : outcome,
+                                    outcome : outcome
                                 }
                                 consoleLog(`OK : upOffenseDefense`, upOffense, infoUser);
 
@@ -199,7 +196,7 @@ async function processRequest (offense, defense, outcome, valueId, message, info
                                 let inaccessibilityError = new Discord.MessageEmbed()
                                     .setColor("#F00E0E")
                                     .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-                                    .setDescription(`:x:  ${infoUser.username}, il  semblerait que nous rencontrions des problémes, passe nous revoir un peu plus tard ;)`)
+                                    .setDescription(`:x:  ${infoUser.username}, il semblerait que nous rencontrions des problémes, passe nous revoir un peu plus tard ;)`)
                                     .setFooter("Erreur : DB Inaccessible");
                                 message.channel.send(inaccessibilityError);
                                 consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser);
@@ -323,6 +320,7 @@ function upoffense (message) {
 
     //V�rifier la validit� des noms des monstres
     processRequest(offenseMonsters, defenseMonsters, outcome, idBattle, message, infoUser);
+    
 }
 
 //Module export

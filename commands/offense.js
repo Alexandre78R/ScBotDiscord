@@ -46,7 +46,7 @@ async function checkTeam(team, side, message, infoUser) {
             let nameValidityResultCode3Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Noms incorrects :x:`)
-                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 nom de monstre dans votre ${side} !`)
+                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 noms de monstre dans votre ${side} !`)
                 .setFooter("Erreur : nameValidityResultCode3Error");
             message.channel.send(nameValidityResultCode3Error);
             consoleLog(`ERROR : nameValidityResultCode3Error`, NaN, infoUser);
@@ -67,7 +67,7 @@ async function checkOutcome(outcome, message, infoUser) {
         let outcomeValidityError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Résultat incorrect  :x:`)
-            .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la defaite est accepter.`)
+            .setDescription(`:x: ${infoUser.username}, seul 'W' pour la victoire et 'L' pour la défaite est accepter.`)
             .setFooter("Erreur : outcomeValidityError");
         message.channel.send(outcomeValidityError);
         consoleLog(`ERROR : outcomeValidityError`, NaN, infoUser);
@@ -81,7 +81,7 @@ async function checkUserId(message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
         message.channel.send(noPermUserSC);
         return "invalid";
@@ -140,8 +140,8 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
                         //Unlikely outcome but just in case DB is inaccessible
                         let inaccessibilityError = new Discord.MessageEmbed()
                             .setColor("#F00E0E")
-                            .setTitle(`:x: Impossible d'envoyer les donn�es  :x:`)
-                            .setDescription(`:x:  ${infoUser.username}, il  semblerait que nous rencontrions des probl�mes, passe nous revoir un peu plus tard ;)`)
+                            .setTitle(`:x: Impossible d'envoyer les données  :x:`)
+                            .setDescription(`:x:  ${infoUser.username}, il  semblerait que nous rencontrions des problèmes, passe nous revoir un peu plus tard ;)`)
                             .setFooter("Erreur : DB Inaccessible");
                         message.channel.send(inaccessibilityError);
                         consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser);
@@ -164,20 +164,19 @@ function offense(message) {
     if (message.length == 1) {
         if (message[0].charAt(0) == config.prefix)
             message[0] = message[0].slice(1);
-
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/offense.js", message);
     
-    var statutcommand = checkMaintenance (message, "offense", infoUser)
+    var statutcommand = checkMaintenance (message, "offense", infoUser);
     if(statutcommand == false) return;
 
     var tiret = 0;
 
     var checkMessageContent = message.content.split(" ");
 
-    console.log('checkMessageContent', checkMessageContent)
+    console.log('checkMessageContent', checkMessageContent);
     for (let i = 0; i < checkMessageContent.length; i++) {
         if (checkMessageContent[i] === "-"){
             tiret++;

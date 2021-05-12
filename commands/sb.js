@@ -27,9 +27,9 @@ async function checkUserId (message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
 
     } else {
@@ -44,9 +44,9 @@ async function checkTeam(team, side, message, infoUser) {
             .setColor("#F00E0E")
             .setTitle(`:x: Noms incorrects  :x:`)
             .setDescription(`:x: ${infoUser.username}, un ou plusieurs monstres en ${side} n'existent pas dans la base de données.`)
-            .setFooter("Erreur : nameValidityError")
-        message.channel.send(nameValidityError)
-        consoleLog(`ERROR : nameValidityError`, NaN, infoUser)
+            .setFooter("Erreur : nameValidityError");
+        message.channel.send(nameValidityError);
+        consoleLog(`ERROR : nameValidityError`, NaN, infoUser);
         return "invalid";
     } else {
         return result.status;
@@ -58,9 +58,9 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         const defenseNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: ${infoUser.username}, désoler on n'a pas d'offense pour cette défense : ${defense[0]} ${defense[1]} ${defense[2]}...`)
-        .setFooter("Erreur : defenseNotFound")
-        consoleLog(`ERROR : defenseNotFound`, NaN, infoUser)
+        .setDescription(`:x: ${infoUser.username}, désolé on n'a pas d'offense pour cette défense : ${defense[0]} ${defense[1]} ${defense[2]}...`)
+        .setFooter("Erreur : defenseNotFound");
+        consoleLog(`ERROR : defenseNotFound`, NaN, infoUser);
         return defenseNotFound;
     } else {
 
@@ -88,7 +88,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
 
         for (let n = 0; n < tabObject.length; n++) {
             if (newTabObject.length <= 15){
-                newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true })
+                newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
             }
         }
 
@@ -103,7 +103,7 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         .setTitle(`Resultat pour la defense: ${nameDefense}`)
         .setDescription(`${infoUser.username}, voici la liste des ${newTabObject.length} meilleures offenses contre la défense : ${nameDefense}`)
         .addFields(newTabObject);
-        consoleLog(`Ok : defenseEmbed`, results, infoUser)
+        consoleLog(`Ok : defenseEmbed`, results, infoUser);
         return defenseEmbed;
     } 
 }
@@ -153,13 +153,12 @@ function sb (message) {
     if (message.length == 1) {
         if (message[0].charAt(0) == config.prefix)
             message[0] = message[0].slice(1);
-
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/sb.js", message);
 
-    var statutcommand = checkMaintenance (message, "sb", infoUser)
+    var statutcommand = checkMaintenance (message, "sb", infoUser);
     if(statutcommand == false) return;
 
     //Lecture du corps du message
@@ -168,7 +167,7 @@ function sb (message) {
     let nameMob1NoteFound = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-    .setDescription(`:x: ${infoUser.username}, merci de rentrer les 3 nom de monstre pour voir la liste des offenses disponible.`)
+    .setDescription(`:x: ${infoUser.username}, merci de rentrer les 3 noms de monstre pour voir la liste des offenses disponible.`)
     .setFooter("Erreur : nameMob1NoteFound");
 
     if (defenseMonsters.length == 0) return message.channel.send(nameMob1NoteFound) | consoleLog(`ERROR : nameMob1NoteFound`, NaN, infoUser);
@@ -176,7 +175,7 @@ function sb (message) {
     let nameMob2NoteFound = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-    .setDescription(`:x: ${infoUser.username}, merci de rentrer 2 nom de monstre en plus, pour voir la liste des offenses disponible.`)
+    .setDescription(`:x: ${infoUser.username}, merci de rentrer 2 noms de monstre en plus, pour voir la liste des offenses disponible.`)
     .setFooter("Erreur : nameMob2NoteFound");
 
     if (defenseMonsters.length == 1) return message.channel.send(nameMob2NoteFound) | consoleLog(`ERROR : nameMob2NoteFound`, NaN, infoUser);

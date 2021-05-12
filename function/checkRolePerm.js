@@ -7,7 +7,7 @@ const consoleLog = require('../function/consoleLog')
 //Function check rôle discord
 function checkRolePerm (message, roleId, infoUser) {
 
-    var checkRoleDev = false
+    var checkRoleDev = false;
 
     for (const [key, value] of message.guild.members.cache) {
         if (key == infoUser.id) {
@@ -21,13 +21,13 @@ function checkRolePerm (message, roleId, infoUser) {
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refusé :x:`)
         .setDescription(`:x: Vous n'avez pas l'autorisation d'utiliser cette commande !`)
-        .setFooter("Erreur : permissionNotAllowed")
-        message.channel.send(permissionNotAllowed)
-        consoleLog(`ERROR : permissionNotAllowed`, NaN, infoUser)
+        .setFooter("Erreur : permissionNotAllowed");
+        message.channel.send(permissionNotAllowed);
+        consoleLog(`ERROR : permissionNotAllowed`, NaN, infoUser);
 
-        return false
+        return false;
     }else{
-        return true
+        return true;
     }
 }
 

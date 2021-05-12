@@ -25,9 +25,9 @@ async function checkUserId (message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
     } else {
         return result;
@@ -35,7 +35,7 @@ async function checkUserId (message, infoUser) {
 }
 
 async function listBattleMyUser (userId, infoUser) {
-    var result = await sqlBattle.dataTableByUserMyStats(userId)
+    var result = await sqlBattle.dataTableByUserMyStats(userId);
     if (result.length == 0) {
         return "invalid";
     } else {
@@ -92,18 +92,18 @@ async function processRequest (message, infoUser){
         if(listBattle != "invalid"){
 
             //Successful message
-            const successfulMessage = buildSuccessfulMessage(listBattle, infoUser)
-            message.channel.send(successfulMessage)
+            const successfulMessage = buildSuccessfulMessage(listBattle, infoUser);
+            message.channel.send(successfulMessage);
             
         }else{
 
             let inaccessibilityListBattleError = new Discord.MessageEmbed()
             .setColor("#F00E0E")
             .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-            .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande !offense.`)
-            .setFooter("Erreur : inaccessibilityListBattleError")
-            message.channel.send(inaccessibilityListBattleError)
-            consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)
+            .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande ${config.discord.prefix}offense.`)
+            .setFooter("Erreur : inaccessibilityListBattleError");
+            message.channel.send(inaccessibilityListBattleError);
+            consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser);
 
         }
     }
@@ -121,13 +121,12 @@ function mystats (message) {
     if (message.length == 1){
         if (message[0].charAt(0) == config.discord.prefix) 
             message[0] = message[0].slice(1);
-
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/mystats.js", message);
 
-    var statutcommand = checkMaintenance (message, "mystats", infoUser)
+    var statutcommand = checkMaintenance (message, "mystats", infoUser);
     if(statutcommand == false) return;
 
     processRequest(message, infoUser);

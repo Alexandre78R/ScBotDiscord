@@ -16,19 +16,21 @@ const checkMaintenance = require('../function/checkMaintenance.js');
 //Import user query
 const sqlUser = require("../query/user.js");
 
+//Import Battle query
 const sqlBattle = require("../query/battle.js");
 
+//Import function dateFormat
 var dateFormat = require("../function/dateFormat.js");
 
-async function checkUserId (message, infoUser, ) {
+async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
     } else {
         return result;
@@ -51,7 +53,7 @@ async function checkUserBdd (searchUser, message, infoUser, ) {
 }
 
 async function listBattleMyUser (userId, infoUser) {
-    var result = await sqlBattle.dataTableByUserMyStats(userId)
+    var result = await sqlBattle.dataTableByUserMyStats(userId);
     if (result.length == 0) {
         return "invalid";
     } else {
@@ -80,8 +82,8 @@ function buildSuccessfulMessage(results, objectUserSearch, infoUser) {
 
         for (let o = 0; o < tableResultOffense.length; o++) {
             var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
-            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose
-            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true })
+            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose;
+            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
         }
 
         var startDate = new Date();
@@ -110,18 +112,18 @@ async function processRequest (searchUser, message, infoUser){
                 "id" : searchUserBdd[0],
                 'usernameDiscord' : searchUserBdd[1]
             };
-            console.log('objectUser', objectUser)
+            console.log('objectUser', objectUser);
 
             //Check userId validity and return user_id
             const listBattle = await listBattleMyUser(objectUser.id, infoUser);
             
-            console.log("listBattle", listBattle)
+            console.log("listBattle", listBattle);
 
             if(listBattle != "invalid"){
 
                 //Successful message
-                const successfulMessage = buildSuccessfulMessage(listBattle, objectUser, infoUser)
-                message.channel.send(successfulMessage)
+                const successfulMessage = buildSuccessfulMessage(listBattle, objectUser, infoUser);
+                message.channel.send(successfulMessage);
                 
             }else{
 
@@ -129,9 +131,9 @@ async function processRequest (searchUser, message, infoUser){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Impossible d'envoyer les données  :x:`)
                 .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'essayer avec son id discord ou son tag discord.`)
-                .setFooter("Erreur : inaccessibilityListBattleError")
-                message.channel.send(inaccessibilityListBattleError)
-                consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)
+                .setFooter("Erreur : inaccessibilityListBattleError");
+                message.channel.send(inaccessibilityListBattleError);
+                consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser);
 
             }
         }

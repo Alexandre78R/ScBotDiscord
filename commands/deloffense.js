@@ -7,9 +7,6 @@ const consoleLog = require("../function/consoleLog.js")
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
-//Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
-
 //Function checkMaintenance 
 const checkMaintenance = require('../function/checkMaintenance.js');
 
@@ -29,9 +26,9 @@ async function checkUserId (message, infoUser) {
         const noPermUserSC = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Permission refuser :x:`)
-        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réserver aux membres de la guilde !`)
+        .setDescription(`:x: ${infoUser.username}, vous n'avez pas les permissions pour utiliser cette commande. Cette commande est réservée aux membres de la guilde !`)
         .setFooter("Erreur : noPermUserSC");
-        message.channel.send(noPermUserSC)
+        message.channel.send(noPermUserSC);
         return "invalid";
     } else {
         return result;
@@ -47,7 +44,7 @@ async function listBattleLastoffense (userId, infoUser, message) {
         .setTitle(`:x: Résultat incorrect :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
         .setFooter("Erreur : battleUndefined");
-        message.channel.send(battleUndefined)
+        message.channel.send(battleUndefined);
         return "invalid";
     } else {
         return result;
@@ -67,7 +64,7 @@ async function checkValueIdTable (valueId, listBattle, infoUser, message) {
         .setTitle(`:x: Résultat incorrect :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible on n'a pas trouver cette id ou sois vous n'avez pas accès à la battle de cette id !`)
         .setFooter("Erreur : valueIdNotFound");
-        message.channel.send(valueIdNotFound)
+        message.channel.send(valueIdNotFound);
         return "invalid";
         
     } else {
@@ -99,7 +96,7 @@ async function processRequest (valueId, message, infoUser){
                     let inaccessibilityError = new Discord.MessageEmbed()
                     .setColor("#01E007")
                     .setTitle(`:white_check_mark: Super :white_check_mark:`)
-                    .setDescription(`:tada:${message.author.username}, l'offense à bien était supprimer de notre base de donnée !`);
+                    .setDescription(`:tada:${message.author.username}, l'offense n°${valueId} à bien était supprimer de notre base de donnée !`);
                     message.channel.send(inaccessibilityError);
                     
                 } else {
