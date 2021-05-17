@@ -17,7 +17,7 @@ function checkTeamId(monsterIdList, infoUser) {
                 monster_2 : monsterIdList[1],
                 monster_3 : monsterIdList[2],
             }
-            consoleLog(`OK : alreadyTeamBdd`, ObjetTeamWhere, infoUser)
+            consoleLog(`OK : alreadyTeamBdd`, ObjetTeamWhere, infoUser);
             return idList[0];
         } else {
             return knex.insert([{ monster_lead: monsterIdList[0], monster_2: monsterIdList[1], monster_3: monsterIdList[2] }], ['id']).into('team').then(function (id) {
@@ -27,7 +27,7 @@ function checkTeamId(monsterIdList, infoUser) {
                     monster_2 : monsterIdList[1],
                     monster_3 : monsterIdList[2],
                 }
-                consoleLog(`OK : SaveTeamBdd`, ObjetTeamCreate, infoUser)
+                consoleLog(`OK : SaveTeamBdd`, ObjetTeamCreate, infoUser);
                 return id[0];
             });
         }
@@ -36,7 +36,7 @@ function checkTeamId(monsterIdList, infoUser) {
 
 function getAllMonsterId(teamId) {
     return knex.from('team').where({ id: teamId }).select('monster_lead', 'monster_2', 'monster_3').then(rows => {
-        return rows[0]
+        return rows[0];
     });
 }
 
@@ -46,7 +46,7 @@ async function getNameTeam(teamId) {
     nameTeam = await sqlMonster.getNameMonster(ids['monster_lead']);
     nameTeam += " " + await sqlMonster.getNameMonster(ids['monster_2']);
     nameTeam += " " + await sqlMonster.getNameMonster(ids['monster_3']);
-    return nameTeam
+    return nameTeam;
 }
 
 module.exports.checkTeamId = checkTeamId;

@@ -18,13 +18,17 @@ const consoleLog = require('../function/consoleLog.js');
 //Function checkMaintenance
 var checkMaintenance = require("../function/checkMaintenance.js");
 
+//Import function userInfo
 var userInfo = require("../function/userinfo.js");
 
-async function checkTeam(team, side, message, infoUser) {
+//Immport function checkMessageContent 
+var checkMessageContent = require('../function/checkMessageContent.js');
+
+async function checkTeam (team, side, message, infoUser) {
     var result = await sqlMonster.checkNameValidity(team, infoUser);
 
     if (!result.status) {
-        if (result.code == 1){
+        if (result.code == 1) {
             let nameValidityResultCode1Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Noms incorrects :x:`)
@@ -33,7 +37,7 @@ async function checkTeam(team, side, message, infoUser) {
             message.channel.send(nameValidityResultCode1Error);
             consoleLog(`ERROR : nameValidityResultCode1Error`, NaN, infoUser);
             return "invalid";
-        } else if (result.code == 2){
+        } else if (result.code == 2) {
             let nameValidityResultCode2Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Noms incorrects :x:`)
@@ -42,14 +46,41 @@ async function checkTeam(team, side, message, infoUser) {
             message.channel.send(nameValidityResultCode2Error);
             consoleLog(`ERROR : nameValidityResultCode2Error`, NaN, infoUser);
             return "invalid";
-        } else if (result.code == 3){
+        } else if (result.code == 3) {
             let nameValidityResultCode3Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Noms incorrects :x:`)
-                .setDescription(`:x: ${infoUser.username}, Merci de préciser 3 noms de monstre dans votre ${side} !`)
+                .setDescription(`:x: ${infoUser.username}, merci de préciser 3 noms de monstre dans votre ${side} !`)
                 .setFooter("Erreur : nameValidityResultCode3Error");
             message.channel.send(nameValidityResultCode3Error);
             consoleLog(`ERROR : nameValidityResultCode3Error`, NaN, infoUser);
+            return "invalid";
+        } else if (result.code == 4) {
+            let nameValidityResultCode4Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, dans votre ${side} merci de ne pas marquer le nom des monstres de la collaboration de Street Fighter mais avec leurs noms de monstres version Summoners War !`)
+                .setFooter("Erreur : nameValidityResultCode4Error");
+            message.channel.send(nameValidityResultCode4Error);
+            consoleLog(`ERROR : nameValidityResultCode4Error`, NaN, infoUser);
+            return "invalid";
+        } else if (result.code == 5) {
+            let nameValidityResultCode5Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, dans votre ${side} merci de préciser l’élément après avoir marqué Homunculus. Vous pouvez le marquer en version Anglais ou Français !`)
+                .setFooter("Erreur : nameValidityResultCode5Error");
+            message.channel.send(nameValidityResultCode5Error);
+            consoleLog(`ERROR : nameValidityResultCode5Error`, NaN, infoUser);
+            return "invalid";
+        } else {
+            let nameValidityResultCode6Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, on rencontre un problème techniques, merci de refaire votre commande… `)
+                .setFooter("Erreur : nameValidityResultCode6Error");
+            message.channel.send(nameValidityResultCode6Error);
+            consoleLog(`ERROR : nameValidityResultCode6Error`, NaN, infoUser);
             return "invalid";
         }
     } else {
@@ -102,7 +133,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
     if (monsterOffenseId != "invalid") {
 
         //Check defense monster validity and return ids
-        const monsterDefenseId = await checkTeam(defense, "defense", message, infoUser);
+        const monsterDefenseId = await checkTeam(defense, "défense", message, infoUser);
      
         if (monsterDefenseId != "invalid") {
 
@@ -152,7 +183,7 @@ async function processRequest(offense, defense, outcome, message, infoUser) {
     }
 }
 
-function offense(message) {
+function offense (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
     if (message.author.bot) return;
@@ -172,16 +203,7 @@ function offense(message) {
     var statutcommand = checkMaintenance (message, "offense", infoUser);
     if(statutcommand == false) return;
 
-    var tiret = 0;
-
-    var checkMessageContent = message.content.split(" ");
-
-    console.log('checkMessageContent', checkMessageContent);
-    for (let i = 0; i < checkMessageContent.length; i++) {
-        if (checkMessageContent[i] === "-"){
-            tiret++;
-        }
-    }
+    var verifMessage = checkMessageContent(message.content.split(" "));
 
     let errorArgsTiretInferior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -189,7 +211,7 @@ function offense(message) {
     .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré assez de tiret !`) 
     .setFooter("Erreur : errorArgsTiretInferior");
 
-    if (tiret < 2) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
+    if (verifMessage.tiret < 2) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
    
     let errorArgsTiretSuperior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -197,9 +219,9 @@ function offense(message) {
     .setDescription(`:x: ${infoUser.username}, vous avez entré trop de tiret !`) 
     .setFooter("Erreur : errorArgsTiretSuperior");
 
-    if (tiret > 2) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser);
+    if (verifMessage.tiret > 2) return message.channel.send(errorArgsTiretSuperior) | consoleLog(`ERROR : errorArgsTiretSuperior`, NaN, infoUser);
 
-    let messageArray = message.content.split("-");
+    let messageArray = verifMessage.message.split("-");
     let offenseMonsters = messageArray[0].split(" ").slice(1).filter(Boolean);
 
     let errorArgsOffenseMonsters = new Discord.MessageEmbed()

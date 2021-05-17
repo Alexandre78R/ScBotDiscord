@@ -1,12 +1,12 @@
 //Import des paramètres de connexion
 const consoleLog = require('../function/consoleLog');
-const configKnex = require('../knexfile')
+const configKnex = require('../knexfile');
 
 //Import team query
 const sqlTeam = require("./team.js");
 
 //Import monster name translation
-const translator = require("../function/name_translation.js")
+const translator = require("../function/name_translation.js");
 
 const knex = require('knex')(configKnex.development);
 
@@ -19,59 +19,78 @@ function checkNameValidity(monsterListUntreated) {
     for (var x = 0; x < monsterListUntreated.length; x++) {
         monsterListUntranslated.push(monsterListUntreated[x].charAt(0).toUpperCase() + monsterListUntreated[x].slice(1).toLowerCase());
     }
-    monsterList = translator.translateMonsterNames(monsterListUntranslated)
+    monsterList = translator.translateMonsterNames(monsterListUntranslated);
     if (monsterList.length == 3) {
         return knex.from('monster').select('nameMonster', 'id').then(rows => {
             var monsterIdList = [];
+            var monsterNameList = [];
             var invalidResult = false;
+            var invalidResultMobBlackListCollab = false;
+            var invalidResultHomunculus = false;
             var listDB = rows.map(row => [row.id, row.nameMonster]);
             monsterList.forEach(function (monster, index) {
+                console.log('monster', monster);
+                if (monster == "MobBlackListCollab") {
+                    invalidResultMobBlackListCollab = true;
+                } else if (monster == "Homunculus"){
+                    invalidResultHomunculus = true;
+                }
                 let idMonster = -1;
+                let nameMonster = -1;
                 listDB.forEach(function (dbEntry, index) {
                     if (dbEntry[1] == monster) {
                         idMonster = dbEntry[0];
-                    };
+                        nameMonster = dbEntry[1];
+                    }
                 });
                 if (idMonster == -1) {
                     invalidResult = true;
+                }else if (nameMonster == -1) {
+                    invalidResult = true;
                 } else if (invalidResult != true) {
                     monsterIdList.push(idMonster);
+                    monsterNameList.push(nameMonster);
                 }
-            })
-            if (invalidResult) {
+            });
+            if (invalidResultMobBlackListCollab) {
+                return {status : false, code : 4};
+            } else if (invalidResultHomunculus) {
+                return {status : false, code : 5};
+            } else if (invalidResult) {
                 return {status : false, code : 1};
             } else {
-                return { status : sqlTeam.checkTeamId(monsterIdList), code : 0};
+                console.log('Name Monster 3 nom de mob --> : ', monsterNameList);
+                return { status : sqlTeam.checkTeamId(monsterIdList), nameMonster : monsterNameList, code : 0};
             }
         });
     } else if (monsterList.length > 3) {
         return knex.from('monster').select('nameMonster', 'id').then(rows => {
             var monsterIdList = [];
+            var monsterNameList = [];
             var invalidResult = false;
+            var invalidResultMobBlackListCollab = false;
+            var invalidResultHomunculus = false;
             var listDB = rows.map(row => [row.id, row.nameMonster]);
             let pointerList = 0;
             monsterList.forEach(function (monster, index) {
-                console.log("monsterlist debut", monster)
+                console.log("monsterlist debut", monster);
+                if (monster == "MobBlackListCollab") {
+                    invalidResultMobBlackListCollab = true;
+                } else if (monster == "Homunculus"){
+                    invalidResultHomunculus = true;
+                }
                 let idMonster = -1;
+                let nameMonster = -1; 
                 if (pointerList <= index) {
-                    // console.log('pointerList', pointerList, 'index', index)
                     var listPotentialCandidate = [];
-                    // console.log('listPotentialCandidate avant listdb', listPotentialCandidate);
                     listDB.forEach(function (dbEntry, index) {
-        
-                        // console.log('dbEntry', dbEntry)
                         if (dbEntry[1].startsWith(monster)) {
-                            // console.log('dbEntry', dbEntry)
-                            // console.log("dbEntry[1].startsWith(monster) dans if", dbEntry[1].startsWith(monster))
                             listPotentialCandidate.push(dbEntry);
                         }
                     });
-                    // console.log('listPotentialCandidate après list db', listPotentialCandidate)
                     var maxArg = 0;
-                    //Modif d'alex par default null pour la condition 
                     var idealCandidate = null;
                     listPotentialCandidate.forEach(function (candidate, index) {
-                        // console.log('candidate', candidate)
                         if (candidate[1] == monster) {
                             if (maxArg <= 1) {
                                 maxArg = 1;
@@ -90,27 +109,35 @@ function checkNameValidity(monsterListUntreated) {
                             }
                         };
                     });
-                    //Correction du bug syntax à +3 argument de nom (A check Tzzat)
                     if(idealCandidate == null){
                         idMonster = -1;
+                        nameMonster = -1;
                         invalidResult = true;
                     }else{
                         idMonster = idealCandidate[0];
+                        nameMonster = idealCandidate[1];
                         pointerList += maxArg;
                     }
                 } else {
                     idMonster = -2;
+                    nameMonster = -2;
                 };
-                if (idMonster == -1 || monsterIdList.length > 3 || monsterIdList.includes(idMonster)) {
+                if (idMonster == -1 || nameMonster == -1 || monsterIdList.length > 3 || monsterIdList.includes(idMonster)) {
                     invalidResult = true;
                 } else if (invalidResult != true && idMonster >= 0) {
                     monsterIdList.push(idMonster);
+                    monsterNameList.push(nameMonster);
                 }
             })
-            if (invalidResult) {
+            if (invalidResultMobBlackListCollab) {
+                return {status : false, code : 4};
+            } else if (invalidResultHomunculus) {
+                return {status : false, code : 5};
+            } else if (invalidResult) {
                 return {status : false, code : 2};
             } else {
-                return { status : sqlTeam.checkTeamId(monsterIdList), code : 0};
+                console.log('NameMonster 4 nom de mob --->', monsterNameList);
+                return { status : sqlTeam.checkTeamId(monsterIdList), nameMonster : monsterNameList, code : 0};
             }
         });
     } else {

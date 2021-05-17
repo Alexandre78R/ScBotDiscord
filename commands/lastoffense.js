@@ -35,8 +35,6 @@ async function checkUserId (message, infoUser) {
 
 async function listBattleLastoffense (userId, infoUser, message) {
     var result = await sqlBattle.dataTableLastoffense(userId);
-    // console.log('test reslt ', result);
-    // result = []
     if (result[0].length == 0) {
         const battleUndefined = new Discord.MessageEmbed()
         .setColor("#F00E0E")
@@ -52,7 +50,6 @@ async function listBattleLastoffense (userId, infoUser, message) {
 
 function buildSuccessfulMessage(results, infoUser) {
 
-    // results = [];
     if (results.length == 0){
         const battleUndefinedBuildMessage = new Discord.MessageEmbed()
         .setColor("#F00E0E")
@@ -62,14 +59,11 @@ function buildSuccessfulMessage(results, infoUser) {
         return battleUndefinedBuildMessage;
     } else {
 
-        // console.log('results', results)
-
         var tableResult = results[0];
         var newTable = [];
 
         for (let i = 0; i < tableResult.length; i++) {
-            // newTable.push({ name: `Offense : ${tableResult[i].offenseName} Defense : ${tableResult[i].defenseName}`, value: tableResult[i].id, inline: true });
-            newTable.push({ name: tableResult[i].id , value: `Offense : ${tableResult[i].offenseName} \n Défense : ${tableResult[i].defenseName} \n ${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+            newTable.push({ name: `ID : ${tableResult[i].id}` , value: `Offense : ${tableResult[i].offenseName} \nDéfense : ${tableResult[i].defenseName} \n${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
         }
 
         const infoUserEmbed = new Discord.MessageEmbed()

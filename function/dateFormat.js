@@ -5,15 +5,15 @@ function dateFormat (newDate) {
     var newFormatDate = "";
 
     if(date.getDate() < 10){
-        newFormatDate += "0" + date.getDate() + "/"
+        newFormatDate += "0" + date.getDate() + "/";
     }else{
-        newFormatDate += date.getDate() + "/"
+        newFormatDate += date.getDate() + "/";
     }
 
     if(date.getMonth() <10){
         newFormatDate += "0" + (date.getMonth() + 1) + "/";
     }else{
-        newFormatDate += (date.getMonth() + 1) + "/"
+        newFormatDate += (date.getMonth() + 1) + "/";
     }
 
     newFormatDate += date.getFullYear();

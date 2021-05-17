@@ -1,6 +1,3 @@
-//Module pour stocker les infos priv�s dans un fichier .env
-require('dotenv').config()
-
 //Module export
 module.exports = {
     "monster": {
@@ -68,6 +65,25 @@ module.exports = {
         "Theo" : "Theomars",
         "Théo" : "Theomars",
         "Théomars" : "Theomars",
-        "Zairos" : "Zaiross"
+        "Zairos" : "Zaiross",
+        "Jin" : "Gin",
+        "Mugwol" : "Mookwol",
+        "RYU" : "MobBlackListCollab",
+        "Ryu" : "MobBlackListCollab",
+        "M.BISON" : "MobBlackListCollab",
+        "M.bison" : "MobBlackListCollab",
+        "M.Bison" : "MobBlackListCollab",
+        "M. BISON" : "MobBlackListCollab",
+        "M. Bison" : "MobBlackListCollab",
+        "MBISON" : "MobBlackListCollab",
+        "Mbison" : "MobBlackListCollab",
+        "MBison" : "MobBlackListCollab",
+        "M BISON" : "MobBlackListCollab",
+        "M Bison" : "MobBlackListCollab",
+        "BISON" : "MobBlackListCollab",
+        "Bison" : "MobBlackListCollab",
+        "DHALSIM" : "MobBlackListCollab",
+        "Dhalsim" : "MobBlackListCollab",
+        "Chun|li" : "MobBlackListCollab",
     }
 }

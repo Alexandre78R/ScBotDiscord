@@ -18,4 +18,4 @@ function consoleLog(desc,data,dataUser) {
 }
 
 //Module export
-module.exports = consoleLog
+module.exports = consoleLog;
