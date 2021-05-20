@@ -89,6 +89,15 @@ async function checkTeam (team, side, message, infoUser) {
             message.channel.send(nameValidityResultCode5Error);
             consoleLog(`ERROR : nameValidityResultCode5Error`, NaN, infoUser);
             return "invalid";
+        } else if (result.code == 6) {
+            let nameValidityResultCode5Error = new Discord.MessageEmbed()
+                .setColor("#F00E0E")
+                .setTitle(`:x: Noms incorrects :x:`)
+                .setDescription(`:x: ${infoUser.username}, dans votre ${side} merci de préciser le nom des monstres. Interdiction d'utiliser les noms de familles des monstres !`)
+                .setFooter("Erreur : nameValidityResultCode5Error");
+            message.channel.send(nameValidityResultCode5Error);
+            consoleLog(`ERROR : nameValidityResultCode5Error`, NaN, infoUser);
+            return "invalid";
         } else {
             let nameValidityResultCode6Error = new Discord.MessageEmbed()
                 .setColor("#F00E0E")

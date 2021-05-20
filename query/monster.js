@@ -21,13 +21,13 @@ function checkNameValidity(monsterListUntreated) {
     }
     monsterList = translator.translateMonsterNames(monsterListUntranslated);
     if (monsterList.length == 3) {
-        return knex.from('monster').select('nameMonster', 'id').then(rows => {
+        return knex.from('monster').select('nameMonster', 'id', 'idMonster').then(rows => {
             var monsterIdList = [];
             var monsterNameList = [];
             var invalidResult = false;
             var invalidResultMobBlackListCollab = false;
             var invalidResultHomunculus = false;
-            var listDB = rows.map(row => [row.id, row.nameMonster]);
+            var listDB = rows.map(row => [row.id, row.nameMonster, row.idMonster]);
             monsterList.forEach(function (monster, index) {
                 console.log('monster', monster);
                 if (monster == "MobBlackListCollab") {
@@ -37,40 +37,51 @@ function checkNameValidity(monsterListUntreated) {
                 }
                 let idMonster = -1;
                 let nameMonster = -1;
+                let idMappingMonster = -1;
                 listDB.forEach(function (dbEntry, index) {
                     if (dbEntry[1] == monster) {
                         idMonster = dbEntry[0];
                         nameMonster = dbEntry[1];
+                        idMappingMonster = dbEntry[2];
                     }
                 });
                 if (idMonster == -1) {
                     invalidResult = true;
                 }else if (nameMonster == -1) {
                     invalidResult = true;
+                }else if (idMappingMonster == -1) {
+                    invalidResult = true;
                 } else if (invalidResult != true) {
-                    monsterIdList.push(idMonster);
-                    monsterNameList.push(nameMonster);
+                    if (idMappingMonster.toString().length == 3){
+                    }else{
+                        monsterIdList.push(idMonster);
+                        monsterNameList.push(nameMonster);
+                    }
                 }
             });
             if (invalidResultMobBlackListCollab) {
                 return {status : false, code : 4};
             } else if (invalidResultHomunculus) {
                 return {status : false, code : 5};
+            } else if (monsterIdList.length < 3) {
+                return {status : false, code : 6};
             } else if (invalidResult) {
                 return {status : false, code : 1};
             } else {
                 console.log('Name Monster 3 nom de mob --> : ', monsterNameList);
+                console.log('Id Monster 3 nom de mob --> : ', monsterIdList);
                 return { status : sqlTeam.checkTeamId(monsterIdList), nameMonster : monsterNameList, code : 0};
             }
         });
     } else if (monsterList.length > 3) {
-        return knex.from('monster').select('nameMonster', 'id').then(rows => {
+        return knex.from('monster').select('nameMonster', 'id', 'idMonster').then(rows => {
             var monsterIdList = [];
             var monsterNameList = [];
             var invalidResult = false;
             var invalidResultMobBlackListCollab = false;
             var invalidResultHomunculus = false;
-            var listDB = rows.map(row => [row.id, row.nameMonster]);
+            var invalidResultNameMobFamily = false;
+            var listDB = rows.map(row => [row.id, row.nameMonster, row.idMonster]);
             let pointerList = 0;
             monsterList.forEach(function (monster, index) {
                 console.log("monsterlist debut", monster);
@@ -80,7 +91,8 @@ function checkNameValidity(monsterListUntreated) {
                     invalidResultHomunculus = true;
                 }
                 let idMonster = -1;
-                let nameMonster = -1; 
+                let nameMonster = -1;
+                let idMappingMonster = -1;
                 if (pointerList <= index) {
                     var listPotentialCandidate = [];
                     listDB.forEach(function (dbEntry, index) {
@@ -112,27 +124,37 @@ function checkNameValidity(monsterListUntreated) {
                     if(idealCandidate == null){
                         idMonster = -1;
                         nameMonster = -1;
+                        idMappingMonster = -1; 
                         invalidResult = true;
                     }else{
                         idMonster = idealCandidate[0];
                         nameMonster = idealCandidate[1];
+                        idMappingMonster = idealCandidate[2];
                         pointerList += maxArg;
                     }
                 } else {
                     idMonster = -2;
                     nameMonster = -2;
+                    idMappingMonster = -2;
                 };
-                if (idMonster == -1 || nameMonster == -1 || monsterIdList.length > 3 || monsterIdList.includes(idMonster)) {
+                console.log('idMonster', idMonster);
+                console.log('nameMonster', nameMonster);
+                console.log('idMappingMonster', idMappingMonster);
+                if (idMonster == -1 || nameMonster == -1 || idMappingMonster == -1 || monsterIdList.length > 3 || monsterIdList.includes(idMonster)) {
                     invalidResult = true;
+                } else if (idMappingMonster.toString().length == 3){
+                    invalidResultNameMobFamily = true;
                 } else if (invalidResult != true && idMonster >= 0) {
                     monsterIdList.push(idMonster);
                     monsterNameList.push(nameMonster);
                 }
-            })
+            });
             if (invalidResultMobBlackListCollab) {
                 return {status : false, code : 4};
             } else if (invalidResultHomunculus) {
                 return {status : false, code : 5};
+            } else if (invalidResultNameMobFamily) {
+                return {status : false, code : 6};
             } else if (invalidResult) {
                 return {status : false, code : 2};
             } else {

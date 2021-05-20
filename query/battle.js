@@ -131,7 +131,7 @@ async function dataTableByUser (userId){
 
     }
 
-    var  listDeffenseFrequencyByUser = await listBattleDeffenseFrequencyByUser(userId);
+    var  listDeffenseFrequencyByUser = await listBattleDeffenseFrequencyByUser(userId, 3);
 
     for (var d = 0; d < listDeffenseFrequencyByUser.length; d++) {
 
