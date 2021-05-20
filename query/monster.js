@@ -145,7 +145,8 @@ function checkNameValidity(monsterListUntreated) {
                 console.log('idMappingMonster', idMappingMonster);
                 if (idMonster == -1 || nameMonster == -1 || idMappingMonster == -1 || monsterIdList.length > 3 || monsterIdList.includes(idMonster)) {
                     invalidResult = true;
-                } else if (idMappingMonster.toString().length == 3){
+                //Id 241 = Ken le seul mob avec un id à 3 cas spécial à cause de la collab...$
+                } else if (idMappingMonster.toString().length == 3 && idMappingMonster != 241){
                     invalidResultNameMobFamily = true;
                 } else if (invalidResult != true && idMonster >= 0) {
                     monsterIdList.push(idMonster);
