@@ -39,6 +39,7 @@ function checkNameValidity(monsterListUntreated) {
                 let nameMonster = -1;
                 let idMappingMonster = -1;
                 listDB.forEach(function (dbEntry, index) {
+                    // console.log('dbEntry', dbEntry);
                     if (dbEntry[1] == monster) {
                         idMonster = dbEntry[0];
                         nameMonster = dbEntry[1];
@@ -52,7 +53,9 @@ function checkNameValidity(monsterListUntreated) {
                 }else if (idMappingMonster == -1) {
                     invalidResult = true;
                 } else if (invalidResult != true) {
-                    if (idMappingMonster.toString().length == 3){
+                    console.log('idMappingMonster.length', idMappingMonster.toString().length);
+                    //Id 241 = Ken le seul mob avec un id à 3 cas spécial à cause de la collab...
+                    if (idMappingMonster.toString().length == 3 && idMappingMonster != 241){
                     }else{
                         monsterIdList.push(idMonster);
                         monsterNameList.push(nameMonster);
@@ -63,10 +66,10 @@ function checkNameValidity(monsterListUntreated) {
                 return {status : false, code : 4};
             } else if (invalidResultHomunculus) {
                 return {status : false, code : 5};
-            } else if (monsterIdList.length < 3) {
-                return {status : false, code : 6};
             } else if (invalidResult) {
                 return {status : false, code : 1};
+            } else if (monsterIdList.length < 3) {
+                return {status : false, code : 6};
             } else {
                 console.log('Name Monster 3 nom de mob --> : ', monsterNameList);
                 console.log('Id Monster 3 nom de mob --> : ', monsterIdList);
