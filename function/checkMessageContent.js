@@ -5,30 +5,39 @@ function checkMessageContent (message) {
     var newTabMessage = [];
 
     var checkMessageContent = message;
-    // console.log('checkMessageContent', checkMessageContent);
 
-    for (let i = 0; i < checkMessageContent.length; i++) {
+    for (var i = 0; i < checkMessageContent.length; i++) {
         if (checkMessageContent[i].includes("-")){
             if (checkMessageContent[i].length == 1){
                 newTabMessage.push(checkMessageContent[i]);
                 tiret++;
             }else{
-                newTabMessage.push(checkMessageContent[i].replace('-', '|'));
+                if (checkMessageContent[i].substr(checkMessageContent[i].length-1) === "-") {
+                    let word = "";
+                    word = checkMessageContent[i].substr(0, checkMessageContent[i].length-1);
+                    newTabMessage.push(word);
+                    newTabMessage.push('-');
+                    tiret++;
+                } else if (checkMessageContent[i].substr(0, 1) === "-") {
+                    let word = "";
+                    word = checkMessageContent[i].substr(1, checkMessageContent[i].length);
+                    newTabMessage.push('-');
+                    newTabMessage.push(word);
+                    tiret++;
+                } else {
+                    newTabMessage.push(checkMessageContent[i].replace('-', '|'));
+                }
             }
         } else {
             newTabMessage.push(checkMessageContent[i]);
         }
     }
 
-    // console.log('newTabMessage', newTabMessage);
-
     var newMessageContent = "";
-    for (let n = 0; n < newTabMessage.length; n++) {
+    for (var n = 0; n < newTabMessage.length; n++) {
         newMessageContent += newTabMessage[n] + " ";
     }
-
-    // console.log("newMessageContent", newMessageContent);
-
+    
     return { "tiret" : tiret, "message" : newMessageContent};
 }
 
