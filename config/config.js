@@ -1,5 +1,5 @@
 //Import environment variable
-const environment = require("../environment.js")
+const environment = require("../environment.js");
 
 //Module export
 module.exports = {

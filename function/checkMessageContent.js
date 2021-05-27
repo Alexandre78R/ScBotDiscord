@@ -15,14 +15,14 @@ function checkMessageContent (message) {
                 if (checkMessageContent[i].substr(checkMessageContent[i].length-1) === "-") {
                     let word = "";
                     word = checkMessageContent[i].substr(0, checkMessageContent[i].length-1);
-                    newTabMessage.push(word);
+                    newTabMessage.push(word.replace('-', '|'));
                     newTabMessage.push('-');
                     tiret++;
                 } else if (checkMessageContent[i].substr(0, 1) === "-") {
                     let word = "";
                     word = checkMessageContent[i].substr(1, checkMessageContent[i].length);
                     newTabMessage.push('-');
-                    newTabMessage.push(word);
+                    newTabMessage.push(word.replace('-', '|'));
                     tiret++;
                 } else {
                     newTabMessage.push(checkMessageContent[i].replace('-', '|'));
@@ -38,6 +38,7 @@ function checkMessageContent (message) {
         newMessageContent += newTabMessage[n] + " ";
     }
     
+    console.log('New Message', newMessageContent)
     return { "tiret" : tiret, "message" : newMessageContent};
 }
 
