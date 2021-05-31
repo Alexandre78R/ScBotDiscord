@@ -24,7 +24,7 @@ const paginationEmbed = async (msg, pages) => {
 	let page = 0;
 	let helpCommandUpOffense = new Discord.MessageEmbed()
 	.setColor("#FEAC09")
-	.setTitle(`Information (Bêta test du système pagination) :`)
+	.setTitle(`Information : Bêta test du système pagination`)
 	.setDescription(`Le système de pagination s'utilise avec les réactions suivant : ⏮ ⏪ ⏩ ⏭. Information supplémentaire le système dure environ 30 minutes après ce délai les réactions seront supprimer automatiquement sur ce message et fonctionne avec juste l'utilisateur qui a effectué la commande.`);
 
 	const infoMessage = await msg.channel.send(helpCommandUpOffense); 
