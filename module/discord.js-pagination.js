@@ -19,11 +19,15 @@ const paginationEmbed = async (msg, pages) => {
 	if (!pages) return console.log('Pages are not given.');
 
 	var emojiList = ['⏮', '⏪', '⏩', '⏭'];
-
-	//1j = 86400000
-	var timeout = 86400000;
+	var timeout = 1800000;
 
 	let page = 0;
+	let helpCommandUpOffense = new Discord.MessageEmbed()
+	.setColor("#FEAC09")
+	.setTitle(`Information (Bêta test du système pagination) :`)
+	.setDescription(`Le système de pagination s'utilise avec les réactions suivant : ⏮ ⏪ ⏩ ⏭. Information supplémentaire le système dure environ 30 minutes après ce délai les réactions seront supprimer automatiquement sur ce message et fonctionne avec juste l'utilisateur qui a effectué la commande.`);
+
+	const infoMessage = await msg.channel.send(helpCommandUpOffense); 
 	const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1} / ${pages.length}`));
 
     cacheTabReactionPagination.push({
@@ -127,7 +131,7 @@ const paginationEmbed = async (msg, pages) => {
 
 	});
 
-	return curPage;
+	return infoMessage, curPage;
 };
 
 module.exports = paginationEmbed;
