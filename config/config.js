@@ -35,6 +35,7 @@ module.exports = {
             "SC3": environment.roles_id.SC3,
             "SC4": environment.roles_id.SC4,
         },
+        "id_bot": environment.id_bot,
         "channelWelcome": environment.channelWelcome
     },
     "bdd" : {

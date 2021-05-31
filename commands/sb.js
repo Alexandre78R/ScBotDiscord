@@ -24,6 +24,9 @@ var userInfo = require("../function/userinfo.js");
 //Immport function checkMessageContent 
 var checkMessageContent = require('../function/checkMessageContent.js');
 
+// Import the discord.js-pagination package
+const paginationEmbed = require('../module/discord.js-pagination.js');
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -113,7 +116,7 @@ async function checkTeam (team, side, message, infoUser) {
     }
 }
 
-function buildSuccessfulMessage(results, defense, infoUser) {
+function buildSuccessfulMessage(results, defense, message, infoUser) {
 
     console.log('BUILD MESSAGE defense ---->', defense);
     if (results.length == 0){
@@ -124,12 +127,14 @@ function buildSuccessfulMessage(results, defense, infoUser) {
         .setFooter("Erreur : defenseNotFound");
         consoleLog(`ERROR : defenseNotFound`, NaN, infoUser);
         return defenseNotFound;
+
     } else {
 
         var winrate = null;
         
         var tabObject = [];
         var newTabObject = [];
+
         results.forEach(result => {
             winrate = Math.round( result[1] * 100 / (result[1] + result[2]) * 10 ) / 10;
             if(winrate == Infinity){
@@ -149,19 +154,44 @@ function buildSuccessfulMessage(results, defense, infoUser) {
             return b.winrate - a.winrate;
         });
 
+        var pages = [];
+        var tabListTabResult = [];
+        var lengthPage = 9;
+        var countOffense = 0;
+    
         for (let n = 0; n < tabObject.length; n++) {
-            if (newTabObject.length <= 15){
-                newTabObject.push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+            if (tabListTabResult.length == 0) {
+                tabListTabResult.push([]);
+                tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                countOffense++;
+            } else {
+                if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                    countOffense++;
+                } else {
+                    tabListTabResult.push([]);
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                    countOffense++;
+                }
             }
         }
 
-        const defenseEmbed = new Discord.MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle(`Resultat pour la défense:\n${defense[0]} - ${defense[1]} - ${defense[2]}`)
-        .setDescription(`${infoUser.username}, voici la liste des ${newTabObject.length} meilleures offenses contre la défense :\n${defense[0]} ${defense[1]} ${defense[2]}`)
-        .addFields(newTabObject);
-        consoleLog(`Ok : defenseEmbed`, results, infoUser);
-        return defenseEmbed;
+        for (let i = 0; i < tabListTabResult.length; i++) {
+            console.log("tabListTabResult[i].length", tabListTabResult[i].length);
+            var exampleEmbed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`Resultat pour la défense:\n${defense[0]} ${defense[1]} ${defense[2]}`)
+            .setDescription(`${infoUser.username}, voici la liste des ${countOffense} meilleures offenses contre la défense :\n${defense[0]} ${defense[1]} ${defense[2]}`)
+            .addFields(tabListTabResult[i])
+            pages.push(exampleEmbed);
+        }
+    
+        console.log("Longeur Tab tabObject", tabObject.length);
+
+        var resultPage = paginationEmbed(message, pages);
+
+        return resultPage;
+
     } 
 }
 
@@ -192,9 +222,8 @@ async function processRequest(defense, message, infoUser) {
             } else {
                 
                 //Successful message
-                const successfulMessage = buildSuccessfulMessage(result, monsterDefenseId.nameMonster, infoUser);
-                message.channel.send(successfulMessage);
-
+                const successfulMessage = await buildSuccessfulMessage(result, monsterDefenseId.nameMonster, message, infoUser);
+                return successfulMessage;
             }
         }
     }

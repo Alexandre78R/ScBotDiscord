@@ -18,6 +18,9 @@ const sqlUser = require("../query/user.js");
 //Import battle query
 const sqlBattle = require("../query/battle.js");
 
+// Import the discord.js-pagination package
+const paginationEmbed = require('../module/discord.js-pagination.js');
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -48,7 +51,7 @@ async function listBattleLastoffense (userId, infoUser, message) {
     }
 }
 
-function buildSuccessfulMessage(results, infoUser) {
+function buildSuccessfulMessage(results, message, infoUser) {
 
     if (results.length == 0){
         const battleUndefinedBuildMessage = new Discord.MessageEmbed()
@@ -60,17 +63,39 @@ function buildSuccessfulMessage(results, infoUser) {
     } else {
 
         var tableResult = results[0];
-        var newTable = [];
+        var pages = [];
+        var tabListTabResult = [];
+        var lengthPage = 5;
 
         for (let i = 0; i < tableResult.length; i++) {
-            newTable.push({ name: `ID : ${tableResult[i].id}` , value: `Offense : ${tableResult[i].offenseName} \nDéfense : ${tableResult[i].defenseName} \n${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+            if (tabListTabResult.length == 0) {
+                tabListTabResult.push([]);
+                tabListTabResult[tabListTabResult.length-1].push({ name: `ID : ${tableResult[i].id}` , value: `Offense : ${tableResult[i].offenseName} \nDéfense : ${tableResult[i].defenseName} \n${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+            } else {
+                if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `ID : ${tableResult[i].id}` , value: `Offense : ${tableResult[i].offenseName} \nDéfense : ${tableResult[i].defenseName} \n${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+                } else {
+                    tabListTabResult.push([]);
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `ID : ${tableResult[i].id}` , value: `Offense : ${tableResult[i].offenseName} \nDéfense : ${tableResult[i].defenseName} \n${tableResult[i].result == "W" ? "Victoire" : "Perdu"}`});
+                }
+            }
         }
 
-        const infoUserEmbed = new Discord.MessageEmbed()
+        for (let i = 0; i < tabListTabResult.length; i++) {
+            console.log("tabListTabResult[i].length", tabListTabResult[i].length);
+            var exampleEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle(`Informations - ${infoUser.username} \n\n Liste des offenses entrer depuis les 24h (Max 10 par 10) :`)
-            .addFields(newTable);
-        return infoUserEmbed;
+            .addFields(tabListTabResult[i]);
+            pages.push(exampleEmbed);
+        }
+    
+        console.log("Longeur Tab tabObject", tableResult.length);
+
+        var resultPage = paginationEmbed(message, pages);
+
+        return resultPage;
+
     }
 }
 
@@ -85,8 +110,8 @@ async function processRequest (message, infoUser){
 
         if(listBattle != "invalid"){
 
-            const successfulMessage = buildSuccessfulMessage(listBattle, infoUser);
-            message.channel.send(successfulMessage);
+            const successfulMessage = await buildSuccessfulMessage(listBattle, message, infoUser);
+            return successfulMessage;
         }
     }
 }
