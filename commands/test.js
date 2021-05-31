@@ -259,7 +259,7 @@ function test (message) {
 	}
 
 	console.log("Longeur Tab Data", data.length);
-    // //1j = 86400000 
+
     paginationEmbed(message, pages);
 }
 

@@ -132,45 +132,85 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
 
         var winrate = null;
         
-        var tabObject = [];
-        var newTabObject = [];
+        var tabObjectSuperior5For100 = [];
+        var tabObjectInferior5For100 = [];
+        var tabObjectSuperior70 = [];
+        var tabObjectInferior70 = []; 
+        var tabObjectStay = [];
+        var tabObjectFinish = [];
 
         results.forEach(result => {
             winrate = Math.round( result[1] * 100 / (result[1] + result[2]) * 10 ) / 10;
-            if(winrate == Infinity){
-                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `100`});
-            } else if(winrate >= 100){
-                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `100`});
-            }else {
-                tabObject.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
-            } 
-        })
+            if (winrate == 100 && result[1] >= 5) {
+                tabObjectSuperior5For100.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+            } else if (winrate == 100 && result[1] <= 5) {
+                tabObjectInferior5For100.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+            } else if (winrate >= 70) {
+                tabObjectSuperior70.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+            } else if (winrate <= 70) {
+                tabObjectInferior70.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+            } else {
+                tabObjectStay.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+            }
+        });
 
-        tabObject.sort(function(a, b) {
+        tabObjectSuperior5For100.sort(function(a, b) {
             return b.win - a.win;
         });
         
-        tabObject.sort(function(a, b) {
+        tabObjectInferior5For100.sort(function(a, b) {
+            return b.win - a.win;
+        });
+
+        tabObjectSuperior70.sort(function(a, b) {
             return b.winrate - a.winrate;
         });
+
+        tabObjectInferior70.sort(function(a, b) {
+            return b.winrate - a.winrate;
+        });
+
+        tabObjectStay.sort(function(a, b) {
+            return b.winrate - a.winrate;
+        });
+        
+        for (let i = 0; i < tabObjectSuperior5For100.length; i++) {
+            tabObjectFinish.push(tabObjectSuperior5For100[i]);
+        }
+
+        for (let i = 0; i < tabObjectSuperior70.length; i++) {
+            tabObjectFinish.push(tabObjectSuperior70[i]);
+        }
+
+        for (let i = 0; i < tabObjectInferior5For100.length; i++) {
+            tabObjectFinish.push(tabObjectInferior5For100[i]);
+        }
+        
+        for (let i = 0; i < tabObjectInferior70.length; i++) {
+            tabObjectFinish.push(tabObjectInferior70[i]);
+        }
+
+        for (let i = 0; i < tabObjectStay.length; i++) {
+            tabObjectFinish.push(tabObjectStay[i]);
+        }
 
         var pages = [];
         var tabListTabResult = [];
         var lengthPage = 9;
         var countOffense = 0;
     
-        for (let n = 0; n < tabObject.length; n++) {
+        for (let n = 0; n < tabObjectFinish.length; n++) {
             if (tabListTabResult.length == 0) {
                 tabListTabResult.push([]);
-                tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObjectFinish[n].team}`, value: `${tabObjectFinish[n].win}/${tabObjectFinish[n].lose} (win/lose) - ${tabObjectFinish[n].winrate}% (Winrate)`, inline: true });
                 countOffense++;
             } else {
                 if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
-                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObjectFinish[n].team}`, value: `${tabObjectFinish[n].win}/${tabObjectFinish[n].lose} (win/lose) - ${tabObjectFinish[n].winrate}% (Winrate)`, inline: true });
                     countOffense++;
                 } else {
                     tabListTabResult.push([]);
-                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObject[n].team}`, value: `${tabObject[n].win}/${tabObject[n].lose} (win/lose) - ${tabObject[n].winrate}% (Winrate)`, inline: true });
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `${tabObjectFinish[n].team}`, value: `${tabObjectFinish[n].win}/${tabObjectFinish[n].lose} (win/lose) - ${tabObjectFinish[n].winrate}% (Winrate)`, inline: true });
                     countOffense++;
                 }
             }
@@ -181,12 +221,12 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
             var exampleEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle(`Resultat pour la défense:\n${defense[0]} ${defense[1]} ${defense[2]}`)
-            .setDescription(`${infoUser.username}, voici la liste des ${countOffense} meilleures offenses contre la défense :\n${defense[0]} ${defense[1]} ${defense[2]}`)
+            .setDescription(`${infoUser.username}, voici la liste des ${countOffense} offenses contre la défense :\n${defense[0]} ${defense[1]} ${defense[2]}`)
             .addFields(tabListTabResult[i])
             pages.push(exampleEmbed);
         }
     
-        console.log("Longeur Tab tabObject", tabObject.length);
+        console.log("Longeur Tab tabObjectFinish", tabObjectFinish.length);
 
         var resultPage = paginationEmbed(message, pages);
 

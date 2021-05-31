@@ -85,7 +85,7 @@ function buildSuccessfulMessage(results, message, infoUser) {
             console.log("tabListTabResult[i].length", tabListTabResult[i].length);
             var exampleEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} \n\n Liste des offenses entrer depuis les 24h (Max 10 par 10) :`)
+            .setTitle(`Informations - ${infoUser.username} \n\n Liste des offenses entrer depuis les 24h :`)
             .addFields(tabListTabResult[i]);
             pages.push(exampleEmbed);
         }
