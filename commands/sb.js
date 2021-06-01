@@ -135,8 +135,7 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
         var tabObjectSuperior5For100 = [];
         var tabObjectInferior5For100 = [];
         var tabObjectSuperior70 = [];
-        var tabObjectInferior70 = []; 
-        var tabObjectStay = [];
+        var tabObjectRest = [];
         var tabObjectFinish = [];
 
         results.forEach(result => {
@@ -147,10 +146,8 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
                 tabObjectInferior5For100.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
             } else if (winrate >= 70) {
                 tabObjectSuperior70.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
-            } else if (winrate <= 70) {
-                tabObjectInferior70.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
             } else {
-                tabObjectStay.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
+                tabObjectRest.push({team :result[0], win : result[1], lose : result[2], winrate : `${winrate.toFixed(0)}`});
             }
         });
 
@@ -166,11 +163,7 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
             return b.winrate - a.winrate;
         });
 
-        tabObjectInferior70.sort(function(a, b) {
-            return b.winrate - a.winrate;
-        });
-
-        tabObjectStay.sort(function(a, b) {
+        tabObjectRest.sort(function(a, b) {
             return b.winrate - a.winrate;
         });
         
@@ -185,13 +178,9 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
         for (let i = 0; i < tabObjectInferior5For100.length; i++) {
             tabObjectFinish.push(tabObjectInferior5For100[i]);
         }
-        
-        for (let i = 0; i < tabObjectInferior70.length; i++) {
-            tabObjectFinish.push(tabObjectInferior70[i]);
-        }
 
-        for (let i = 0; i < tabObjectStay.length; i++) {
-            tabObjectFinish.push(tabObjectStay[i]);
+        for (let i = 0; i < tabObjectRest.length; i++) {
+            tabObjectFinish.push(tabObjectRest[i]);
         }
 
         var pages = [];
