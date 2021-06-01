@@ -22,6 +22,9 @@ const sqlBattle = require("../query/battle.js");
 //Import function dateFormat
 var dateFormat = require("../function/dateFormat.js");
 
+// Import the discord.js-pagination package
+const paginationEmbed = require('../module/discord.js-pagination.js');
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -61,9 +64,8 @@ async function listBattleMyUser (userId, infoUser) {
     }
 }
 
-function buildSuccessfulMessage(results, objectUserSearch, infoUser) {
+function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
 
-    console.log("objectUserSearch dans buildSucces", objectUserSearch);
     if (results.length == 0){
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
@@ -78,22 +80,41 @@ function buildSuccessfulMessage(results, objectUserSearch, infoUser) {
         var tableResultOffense = results[1];
         var winrateTotal = Math.round( countWin * 100 / (countWin + countLose) * 10 ) / 10;
         
-        var newTableOffense = [];
-
-        for (let o = 0; o < tableResultOffense.length; o++) {
-            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
-            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose;
-            newTableOffense.push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
-        }
-
         var startDate = new Date();
         startDate.setMonth(startDate.getMonth() - 1);
 
-        const infoUserEmbed = new Discord.MessageEmbed()
+        var pages = [];
+        var tabListTabResult = [];
+        var lengthPage = 9;
+        
+        for (let o = 0; o < tableResultOffense.length; o++) {
+            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
+            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose;
+            if (tabListTabResult.length == 0) {
+                tabListTabResult.push([]);
+                tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+            } else {
+                if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
+                    tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+                } else {
+                    tabListTabResult.push([]);
+                    tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+                }
+            }
+        }
+
+        for (let i = 0; i < tabListTabResult.length; i++) {
+            console.log("tabListTabResult[i].length", tabListTabResult[i].length);
+            const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${objectUserSearch.usernameDiscord} \n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
-            .addFields(newTableOffense);
-        return infoUserEmbed;
+            .setTitle(`Informations - ${infoUser.username}#${infoUser.tagNumber} - ${infoUser.id}\n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
+            .addFields(tabListTabResult[i]);
+            pages.push(infoUserEmbed);
+        }
+
+        var resultPage = paginationEmbed(message, pages);
+
+        return resultPage;
     }
 }
 
@@ -110,20 +131,18 @@ async function processRequest (searchUser, message, infoUser){
 
             var objectUser = {
                 "id" : searchUserBdd[0],
-                'usernameDiscord' : searchUserBdd[1]
+                'idDiscord' : searchUserBdd[1],
+                'usernameDiscord' : searchUserBdd[2]
             };
-            console.log('objectUser', objectUser);
 
             //Check userId validity and return user_id
             const listBattle = await listBattleMyUser(objectUser.id, infoUser);
-            
-            console.log("listBattle", listBattle);
 
             if(listBattle != "invalid"){
 
                 //Successful message
-                const successfulMessage = buildSuccessfulMessage(listBattle, objectUser, infoUser);
-                message.channel.send(successfulMessage);
+                const successfulMessage = await buildSuccessfulMessage(listBattle, objectUser, message, infoUser);
+                return successfulMessage;
                 
             }else{
 

@@ -90,7 +90,7 @@ function buildSuccessfulMessage(results, message, infoUser) {
             console.log("tabListTabResult[i].length", tabListTabResult[i].length);
             const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} \n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
+            .setTitle(`Informations - ${infoUser.username}#${infoUser.tagNumber} - ${infoUser.id}\n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
             .addFields(tabListTabResult[i]);
             pages.push(infoUserEmbed);
         }

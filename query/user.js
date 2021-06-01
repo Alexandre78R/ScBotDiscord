@@ -72,12 +72,11 @@ function searchUserBdd (searchUser, message, infoUser) {
     console.log("checkValueSearchUser", checkValueSearchUser)
 
     if (checkValueSearchUser == "Yes a number!"){
- 
         return knex.from('user').where({ idNameDiscord: searchUser }).then(rows => {
             if (rows.length == 0) {
                 return false
             } else {
-                var user = rows.map(row => [row.id, row.nameTagDiscord]);
+                var user = rows.map(row => [row.id, row.idNameDiscord, row.nameTagDiscord]);
                 return user[0];
             }
         });
@@ -87,7 +86,7 @@ function searchUserBdd (searchUser, message, infoUser) {
             if (rows.length == 0) {
                 return false
             } else {
-                var user = rows.map(row => [row.id, row.nameTagDiscord]);
+                var user = rows.map(row => [row.id, row.idNameDiscord, row.nameTagDiscord]);
                 return user[0];
             }
         });
