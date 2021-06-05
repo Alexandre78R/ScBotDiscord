@@ -54,12 +54,16 @@ async function listBattleLastoffense (userId, infoUser, message) {
 function buildSuccessfulMessage(results, message, infoUser) {
 
     if (results.length == 0){
+
         const battleUndefinedBuildMessage = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
         .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commande ${config.discord.prefix}offense !`)
         .setFooter("Erreur : battleUndefinedBuildMessage");
-        return battleUndefinedBuildMessage;
+
+        var messageError = message.channel.send(battleUndefinedBuildMessage);
+        return messageError;
+
     } else {
 
         var tableResult = results[0];

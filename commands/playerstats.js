@@ -67,12 +67,16 @@ async function listBattleMyUser (userId, infoUser) {
 function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
 
     if (results.length == 0){
+
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
         .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur ${objectUserSearch.usernameDiscord}...`)
         .setFooter("Erreur : infouserNotFound");
-        return infouserNotFound;
+
+        var messageError = message.channel.send(infouserNotFound)
+        return messageError;
+
     } else {
         var countTotal = results[0].total;
         var countWin = results[0].win;

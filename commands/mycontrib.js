@@ -46,8 +46,8 @@ function buildSuccessfulMessage(results, infoUser) {
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
         .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur vous...`)
-        .setFooter("Erreur : infouserNotFound")
-        consoleLog(`ERROR : infouserNotFound`, NaN, infoUser)
+        .setFooter("Erreur : infouserNotFound");
+        consoleLog(`ERROR : infouserNotFound`, NaN, infoUser);
         return infouserNotFound;
     } else {
 
@@ -58,13 +58,13 @@ function buildSuccessfulMessage(results, infoUser) {
         var newTableDefense = [];
 
         for (let o = 0; o < tableResultOffense.length; o++) {
-            console.log('tableResultOffense', tableResultOffense[o])
-            newTableOffense.push({name: tableResultOffense[o].teamName, value: tableResultOffense[o].offense_idFrequency, inline : true})
+            console.log('tableResultOffense', tableResultOffense[o]);
+            newTableOffense.push({name: tableResultOffense[o].teamName, value: tableResultOffense[o].offense_idFrequency, inline : true});
         }
 
         for (let d = 0; d < tableResultDeffense.length; d++) {
-            console.log('tableResultDeffense', tableResultDeffense[d])
-            newTableDefense.push({name: tableResultDeffense[d].teamName, value: tableResultDeffense[d].defense_idFrequency, inline : true})
+            console.log('tableResultDeffense', tableResultDeffense[d]);
+            newTableDefense.push({name: tableResultDeffense[d].teamName, value: tableResultDeffense[d].defense_idFrequency, inline : true});
         }
 
         const infoUserEmbed = new Discord.MessageEmbed()
@@ -72,9 +72,9 @@ function buildSuccessfulMessage(results, infoUser) {
         .setTitle(`Information de ${infoUser.username} (#${infoUser.id})`)
         .setDescription(`Nombre d’offense proposée : ${results[0]}`)
         .addField(`TOP 3 d'offense les plus utilisé :`, '\u200b')
-        .addFields(newTableOffense)
-        infoUserEmbed.addField(`TOP 3 des défenses participer :`,'\u200b')
-        infoUserEmbed.addFields(newTableDefense)
+        .addFields(newTableOffense);
+        infoUserEmbed.addField(`TOP 3 des défenses participer :`,'\u200b');
+        infoUserEmbed.addFields(newTableDefense);
         
         return infoUserEmbed;
     }

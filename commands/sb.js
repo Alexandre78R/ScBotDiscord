@@ -120,13 +120,16 @@ function buildSuccessfulMessage(results, defense, message, infoUser) {
 
     console.log('BUILD MESSAGE defense ---->', defense);
     if (results.length == 0){
+
         const defenseNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
         .setDescription(`:x: ${infoUser.username}, désolé on n'a pas d'offense pour cette défense : ${defense[0]} ${defense[1]} ${defense[2]}...`)
         .setFooter("Erreur : defenseNotFound");
         consoleLog(`ERROR : defenseNotFound`, NaN, infoUser);
-        return defenseNotFound;
+
+        var messageError = message.channel.send(defenseNotFound);
+        return messageError;
 
     } else {
 
