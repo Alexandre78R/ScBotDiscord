@@ -40,7 +40,8 @@ async function checkUserId (message, infoUser) {
 
 async function listBattleMyUser (userId, infoUser) {
     var result = await sqlBattle.dataTableByUserMyStats(userId);
-    if (result.length == 0) {
+    // console.log("result", result);
+    if (result[1].length == 0) {
         return "invalid";
     } else {
         return result;
