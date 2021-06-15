@@ -179,7 +179,7 @@ async function dataTableLastoffense(userId) {
     var currentDate = new Date();
 
     var OneDayBefore = new Date();
-    OneDayBefore.setHours(OneDayBefore.getHours() - 24);
+    OneDayBefore.setHours(OneDayBefore.getHours() - 36);
 
     var listBattle = await listLastBattles(userId, currentDate, OneDayBefore);
 

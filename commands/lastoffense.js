@@ -42,7 +42,7 @@ async function listBattleLastoffense (userId, infoUser, message) {
         const battleUndefined = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Résultat incorrect :x:`)
-        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 24h !`)
+        .setDescription(`:x: ${infoUser.username}, impossible vous n'avez jamais utiliser la commandes ${config.discord.prefix}offense sous les dernières 36h !`)
         .setFooter("Erreur : battleUndefined");
         message.channel.send(battleUndefined);
         return "invalid";
@@ -89,7 +89,7 @@ function buildSuccessfulMessage(results, message, infoUser) {
             console.log("tabListTabResult[i].length", tabListTabResult[i].length);
             var exampleEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${infoUser.username} \n\n Liste des offenses entrer depuis les 24h :`)
+            .setTitle(`Informations - ${infoUser.username} \n\n Liste des offenses entrer depuis les 36h :`)
             .addFields(tabListTabResult[i]);
             pages.push(exampleEmbed);
         }
