@@ -2,7 +2,7 @@
 //!IMPORTANT --> Ce fichier n'est pas commenté entièrement risque de grosse modification par la suite.
 
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import du module FS
 const fs = require('fs');
@@ -13,12 +13,12 @@ const Discord = require('discord.js');
 var tableauResultat = {Guildes : [], Joueurs : {}}
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Function checkMaintence 
-var checkMaintenance = require("../function/checkMaintenance")
+var checkMaintenance = require("../../function/checkMaintenance")
 
-var userInfo = require("../function/userinfo.js")
+var userInfo = require("../../function/userinfo.js")
 
 function processing (message) {
 

@@ -1,22 +1,22 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import function consoleLog
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
 //Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
+const checkRoleDev = require('../../function/checkRoleDev.js');
 
 // Import the discord.js-pagination package
-const paginationEmbed = require('../module/discord.js-pagination.js');
+const paginationEmbed = require('../../module/discord.js-pagination.js');
 
 //Function checkMaintenance 
-const checkMaintenance = require('../function/checkMaintenance.js');
+const checkMaintenance = require('../../function/checkMaintenance.js');
 
-const userInfo = require('../function/userinfo.js')
+const userInfo = require('../../function/userinfo.js')
 
 function test (message) {
 
@@ -36,11 +36,11 @@ function test (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/test.js", message);
 
-    var statutcommand = checkMaintenance (message, "test", infoUser)
+    var statutcommand = checkMaintenance(message, "test", infoUser);
     if(statutcommand == false) return;
 
 
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser)
+    var checkPerm = checkRoleDev(message, config.discord.roles_id.DEV, infoUser);
     if (checkPerm == false) return;
     
     // const exampleEmbed = new Discord.MessageEmbed()

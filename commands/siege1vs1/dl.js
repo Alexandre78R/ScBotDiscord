@@ -1,5 +1,5 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
@@ -14,15 +14,15 @@ var http = require('http')
 var https = require('https');
 
 //Import de la function vérification du format en JSON
-var validateJSON = require('../function/validateJSON.js')
+var validateJSON = require('../../function/validateJSON.js')
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../function/consoleLog.js");
+const consoleLog = require("../../function/consoleLog.js");
 
 //Function check maintenance
-var checkMaintenance = require("../function/checkMaintenance.js")
+var checkMaintenance = require("../../function/checkMaintenance.js")
 
-var userInfo = require('../function/userinfo.js')
+var userInfo = require('../../function/userinfo.js')
 
 function dl (message){
 

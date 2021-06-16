@@ -1,20 +1,20 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
 //Import user query
-const sqlUser = require("../query/user.js");
+const sqlUser = require("../../query/user.js");
 
-const sqlBattle = require("../query/battle.js");
+const sqlBattle = require("../../query/battle.js");
 
-var userInfo = require("../function/userinfo.js");
+var userInfo = require("../../function/userinfo.js");
 
 //Function checkMaintenance
-var checkMaintenance = require("../function/checkMaintenance.js")
+var checkMaintenance = require("../../function/checkMaintenance.js")
 
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);

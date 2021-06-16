@@ -2,10 +2,10 @@
 const Discord = require("discord.js");
 
 //Import de la config
-const consoleLog = require('../function/consoleLog')
+const consoleLog = require('./consoleLog')
 
 //Function check rôle discord
-function checkRolePerm (message, roleId, infoUser) {
+function checkRoleDev (message, roleId, infoUser) {
 
     var checkRoleDev = false;
 
@@ -32,4 +32,4 @@ function checkRolePerm (message, roleId, infoUser) {
 }
 
 //Module export
-module.exports = checkRolePerm;
+module.exports = checkRoleDev;

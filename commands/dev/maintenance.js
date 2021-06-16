@@ -1,16 +1,16 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import function consoleLog
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
-//Import function checkRolePerm
-const checkRolePerm = require('../function/checkRolePerm.js');
+//Import function checkRoleDev
+const checkRoleDev = require('../../function/checkRoleDev.js');
 
-var userInfo = require("../function/userinfo.js")
+var userInfo = require("../../function/userinfo.js")
 
 function maintenance (message) {
 
@@ -30,7 +30,7 @@ function maintenance (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/maintenance.js", message);
 
-    var checkPerm = checkRolePerm(message, config.discord.roles_id.DEV, infoUser)
+    var checkPerm = checkRoleDev(message, config.discord.roles_id.DEV, infoUser);
     if (checkPerm == false) return;
 
     // Récupération des arguments après la commandes

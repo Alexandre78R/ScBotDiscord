@@ -1,29 +1,29 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import function consoleLog
-const consoleLog = require("../function/consoleLog.js");
+const consoleLog = require("../../function/consoleLog.js");
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
 
 // Import userInfo
-const userInfo = require('../function/userinfo.js');
+const userInfo = require('../../function/userinfo.js');
 
 //Function checkMaintenance 
-const checkMaintenance = require('../function/checkMaintenance.js');
+const checkMaintenance = require('../../function/checkMaintenance.js');
 
 //Import user query
-const sqlUser = require("../query/user.js");
+const sqlUser = require("../../query/user.js");
 
 //Import Battle query
-const sqlBattle = require("../query/battle.js");
+const sqlBattle = require("../../query/battle.js");
 
 //Import function dateFormat
-var dateFormat = require("../function/dateFormat.js");
+var dateFormat = require("../../function/dateFormat.js");
 
 // Import the discord.js-pagination package
-const paginationEmbed = require('../module/discord.js-pagination.js');
+const paginationEmbed = require('../../module/discord.js-pagination.js');
 
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);

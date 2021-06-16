@@ -8,50 +8,50 @@ const client = new Discord.Client();
 var config = require("../config/config");
 
 //Import de la commande Info
-const cmdStats = require('../commands/stats.js');
+const cmdStats = require('../commands/siege1vs1/stats.js');
 
 //Import de la commande DL
-const cmdDL = require('../commands/dl.js');
+const cmdDL = require('../commands/siege1vs1/dl.js');
 
 //Import de la commande Processing
-const cmdProcessing = require('../commands/processing.js');
+const cmdProcessing = require('../commands/siege1vs1/processing.js');
 
 //Import de la commande Player
-const cmdPlayer = require("../commands/player.js");
+const cmdPlayer = require("../commands/siege1vs1/player.js");
 
 //Import de la commande ListPlayer
-const cmdListPlayer = require('../commands/listplayer.js');
+const cmdListPlayer = require('../commands/siege1vs1/listplayer.js');
 
-const cmdHelp = require('../commands/help.js');
+const cmdHelp = require('../commands/siegestats/help.js');
 
-const cmdTest = require('../commands/test.js');
+const cmdTest = require('../commands/dev/test.js');
 
 //Import de la commande Offense
-const cmdOffense = require('../commands/offense.js');
+const cmdOffense = require('../commands/siegestats/offense.js');
 
 //Import de la commande Sb
-const cmdSb = require('../commands/sb.js');
+const cmdSb = require('../commands/siegestats/sb.js');
 
 //Import de la commande mycontrib
-const cmdMyContrib = require('../commands/mycontrib.js');
+const cmdMyContrib = require('../commands/siegestats/mycontrib.js');
 
 //Import de la commande MyStats
-const cmdMyStats = require('../commands/mystats.js');
+const cmdMyStats = require('../commands/siegestats/mystats.js');
 
 //Import de la commande Maintenance
-const cmdMaintenance = require('../commands/maintenance.js');
+const cmdMaintenance = require('../commands/dev/maintenance.js');
 
 //Import de la commande playerstats
-const cmdPlayerStats = require("../commands/playerstats.js");
+const cmdPlayerStats = require("../commands/siegestats/playerstats.js");
 
-//Import de la commande playerstats
-const cmdLastOffense = require("../commands/lastoffense.js");
+//Import de la commande lastOffense
+const cmdLastOffense = require("../commands/siegestats/lastoffense.js");
 
-//Import de la commande playerstats
-const cmdDelOffense = require("../commands/deloffense.js");
+//Import de la commande Deloffense
+const cmdDelOffense = require("../commands/siegestats/deloffense.js");
 
-//Import de la commande playerstats
-const cmdUpOffense = require("../commands/upoffense.js");
+//Import de la commande Upoffense
+const cmdUpOffense = require("../commands/siegestats/upoffense.js");
 
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);

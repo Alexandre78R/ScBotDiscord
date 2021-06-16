@@ -1,5 +1,5 @@
 //Import de la config
-const config = require('../config/config.js')
+const config = require('../../config/config.js')
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
@@ -8,15 +8,15 @@ const Discord = require("discord.js");
 const fs = require("fs")
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Import function KeyJson
-const keyJson = require('../function/keyJson.js')
+const keyJson = require('../../function/keyJson.js')
 
 //Function checkMaintenance 
-var checkMaintenance = require("../function/checkMaintenance.js")
+var checkMaintenance = require("../../function/checkMaintenance.js")
 
-var userInfo = require("../function/userinfo.js");
+var userInfo = require("../../function/userinfo.js");
 
 function player (message){
 
@@ -43,7 +43,7 @@ function player (message){
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/player.js", message);
 
-    var statutcommand = checkMaintenance (message, "player", infoUser)
+    var statutcommand = checkMaintenance (message, "player", infoUser);
     if(statutcommand == false) return;
 
     //Premier argument

@@ -1,5 +1,5 @@
 //Import de la config
-const config = require('../config/config')
+const config = require('../../config/config')
 
 //Import de la LIBS discord.js
 const Discord = require("discord.js");
@@ -8,15 +8,15 @@ const Discord = require("discord.js");
 const fs = require("fs");
 
 //Import function KeyJson
-var keyJson = require("../function/keyJson")
+var keyJson = require("../../function/keyJson")
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../function/consoleLog.js")
+const consoleLog = require("../../function/consoleLog.js")
 
 //Function check commandes
-var checkMaintenance = require("../function/checkMaintenance.js")
+var checkMaintenance = require("../../function/checkMaintenance.js")
 
-var userInfo = require("../function/userinfo.js")
+var userInfo = require("../../function/userinfo.js")
 
 function listplayer (message){
 
