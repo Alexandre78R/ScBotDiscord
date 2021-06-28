@@ -205,13 +205,13 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd) {
         if (user_info[3] == "SC1"){
             countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
             countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC1") {
+        } else if (user_info[3] == "SC2") {
             countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
             countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC1") {
+        } else if (user_info[3] == "SC3") {
             countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
             countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC1") {
+        } else if (user_info[3] == "SC4") {
             countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
             countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
         } else {

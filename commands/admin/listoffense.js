@@ -73,7 +73,7 @@ function buildSuccessfulMessage(dateStart, dateEnd, results, message, infoUser) 
         console.log("tableResultOffense", tableResultOffense)
         var pages = [];
         var tabListTabResult = [];
-        var lengthPage = 5;
+        var lengthPage = 10;
         
         for (let o = 0; o < tableResultOffense.length; o++) {
             if (tabListTabResult.length == 0) {
