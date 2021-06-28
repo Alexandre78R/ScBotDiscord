@@ -114,6 +114,12 @@ function checkMaintenance (message, command, infoUser) {
 
             break;
 
+            case "listoffense" :
+
+                checkMaintenanceStatus = config.discord.maintenance.listoffense;
+
+            break;
+
             default:
     
                 let commandNotFound = new Discord.MessageEmbed()
@@ -126,7 +132,7 @@ function checkMaintenance (message, command, infoUser) {
                 return false;
         }
     
-        console.log('stattus check', checkMaintenanceStatus)
+        console.log('status check', checkMaintenanceStatus)
         if (checkMaintenanceStatus == true){
     
             return true;

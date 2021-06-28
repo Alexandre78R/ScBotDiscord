@@ -95,5 +95,21 @@ function searchUserBdd (searchUser, message, infoUser) {
     }
 }
 
+function searchUserNameForID (searchUser) {
+
+    var checkValueSearchUser = checkNumber(searchUser)
+    console.log("checkValueSearchUser", checkValueSearchUser)
+
+    return knex.from('user').where({ id: searchUser }).then(rows => {
+        if (rows.length == 0) {
+            return false
+        } else {
+            var user = rows.map(row => [row.id, row.idNameDiscord, row.nameTagDiscord, row.nameGuild]);
+            return user[0];
+        }
+    });
+}
+
 module.exports.searchUserBdd = searchUserBdd;
 module.exports.checkUserId = checkUserId;
+module.exports.searchUserNameForID = searchUserNameForID;

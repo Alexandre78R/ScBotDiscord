@@ -7,6 +7,9 @@ const knex = require('knex')(configKnex.development);
 //Import team query
 const sqlTeam = require('./team.js')
 
+//Import sqlUser query
+const sqlUser = require('./user.js');
+
 //Envoyer les donn�es du combat vers la BD
 function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, infoUser) {
     return knex.insert([{ offense_id: monsterOffenseId, defense_id: monsterDefenseId, result: outComeId, user_id: userId }], ['id']).into('battle').then(function (id) {
@@ -88,6 +91,13 @@ function listBattleByUser (userId){
             (result.result == 0) ? loseCount += 1 : winCount += 1;
         });
         return [winCount, loseCount];
+    });
+}
+
+function listOffenseAdmin (dateStart, dateEnd){
+    return knex.select('user_id').count(`user_id`, { as: "nomber_offense" }).from('battle').whereBetween('created_at', [dateStart, dateEnd]).groupBy('user_id').orderBy('nomber_offense', 'desc').then(results => {
+        console.log("Results", results);
+        return results;
     });
 }
 
@@ -174,6 +184,46 @@ async function dataTableByUserMyStats(userId) {
     return [{"total" : countBattle, "win" : countWinBattle, "lose" : countLoseBattle}, tableResultOffense];
 }
 
+async function dataTableListOffenseAdmin (dateStart, dateEnd) {
+
+    var tableResultOffense = [];
+    var countBattle = 0;
+    var countBattleSC1 = 0;
+    var countBattleSC2 = 0;
+    var countBattleSC3 = 0;
+    var countBattleSC4 = 0;
+
+    console.log('dateStart',dateStart);
+    console.log("dateEnd", dateEnd);
+    var listOffenseFrequencyByUser = await listOffenseAdmin(dateStart, dateEnd);
+
+    for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
+
+        var user_info = await sqlUser.searchUserNameForID(listOffenseFrequencyByUser[o].user_id);
+        console.log('user_info', user_info);
+
+        if (user_info[3] == "SC1"){
+            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+            countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
+        } else if (user_info[3] == "SC1") {
+            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+            countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
+        } else if (user_info[3] == "SC1") {
+            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+            countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
+        } else if (user_info[3] == "SC1") {
+            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+            countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
+        } else {
+            console.log("Error interne");
+        }
+
+        tableResultOffense.push({ user_id: listOffenseFrequencyByUser[o].user_id, user_idDiscord : user_info[1], user_name : user_info[2],  user_nameGuild : user_info[3], nomber_offense: listOffenseFrequencyByUser[o].nomber_offense });
+    }
+
+    return [{"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense];
+}
+
 async function dataTableLastoffense(userId) {
 
     var currentDate = new Date();
@@ -212,6 +262,7 @@ async function datatableDefense(defense) {
 module.exports.delBattles = delBattles;
 module.exports.dataTableLastoffense = dataTableLastoffense;
 module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
+module.exports.dataTableListOffenseAdmin = dataTableListOffenseAdmin;
 module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;
 module.exports.upBattleData = upBattleData;

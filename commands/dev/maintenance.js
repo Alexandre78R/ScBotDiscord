@@ -59,7 +59,8 @@ function maintenance (message) {
             { name: 'playerstats', value: config.discord.maintenance.playerstats, inline: true },
             { name: 'lastoffense', value: config.discord.maintenance.lastoffense, inline: true },
             { name: 'deloffense', value: config.discord.maintenance.deloffense, inline: true },
-            { name: 'upoffense', value: config.discord.maintenance.upoffense, inline: true }
+            { name: 'upoffense', value: config.discord.maintenance.upoffense, inline: true },
+            { name: 'listoffense', value: config.discord.maintenance.upoffense, inline: true }
         )
         .setFooter(`Pour désactiver ou activer une commandes merci de taper ${config.discord.prefix}maintenance + le nom de la commande.`);
         return message.channel.send(undefinedNameCommand) | consoleLog(`Ok : undefinedNameCommand`, NaN, infoUser)
@@ -233,6 +234,18 @@ function maintenance (message) {
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
                 .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.upoffense} !`);
                 message.channel.send(statusUpoffense) | consoleLog(`OK : statusUpoffense`, NaN, infoUser);
+
+            break;
+
+            case "listoffense" :
+
+                config.discord.maintenance.listoffense = !config.discord.maintenance.listoffense;
+
+                let statusListffense = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.listoffense} !`);
+                message.channel.send(statusListffense) | consoleLog(`OK : statusListffense`, NaN, infoUser);
 
             break;
 

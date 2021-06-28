@@ -142,12 +142,12 @@ function deloffense (message) {
     const argumentUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Argument introuvable  :x:`)
-    .setDescription(`:x: ${infoUser.username}, impossible vous n'avez pas entré d'argument à coter de la commande !`)
+    .setDescription(`:x: ${infoUser.username}, impossible vous n'avez pas entré d'id à coter de la commande !`)
     .setFooter("Erreur : argumentUndefined");
 
     if (args[0] == undefined) return message.channel.send(argumentUndefined) | consoleLog(`ERROR : argumentUndefined`, NaN, infoUser);
 
-    var checkArgsNum = checkNumber(args[0])
+    var checkArgsNum = checkNumber(args[0]);
 
     const noNumberValue = new Discord.MessageEmbed()
     .setColor("#F00E0E")
