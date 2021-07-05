@@ -199,7 +199,7 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd) {
 
     for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
 
-        var user_info = await sqlUser.searchUserNameForID(listOffenseFrequencyByUser[o].user_id);
+        var user_info = await sqlUser.searchUserNameByID(listOffenseFrequencyByUser[o].user_id);
         console.log('user_info', user_info);
 
         if (user_info[3] == "SC1"){
@@ -215,7 +215,7 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd) {
             countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
             countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
         } else {
-            console.log("Error interne");
+            console.log("Erreur interne");
         }
 
         tableResultOffense.push({ user_id: listOffenseFrequencyByUser[o].user_id, user_idDiscord : user_info[1], user_name : user_info[2],  user_nameGuild : user_info[3], nomber_offense: listOffenseFrequencyByUser[o].nomber_offense });

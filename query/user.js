@@ -68,8 +68,8 @@ function checkUserId(message, infoUser) {
 
 function searchUserBdd (searchUser, message, infoUser) {
 
-    var checkValueSearchUser = checkNumber(searchUser)
-    console.log("checkValueSearchUser", checkValueSearchUser)
+    var checkValueSearchUser = checkNumber(searchUser);
+    console.log("checkValueSearchUser", checkValueSearchUser);
 
     if (checkValueSearchUser == "Yes a number!"){
         return knex.from('user').where({ idNameDiscord: searchUser }).then(rows => {
@@ -95,11 +95,7 @@ function searchUserBdd (searchUser, message, infoUser) {
     }
 }
 
-function searchUserNameForID (searchUser) {
-
-    var checkValueSearchUser = checkNumber(searchUser)
-    console.log("checkValueSearchUser", checkValueSearchUser)
-
+function searchUserNameByID (searchUser) {
     return knex.from('user').where({ id: searchUser }).then(rows => {
         if (rows.length == 0) {
             return false
@@ -112,4 +108,4 @@ function searchUserNameForID (searchUser) {
 
 module.exports.searchUserBdd = searchUserBdd;
 module.exports.checkUserId = checkUserId;
-module.exports.searchUserNameForID = searchUserNameForID;
+module.exports.searchUserNameByID = searchUserNameByID;

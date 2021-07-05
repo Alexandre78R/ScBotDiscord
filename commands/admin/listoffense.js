@@ -56,7 +56,7 @@ function buildSuccessfulMessage(dateStart, dateEnd, results, message, infoUser) 
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur vous...`)
+        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information entre les dates  : ${dateStart} - ${dateEnd} !`)
         .setFooter("Erreur : infouserNotFound");
 
         var messageError = message.channel.send(infouserNotFound);
@@ -151,7 +151,7 @@ function listoffense (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = userInfo("./commands/test.js", message);
+    var infoUser = userInfo("./commands/listoffense.js", message);
 
     var statutcommand = checkMaintenance(message, "listoffense", infoUser);
     if(statutcommand == false) return;

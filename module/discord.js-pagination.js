@@ -81,8 +81,8 @@ const paginationEmbed = async (msg, pages) => {
 						msg.channel.send(noPermUserPagination);
 					}else{
 						memberMP.send(noPermUserPagination)
-						.then(reponse => {})
-						.catch(err => {msg.channel.send(noPermUserPagination);});
+						.then(reponse => {console.log('Réponse mp : Système PaginatioK Ok', reponse)})
+						.catch(err => {console.log('Réponse mp : Système Pagination ERR', err) , msg.channel.send(noPermUserPagination);});
 					}
 				} else {
 					switch (reaction.emoji.name) {
