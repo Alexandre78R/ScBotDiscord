@@ -94,6 +94,17 @@ function listBattleByUser (userId){
     });
 }
 
+function listBattleByUserMystats (userId, currentDate, OneMonthBefore){
+    return knex.from('battle').where({ user_id: userId }).whereBetween('created_at', [OneMonthBefore, currentDate]).then(results => {
+        let winCount = 0;
+        let loseCount = 0;
+        results.forEach(function (result, index) {
+            (result.result == 0) ? loseCount += 1 : winCount += 1;
+        });
+        return [winCount, loseCount];
+    });
+}
+
 function listOffenseAdmin (dateStart, dateEnd){
     return knex.select('user_id').count(`user_id`, { as: "nomber_offense" }).from('battle').whereBetween('created_at', [dateStart, dateEnd]).groupBy('user_id').orderBy('nomber_offense', 'desc').then(results => {
         console.log("Results", results);
@@ -164,14 +175,18 @@ async function dataTableByUserMyStats(userId) {
     var OneMonthBefore = new Date();
     OneMonthBefore.setMonth(OneMonthBefore.getMonth() - 1);
 
+    console.log('currentDate', currentDate);
+    console.log('OneMonthBefore', OneMonthBefore);
+    
     //Number d'offense
-    var listByUser = await listBattleByUser(userId);
+    var listByUser = await listBattleByUserMystats(userId, currentDate, OneMonthBefore);
+    console.log('listByUser', listByUser);
     countBattle = listByUser[0]+listByUser[1];
     countWinBattle = listByUser[0];
     countLoseBattle = listByUser[1];
 
     var listOffenseFrequencyByUser = await listOffenseByUser(userId, currentDate, OneMonthBefore);
-
+    console.log('listOffenseFrequencyByUser', listOffenseFrequencyByUser);
     for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
 
         var teamName = await sqlTeam.getNameTeam(listOffenseFrequencyByUser[o].offense_id);
