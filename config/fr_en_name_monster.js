@@ -65,6 +65,7 @@ module.exports = {
         "Phenaka" : "Pheneka",
         "Kebab" : "Qebehsenuef",
         "Qebab" : "Qebehsenuef",
+        "Verde" : "Verdehile", 
         "Homunculus Water": 'Homunculus - Attack (Water)',
         "Homunculus Fire": 'Homunculus - Attack (Fire)',
         "Homunculus Wind": 'Homunculus - Attack (Wind)',
@@ -95,4 +96,4 @@ module.exports = {
         "Dhalsim" : "MobBlackListCollab",
         "Chun|li" : "MobBlackListCollab",
     }
-}
+};

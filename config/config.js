@@ -22,7 +22,7 @@ module.exports = {
             "processing": false,
             "sb": true,
             "stats": false,
-            "test": true,
+            "test": false,
             "playerstats": true,
             "lastoffense": true,
             "deloffense": true,
@@ -47,4 +47,4 @@ module.exports = {
         "password": environment.PASSWORDBDD,
         "database": environment.DATABASENAME
     }
-}
+};

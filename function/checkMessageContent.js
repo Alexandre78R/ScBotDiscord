@@ -1,5 +1,7 @@
 function checkMessageContent (message) {
     
+    console.log('Message Content --->', message);
+
     var tiret = 0;
 
     var newTabMessage = [];
@@ -15,21 +17,21 @@ function checkMessageContent (message) {
                 if (checkMessageContent[i].substr(checkMessageContent[i].length-1) === "-") {
                     let word = "";
                     word = checkMessageContent[i].substr(0, checkMessageContent[i].length-1);
-                    newTabMessage.push(word.replace('-', '|'));
+                    newTabMessage.push(word.replaceAll('-', '|'));
                     newTabMessage.push('-');
                     tiret++;
                 } else if (checkMessageContent[i].substr(0, 1) === "-") {
                     let word = "";
                     word = checkMessageContent[i].substr(1, checkMessageContent[i].length);
                     newTabMessage.push('-');
-                    newTabMessage.push(word.replace('-', '|'));
+                    newTabMessage.push(word.replaceAll('-', '|'));
                     tiret++;
                 } else {
-                    newTabMessage.push(checkMessageContent[i].replace('-', '|'));
+                    newTabMessage.push(checkMessageContent[i].replaceAll('-', '|'));
                 }
             }
         } else {
-            newTabMessage.push(checkMessageContent[i]);
+            newTabMessage.push(checkMessageContent[i].replaceAll('-', '|'));
         }
     }
 
@@ -38,7 +40,8 @@ function checkMessageContent (message) {
         newMessageContent += newTabMessage[n] + " ";
     }
     
-    console.log('New Message', newMessageContent)
+    console.log('New Message', newMessageContent);
+    console.log('Count tiret ', tiret);
     return { "tiret" : tiret, "message" : newMessageContent};
 }
 

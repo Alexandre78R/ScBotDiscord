@@ -152,7 +152,7 @@ async function dataTableByUser (userId){
 
     }
 
-    var  listDeffenseFrequencyByUser = await listBattleDeffenseFrequencyByUser(userId, 3);
+    var listDeffenseFrequencyByUser = await listBattleDeffenseFrequencyByUser(userId, 3);
 
     for (var d = 0; d < listDeffenseFrequencyByUser.length; d++) {
 
@@ -180,13 +180,14 @@ async function dataTableByUserMyStats(userId) {
     
     //Number d'offense
     var listByUser = await listBattleByUserMystats(userId, currentDate, OneMonthBefore);
-    console.log('listByUser', listByUser);
+    // console.log('listByUser', listByUser);
     countBattle = listByUser[0]+listByUser[1];
     countWinBattle = listByUser[0];
     countLoseBattle = listByUser[1];
 
     var listOffenseFrequencyByUser = await listOffenseByUser(userId, currentDate, OneMonthBefore);
-    console.log('listOffenseFrequencyByUser', listOffenseFrequencyByUser);
+    // console.log('listOffenseFrequencyByUser', listOffenseFrequencyByUser);
+
     for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
 
         var teamName = await sqlTeam.getNameTeam(listOffenseFrequencyByUser[o].offense_id);
@@ -199,8 +200,9 @@ async function dataTableByUserMyStats(userId) {
     return [{"total" : countBattle, "win" : countWinBattle, "lose" : countLoseBattle}, tableResultOffense];
 }
 
-async function dataTableListOffenseAdmin (dateStart, dateEnd) {
+async function dataTableListOffenseAdmin (dateStart, dateEnd, filterGuild) {
 
+    console.log("dataTableListOffenseAdmin FILTERGuild", filterGuild);
     var tableResultOffense = [];
     var countBattle = 0;
     var countBattleSC1 = 0;
@@ -214,28 +216,53 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd) {
 
     for (var o = 0; o < listOffenseFrequencyByUser.length; o++) {
 
-        var user_info = await sqlUser.searchUserNameByID(listOffenseFrequencyByUser[o].user_id);
-        console.log('user_info', user_info);
-
-        if (user_info[3] == "SC1"){
-            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
-            countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC2") {
-            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
-            countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC3") {
-            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
-            countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
-        } else if (user_info[3] == "SC4") {
-            countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
-            countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
+        if (filterGuild == undefined) {
+            var user_info = await sqlUser.searchUserNameByID(listOffenseFrequencyByUser[o].user_id);
+            console.log('user_info', user_info);
+    
+            if (user_info[3] == "SC1"){
+                countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+                countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
+            } else if (user_info[3] == "SC2") {
+                countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+                countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
+            } else if (user_info[3] == "SC3") {
+                countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+                countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
+            } else if (user_info[3] == "SC4") {
+                countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+                countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
+            } else {
+                console.log("Erreur interne");
+            }
+    
+            tableResultOffense.push({ user_id: listOffenseFrequencyByUser[o].user_id, user_idDiscord : user_info[1], user_name : user_info[2],  user_nameGuild : user_info[3], nomber_offense: listOffenseFrequencyByUser[o].nomber_offense });
         } else {
-            console.log("Erreur interne");
-        }
 
-        tableResultOffense.push({ user_id: listOffenseFrequencyByUser[o].user_id, user_idDiscord : user_info[1], user_name : user_info[2],  user_nameGuild : user_info[3], nomber_offense: listOffenseFrequencyByUser[o].nomber_offense });
+            var user_info = await sqlUser.searchUserNameByID(listOffenseFrequencyByUser[o].user_id);
+            console.log('user_info', user_info);
+    
+            if (user_info[3].toLowerCase() === filterGuild.toLowerCase().trim()){
+                countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
+                if (filterGuild.toLowerCase().trim() == 'sc1') {
+                    countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
+                } else if (filterGuild.toLowerCase().trim() == 'sc2') {
+                    countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
+                } else if (filterGuild.toLowerCase().trim() == 'sc3') {
+                    countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
+                } else if (filterGuild.toLowerCase().trim() == 'sc4') {
+                    countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
+                } else {
+                    console.log('Erreur interne');
+                }
+                tableResultOffense.push({ user_id: listOffenseFrequencyByUser[o].user_id, user_idDiscord : user_info[1], user_name : user_info[2],  user_nameGuild : user_info[3], nomber_offense: listOffenseFrequencyByUser[o].nomber_offense });
+            } else {
+                console.log("Erreur interne");
+            }
+        }
     }
 
+    console.log('tableResultOffense', {"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense);
     return [{"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense];
 }
 

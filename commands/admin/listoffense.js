@@ -24,6 +24,9 @@ const sqlUser = require("../../query/user.js");
 //Import battle query
 const sqlBattle = require("../../query/battle.js");
 
+//Import function checkMessageContent 
+const checkMessageContent = require("../../function/checkMessageContent.js");
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -39,8 +42,8 @@ async function checkUserId (message, infoUser) {
     }
 }
 
-async function listBattleAdmin (dateStart, dateEnd, infoUser) {
-    var result = await sqlBattle.dataTableListOffenseAdmin(dateStart, dateEnd);
+async function listBattleAdmin (dateStart, dateEnd, filterGuild, infoUser) {
+    var result = await sqlBattle.dataTableListOffenseAdmin(dateStart, dateEnd, filterGuild);
     // console.log("result", result);
     if (result[1].length == 0) {
         return "invalid";
@@ -70,7 +73,6 @@ function buildSuccessfulMessage(dateStart, dateEnd, results, message, infoUser) 
         var totalSC4 = results[0].totalSC4;
         var tableResultOffense = results[1];
 
-        console.log("tableResultOffense", tableResultOffense)
         var pages = [];
         var tabListTabResult = [];
         var lengthPage = 10;
@@ -101,19 +103,19 @@ function buildSuccessfulMessage(dateStart, dateEnd, results, message, infoUser) 
         var resultPage = paginationEmbed(message, pages);
 
         return resultPage;
-        // return console.log('Info :', dateStart, dateEnd, results);
     }
 }
 
-async function processRequest (dateStart, dateEnd, message, infoUser){
+async function processRequest (dateStart, dateEnd, filterGuild, message, infoUser){
+
+    console.log("filterGuild", filterGuild);
 
     //Check userId validity and return user_id
     const userId = await checkUserId(message, infoUser);
 
     if (userId != "invalid") {
-
-        //Check userId validity and return user_id
-        const listBattle = await listBattleAdmin(dateStart, dateEnd, infoUser);
+        
+        const listBattle = await listBattleAdmin(dateStart, dateEnd, filterGuild, infoUser);
         
         if(listBattle != "invalid"){
 
@@ -159,33 +161,77 @@ function listoffense (message) {
 
     var checkPerm = checkRoleAdmin(message, infoUser);
     if (checkPerm == false) return;
-    // message.channel.send('Command listoffense : ');
 
-    // Récupération des arguments après la commandes
-    let messageArray = message.content.split(" ");
-    let args = messageArray.slice(1);
+    //Ancien code pour l'instant je garde
+    // // Récupération des arguments après la commandes
+    // let messageArray = message.content.split(" ");
+    // let args = messageArray.slice(1);
 
-    const argumentOneUndefined = new Discord.MessageEmbed()
+    // const argumentOneUndefined = new Discord.MessageEmbed()
+    // .setColor("#F00E0E")
+    // .setTitle(`:x: Argument introuvable  :x:`)
+    // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) !`)
+    // .setFooter("Erreur : argumentOneUndefined");
+
+    // if (args[0] == undefined) return message.channel.send(argumentOneUndefined) | consoleLog(`ERROR : argumentOneUndefined`, NaN, infoUser);
+    // console.log('args', args);
+
+    // const argumentTwoUndefined = new Discord.MessageEmbed()
+    // .setColor("#F00E0E")
+    // .setTitle(`:x: Argument introuvable  :x:`)
+    // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) !`)
+    // .setFooter("Erreur : argumentTwoUndefined");
+
+    // if (args[1] == undefined) return message.channel.send(argumentTwoUndefined) | consoleLog(`ERROR : argumentTwoUndefined`, NaN, infoUser);
+    // console.log('args', args);
+
+    // var dateStart = args[0];
+    // var dateEnd = args[1];
+
+    var verifMessage = checkMessageContent(message.content.split(" "));
+
+    let errorArgsTiretInferior = new Discord.MessageEmbed()
     .setColor("#F00E0E")
-    .setTitle(`:x: Argument introuvable  :x:`)
-    .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) !`)
-    .setFooter("Erreur : argumentOneUndefined");
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré assez de tiret !`) 
+    .setFooter("Erreur : errorArgsTiretInferior");
 
-    if (args[0] == undefined) return message.channel.send(argumentOneUndefined) | consoleLog(`ERROR : argumentOneUndefined`, NaN, infoUser);
-    console.log('args', args);
+    console.log("verifMessage", verifMessage);
+    if (verifMessage.tiret < 1) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
 
-    const argumentTwoUndefined = new Discord.MessageEmbed()
+    let messageArray = verifMessage.message.split("-");
+    let dateStart = messageArray[0].split(" ").slice(1).filter(Boolean);
+
+    let errorArgsDateStart = new Discord.MessageEmbed()
     .setColor("#F00E0E")
-    .setTitle(`:x: Argument introuvable  :x:`)
-    .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) !`)
-    .setFooter("Erreur : argumentTwoUndefined");
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
+    .setFooter("Erreur : errorArgsDateStart");
 
-    if (args[1] == undefined) return message.channel.send(argumentTwoUndefined) | consoleLog(`ERROR : argumentTwoUndefined`, NaN, infoUser);
-    console.log('args', args);
+    if (dateStart.length == 0) return message.channel.send(errorArgsDateStart) | consoleLog(`ERROR : errorArgsDateStart`, NaN, infoUser);
 
-    var dateStart = args[0];
-    var dateEnd = args[1];
-    processRequest(dateStart, dateEnd, message, infoUser);
+    let dateEnd = messageArray[1];
+
+    let errorArgsDateEnd = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username},  merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
+    .setFooter("Erreur : errorArgsDateEnd");
+
+    if (dateEnd == undefined) return message.channel.send(errorArgsDateEnd) | consoleLog(`ERROR : errorArgsDateEnd`, NaN, infoUser);
+
+    console.log('dateStart', dateStart);
+    var newDateStart = '';
+    for (let i = 0; i < dateStart.length; i++) {
+        newDateStart += dateStart[i] + " "; 
+    }
+    
+    console.log('new date start', newDateStart);
+    console.log('date End', dateEnd);
+
+    var filterGuild = messageArray[2];
+
+    processRequest(newDateStart, dateEnd, filterGuild, message, infoUser);
 }
 
 //Module export

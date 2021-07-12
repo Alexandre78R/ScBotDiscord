@@ -9,7 +9,7 @@ var config = require('../config/config.js')
 //Function check rôle discord
 function checkMaintenance (message, command, infoUser) {
 
-    console.log('commande --->', command)
+    console.log('commande --->', command);
 
     var checkRoleDev = false
 
@@ -42,6 +42,12 @@ function checkMaintenance (message, command, infoUser) {
     
             break;
     
+            case "dl" :
+    
+                checkMaintenanceStatus = config.discord.maintenance.dl;
+    
+            break;
+
             case "mycontrib" :
     
                 checkMaintenanceStatus = config.discord.maintenance.mycontrib;
@@ -126,13 +132,13 @@ function checkMaintenance (message, command, infoUser) {
                 .setColor("#F00E0E")
                 .setTitle(`:x: Impossible de trouver la commande :x:`)
                 .setDescription(`:x: Impossible de trouver la commande : ${command} !`)
-                .setFooter("Erreur : commandNotFound")
-                message.channel.send(commandNotFound) | consoleLog(`ERROR : commandNotFound`, NaN, infoUser)
+                .setFooter("Erreur : commandNotFound");
+                message.channel.send(commandNotFound) | consoleLog(`ERROR : commandNotFound`, NaN, infoUser);
     
                 return false;
         }
     
-        console.log('status check', checkMaintenanceStatus)
+        console.log('status command check', checkMaintenanceStatus);
         if (checkMaintenanceStatus == true){
     
             return true;
@@ -143,9 +149,9 @@ function checkMaintenance (message, command, infoUser) {
             .setColor("#F00E0E")
             .setTitle(`:x: Permission refusé :x:`)
             .setDescription(`:x: ${infoUser.username} cette commande est en cours de maintenance, merci de réessayer ultérement !`)
-            .setFooter("Erreur : commandMaintenance")
-            message.channel.send(commandMaintenance)
-            consoleLog(`ERROR : commandMaintenance`, NaN, infoUser)
+            .setFooter("Erreur : commandMaintenance");
+            message.channel.send(commandMaintenance);
+            consoleLog(`ERROR : commandMaintenance`, NaN, infoUser);
     
             return false;
         }
