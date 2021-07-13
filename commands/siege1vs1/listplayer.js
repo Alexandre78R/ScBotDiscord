@@ -57,7 +57,7 @@ function listplayer (message){
     .setFooter("Erreur : errorArgsVariant")
 
     //Condition si il n'ya pas d'argument
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
 
     //Switch variant 
     switch (variantSC){
@@ -109,7 +109,7 @@ function listplayer (message){
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
             .setFooter("Erreur : errorListPlayerVariant")
-            return message.channel.send(errorListPlayerVariant) | consoleLog(`ERROR : errorListPlayerVariant - ${variantSC}`, NaN, infoUser)
+            return message.channel.send(errorListPlayerVariant) && consoleLog(`ERROR : errorListPlayerVariant - ${variantSC}`, NaN, infoUser)
     }
 
     //On créer un tableau vide

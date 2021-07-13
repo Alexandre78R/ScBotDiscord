@@ -58,6 +58,9 @@ const cmdUpOffense = require("../commands/siegestats/upoffense.js");
 //Import de la commande listoffense 
 const cmdListOffense = require('../commands/admin/listoffense.js');
 
+//Import de la commande listoffenseplayer
+const cmdListOffensePlayer = require("../commands/admin/listoffenseplayer.js");
+
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -443,6 +446,7 @@ function getCmdFunction(cmd) {
     "deloffense" : cmdDelOffense,
     "upoffense" : cmdUpOffense,
     "listoffense"  : cmdListOffense,
+    "listoffenseplayer" : cmdListOffensePlayer,
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }

@@ -25,6 +25,9 @@ var dateFormat = require("../../function/dateFormat.js");
 // Import the discord.js-pagination package
 const paginationEmbed = require('../../module/discord.js-pagination.js');
 
+//Import function checkMessageContent 
+const checkMessageContent = require('../../function/checkMessageContent.js');
+
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
     if (!result) {
@@ -40,7 +43,7 @@ async function checkUserId (message, infoUser) {
     }
 }
 
-async function checkUserBdd (searchUser, message, infoUser, ) {
+async function checkUserBdd (searchUser, message, infoUser) {
     var result = await sqlUser.searchUserBdd(searchUser, message, infoUser);
     if (!result) {
         const searchUserUndefined = new Discord.MessageEmbed()
@@ -55,9 +58,9 @@ async function checkUserBdd (searchUser, message, infoUser, ) {
     }
 }
 
-async function listBattleMyUser (userId, infoUser) {
-    var result = await sqlBattle.dataTableByUserMyStats(userId);
-    if (result.length == 0) {
+async function listBattlePlayer (userId, dateStart, dateEnd, infoUser) {
+    var result = await sqlBattle.dataTableListOffensePlayerAdmin(userId, dateStart, dateEnd);
+    if (result[1].length == 0) {
         return "invalid";
     } else {
         return result;
@@ -71,7 +74,7 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
         const infouserNotFound = new Discord.MessageEmbed()
         .setColor("#F00E0E")
         .setTitle(`:x: Defense introuvable  :x:`)
-        .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur ${objectUserSearch.usernameDiscord}...`)
+        .setDescription(`:x: ${infoUser.username}, ${objectUserSearch.usernameDiscord} (#${objectUserSearch.idDiscord}) n'a pas jamais entré d'offense pendant cette période : ${dateStart} au ${dateEnd} ! `)
         .setFooter("Erreur : infouserNotFound");
 
         var messageError = message.channel.send(infouserNotFound)
@@ -79,30 +82,22 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
 
     } else {
         var countTotal = results[0].total;
-        var countWin = results[0].win;
-        var countLose = results[0].lose;
         var tableResultOffense = results[1];
-        var winrateTotal = Math.round( countWin * 100 / (countWin + countLose) * 10 ) / 10;
-        
-        var startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - 1);
 
         var pages = [];
         var tabListTabResult = [];
         var lengthPage = 9;
         
         for (let o = 0; o < tableResultOffense.length; o++) {
-            var percentage = Math.round( tableResultOffense[o].win * 100 / (tableResultOffense[o].win + tableResultOffense[o].lose) * 10 ) / 10;
-            var frequency = tableResultOffense[o].win + tableResultOffense[o].lose;
             if (tabListTabResult.length == 0) {
                 tabListTabResult.push([]);
-                tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+                tabListTabResult[tabListTabResult.length-1].push({ name: `N°${o}`, value: `Offense : ${tableResultOffense[o].offense} \nDéfense : ${tableResultOffense[o].defense} \n${tableResultOffense[o].result == "W" ? "Victoire" : "Perdu"}\nDate : ${dateFormat(tableResultOffense[o].created_at)}`});
             } else {
                 if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
-                    tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `N°${o}`, value: `Offense : ${tableResultOffense[o].offense} \nDéfense : ${tableResultOffense[o].defense} \n${tableResultOffense[o].result == "W" ? "Victoire" : "Perdu"}\nDate : ${dateFormat(tableResultOffense[o].created_at)}`});
                 } else {
                     tabListTabResult.push([]);
-                    tabListTabResult[tabListTabResult.length-1].push({ name: tableResultOffense[o].teamName, value: percentage + '% (Win rate) \n' + frequency + ' combats', inline: true });
+                    tabListTabResult[tabListTabResult.length-1].push({ name: `N°${o}`, value: `Offense : ${tableResultOffense[o].offense} \nDéfense : ${tableResultOffense[o].defense} \n${tableResultOffense[o].result == "W" ? "Victoire" : "Perdu"}\nDate : ${dateFormat(tableResultOffense[o].created_at)}`});
                 }
             }
         }
@@ -111,7 +106,7 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
             console.log("tabListTabResult[i].length", tabListTabResult[i].length);
             const infoUserEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
-            .setTitle(`Informations - ${objectUserSearch.usernameDiscord}- ${objectUserSearch.idDiscord}\n\nNombre de combats depuis le ${dateFormat(startDate)} : ${countTotal} - ${winrateTotal}% (Win rate) \n\nListe des offenses utilisées :`)
+            .setTitle(`Informations - ${objectUserSearch.usernameDiscord}- ${objectUserSearch.idDiscord}\n\nNombre d'offense entré : ${countTotal} \n\nListe des offenses utilisées :`)
             .addFields(tabListTabResult[i]);
             pages.push(infoUserEmbed);
         }
@@ -122,14 +117,14 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
     }
 }
 
-async function processRequest (searchUser, message, infoUser){
+async function processRequest (newSearchPlayer, dateStart, dateEnd, message, infoUser){
 
     //Check userId validity and return user_id
     const userId = await checkUserId(message, infoUser);
 
     if (userId != "invalid") {
 
-        const searchUserBdd = await checkUserBdd(searchUser, message, infoUser);
+        const searchUserBdd = await checkUserBdd(newSearchPlayer, message, infoUser);
 
         if (searchUserBdd != 'invalid') {
 
@@ -140,7 +135,7 @@ async function processRequest (searchUser, message, infoUser){
             };
 
             //Check userId validity and return user_id
-            const listBattle = await listBattleMyUser(objectUser.id, infoUser);
+            const listBattle = await listBattlePlayer(objectUser.id, dateStart, dateEnd, infoUser);
 
             if(listBattle != "invalid"){
 
@@ -153,7 +148,7 @@ async function processRequest (searchUser, message, infoUser){
                 let inaccessibilityListBattleError = new Discord.MessageEmbed()
                 .setColor("#F00E0E")
                 .setTitle(`:x: Impossible d'envoyer les données  :x:`)
-                .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'essayer avec son id discord ou son tag discord.`)
+                .setDescription(`:x: ${infoUser.username}, ${objectUser.usernameDiscord} (#${objectUser.idDiscord}) n'a pas jamais entré d'offense pendant cette période : ${dateStart} au ${dateEnd} ! `)
                 .setFooter("Erreur : inaccessibilityListBattleError");
                 message.channel.send(inaccessibilityListBattleError);
                 consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser);
@@ -163,7 +158,7 @@ async function processRequest (searchUser, message, infoUser){
     }
 }
 
-function playerstats (message) {
+function listoffenseplayer (message) {
 
     //Sécurité pour pas que le bot réagi avec lui-même
     if(message.author.bot) return;
@@ -179,27 +174,62 @@ function playerstats (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = userInfo("./commands/playerstats.js", message);
+    var infoUser = userInfo("./commands/listoffenseplayer.js", message);
 
-    var statutcommand = checkMaintenance(message, "playerstats", infoUser);
+    var statutcommand = checkMaintenance(message, "listoffenseplayer", infoUser);
     if (statutcommand == false) return;
 
-    // Récupération des arguments après la commandes
-    let messageArray = message.content.split(" ");
-    let args = messageArray.slice(1);
+    var verifMessage = checkMessageContent(message.content.split(" "));
 
-    var searchUser = args[0];
+    let errorArgsTiretInferior = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas entré assez de tiret !`) 
+    .setFooter("Erreur : errorArgsTiretInferior");
+
+    if (verifMessage.tiret < 2) return message.channel.send(errorArgsTiretInferior) && consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
+
+    let messageArray = verifMessage.message.split("-");
+    let searchPlayer = messageArray[0].split(" ").slice(1).filter(Boolean);
 
     let usernameOrIdusernameNotFound = new Discord.MessageEmbed()
     .setColor("#F00E0E")
-    .setTitle(`:x: Impossible de trouver la commande :x:`)
-    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer d'argument avec le tag d'username de discord ou sois son id discord. Pour voir ses stats.`)
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, vous n'avez pas rentrer d'argument avec le tag d'username de discord ou sois son id discord. Pour voir ses stats.`) 
     .setFooter("Erreur : usernameOrIdusernameNotFound");
 
-    if (searchUser == undefined) return message.channel.send(usernameOrIdusernameNotFound) && consoleLog(`ERROR : usernameOrIdusernameNotFound`, NaN, infoUser);
-    
-    processRequest(searchUser, message, infoUser);
+    if (searchPlayer.length == 0) return message.channel.send(usernameOrIdusernameNotFound) && consoleLog(`ERROR : usernameOrIdusernameNotFound`, NaN, infoUser);
+
+    console.log("searchPlayer", searchPlayer);
+
+    let dateStart = messageArray[1];
+
+    let errorArgsDateStart = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username},  merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
+    .setFooter("Erreur : errorArgsDateEnd");
+
+    if (dateStart == undefined) return message.channel.send(errorArgsDateStart) && consoleLog(`ERROR : errorArgsDateStart`, NaN, infoUser);
+
+    let dateEnd = messageArray[2];
+
+    let errorArgsDateEnd = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username},  merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
+    .setFooter("Erreur : errorArgsDateEnd");
+
+    if (dateEnd == undefined) return message.channel.send(errorArgsDateEnd) && consoleLog(`ERROR : errorArgsDateEnd`, NaN, infoUser);
+
+    var newSearchPlayer = '';
+    for (let i = 0; i < searchPlayer.length; i++) {
+        newSearchPlayer += searchPlayer[i]; 
+    }
+
+    console.log(newSearchPlayer, dateStart, dateEnd, message, infoUser)
+    processRequest(newSearchPlayer, dateStart, dateEnd, message, infoUser)
 }
 
 //Module export
-module.exports = playerstats;
+module.exports = listoffenseplayer;

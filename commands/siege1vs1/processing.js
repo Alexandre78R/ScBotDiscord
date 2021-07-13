@@ -55,7 +55,7 @@ function processing (message) {
     .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
     .setFooter("Erreur : errorArgsVariant")
 
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
 
     switch (variantSC){
                         
@@ -89,7 +89,7 @@ function processing (message) {
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
             .setFooter("Erreur : errorProcessingGuildVariant")
-            return message.channel.send(errorProcessingGuildVariant) | consoleLog(`ERROR : errorProcessingGuildVariant - ${variantSC}`, NaN, infoUser)
+            return message.channel.send(errorProcessingGuildVariant) && consoleLog(`ERROR : errorProcessingGuildVariant - ${variantSC}`, NaN, infoUser)
     } 
 
     let errorProccessingDataUndefined = new Discord.MessageEmbed()
@@ -98,7 +98,7 @@ function processing (message) {
     .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}dl .`) 
     .setFooter("Erreur : errorProccessingDataUndefined")
 
-    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) | consoleLog(`ERROR : errorProccessingDataUndefined - ${variantSC}`, NaN, infoUser)
+    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) && consoleLog(`ERROR : errorProccessingDataUndefined - ${variantSC}`, NaN, infoUser)
 
     //Lecture du première argument apr_s la commandes (pour récupérer l'id)
     var siegeId = args[1];
@@ -109,7 +109,7 @@ function processing (message) {
     .setDescription(":x: Vous n'avez pas rentrer d'ID !")
     .setFooter("Erreur : errorArgsId")
 
-    if (siegeId == undefined) return message.channel.send(errorArgsId) | consoleLog(`ERROR : errorArgsId - ${variantSC}`, NaN, infoUser)
+    if (siegeId == undefined) return message.channel.send(errorArgsId) && consoleLog(`ERROR : errorArgsId - ${variantSC}`, NaN, infoUser)
 
     //Vérification id en caractère
     let idVerife = Number.isNaN(Number(siegeId));
@@ -120,7 +120,7 @@ function processing (message) {
     .setDescription(":x: Vous n'avez pas rentrer un id correct !")
     .setFooter("Erreur : errorValueId")
 
-    if(idVerife == true) return message.channel.send(errorValueId) | consoleLog(`ERROR : errorValueId - ${variantSC}`, NaN, infoUser)
+    if(idVerife == true) return message.channel.send(errorValueId) && consoleLog(`ERROR : errorValueId - ${variantSC}`, NaN, infoUser)
 
     let errorAtttackLogUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -128,7 +128,7 @@ function processing (message) {
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
     .setFooter("Erreur : errorAtttackLogUndefined")
 
-    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) | consoleLog(`ERROR : errorAtttackLogUndefined - ${variantSC}`, NaN, infoUser)
+    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) && consoleLog(`ERROR : errorAtttackLogUndefined - ${variantSC}`, NaN, infoUser)
 
     var attack_log = infoSiege.attack_log.log_list;
 
@@ -272,7 +272,7 @@ function processing (message) {
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
     .setFooter("Erreur : errorDefenseLogUndefined")
 
-    if(infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) | consoleLog(`ERROR : errorDefenseLogUndefined - ${variantSC}`, NaN, infoUser)
+    if(infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) && consoleLog(`ERROR : errorDefenseLogUndefined - ${variantSC}`, NaN, infoUser)
 
     var defense_log = infoSiege.defense_log.log_list;
 

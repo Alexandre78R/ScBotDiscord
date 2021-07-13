@@ -112,7 +112,17 @@ function listOffenseAdmin (dateStart, dateEnd){
     });
 }
 
+function listOffensePlayerAdmin (userId, currentDate, OneDayBefore) {
+    console.log('listLastBattles function --> ', userId, currentDate, OneDayBefore)
+    // select * from battle where created_at between "2021-05-07 00:00:00" and "2021-05-08 00:00:00" && user_id="1" order by created_at;
+    return knex.from('battle').whereBetween('created_at', [OneDayBefore, currentDate]).where({ user_id : userId}).orderBy('created_at').then(battles => {
+        // console.log("battles", battles)
+        return battles;
+    })
+}
+
 function listLastBattles (userId, currentDate, OneDayBefore) {
+    console.log('listLastBattles function --> ', userId, currentDate, OneDayBefore)
     // select * from battle where created_at between "2021-05-07 00:00:00" and "2021-05-08 00:00:00" && user_id="1" order by created_at desc;
     return knex.from('battle').whereBetween('created_at', [OneDayBefore, currentDate]).where({ user_id : userId}).orderBy('created_at', "desc").then(battles => {
         // console.log("battles", battles)
@@ -262,8 +272,29 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd, filterGuild) {
         }
     }
 
-    console.log('tableResultOffense', {"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense);
+    // console.log('tableResultOffense', {"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense);
     return [{"total" : countBattle, "totalSC1" : countBattleSC1, "totalSC2" : countBattleSC2, "totalSC3" : countBattleSC3, "totalSC4" : countBattleSC4}, tableResultOffense];
+}
+
+async function dataTableListOffensePlayerAdmin (userId, dateStart, dateEnd) {
+    var tableResultOffense = [];
+    var countBattle = 0;
+    console.log('dateStart',dateStart);
+    console.log("dateEnd", dateEnd);
+    var listOffenselayer = await listOffensePlayerAdmin(userId, dateEnd, dateStart);
+
+    console.log("listOffenselayer", listOffenselayer);
+    for (var o = 0; o < listOffenselayer.length; o++) {
+        // console.log('listOffenselayer[0]', listOffenselayer[0]);
+        var teamNameOffense = await sqlTeam.getNameTeam(listOffenselayer[o].offense_id);
+        var teamNameDefense = await sqlTeam.getNameTeam(listOffenselayer[o].defense_id);
+        var resultBattle = await listOffenselayer[o].result == '1' ? "W" : "L";
+        tableResultOffense.push({id : listOffenselayer[o].id, result : resultBattle, offense : teamNameOffense, defense : teamNameDefense, created_at : listOffenselayer[o].created_at});
+        countBattle++;
+    }
+
+    // console.log('tableResultOffense', {"total" : countBattle}, tableResultOffense);
+    return [{"total" : countBattle}, tableResultOffense];
 }
 
 async function dataTableLastoffense(userId) {
@@ -305,6 +336,7 @@ module.exports.delBattles = delBattles;
 module.exports.dataTableLastoffense = dataTableLastoffense;
 module.exports.dataTableByUserMyStats = dataTableByUserMyStats;
 module.exports.dataTableListOffenseAdmin = dataTableListOffenseAdmin;
+module.exports.dataTableListOffensePlayerAdmin = dataTableListOffensePlayerAdmin;
 module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;
 module.exports.upBattleData = upBattleData;

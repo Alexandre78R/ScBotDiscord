@@ -126,6 +126,12 @@ function checkMaintenance (message, command, infoUser) {
 
             break;
 
+            case "listoffenseplayer" :
+
+                checkMaintenanceStatus = config.discord.maintenance.listoffenseplayer;
+
+            break;
+
             default:
     
                 let commandNotFound = new Discord.MessageEmbed()
@@ -133,7 +139,7 @@ function checkMaintenance (message, command, infoUser) {
                 .setTitle(`:x: Impossible de trouver la commande :x:`)
                 .setDescription(`:x: Impossible de trouver la commande : ${command} !`)
                 .setFooter("Erreur : commandNotFound");
-                message.channel.send(commandNotFound) | consoleLog(`ERROR : commandNotFound`, NaN, infoUser);
+                message.channel.send(commandNotFound) && consoleLog(`ERROR : commandNotFound`, NaN, infoUser);
     
                 return false;
         }

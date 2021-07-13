@@ -132,7 +132,7 @@ function myContrib (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/mycontrib.js", message);
 
-    var statutcommand = checkMaintenance (message, "mycontrib", infoUser)
+    var statutcommand = checkMaintenance (message, "mycontrib", infoUser);
     if(statutcommand == false) return;
 
     processRequest(message, infoUser);

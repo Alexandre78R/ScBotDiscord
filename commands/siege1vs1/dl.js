@@ -60,7 +60,7 @@ function dl (message){
     .setFooter("Erreur : errorArgsVariantDl");
 
     //Vérification Si l'utilisateur n'a pas rentrer d'argument
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariantDl`, NaN, infoUser);
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariantDl`, NaN, infoUser);
 
     //Deuxième arguement 
     var urlJson = args[1];
@@ -125,7 +125,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition si la data n'est pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //Sauvegarde du fichier
                                 fs.writeFile(`./data/SC1/siege.json`, httpsResultSC1, function(err) {
@@ -192,7 +192,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condtion si la data n'est pas en format en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //Sauvegarde du fichier
                                 fs.writeFile(`./data/SC2/siege.json`, httpsResultSC2, function(err) {
@@ -258,7 +258,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition les datas ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //On sauvegarde le fichier du siege
                                 fs.writeFile(`./data/SC3/siege.json`, httpsResultSC3, function(err) {
@@ -324,7 +324,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition en cas les datas ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //Sauvegarde du fichier siege
                                 fs.writeFile(`./data/SC4/siege.json`, httpsResultSC4, function(err) {
@@ -429,7 +429,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition si les infos ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //Sauvegade du fichier siege 
                                 fs.writeFile(`./data/SC1/siege.json`, httpResultSC1, function(err) {
@@ -494,7 +494,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition si les datas ne sont pas en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //On sauvegarde le fichier siege
                                 fs.writeFile(`./data/SC2/siege.json`, httpResultSC2, function(err) {
@@ -560,7 +560,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
 
                                 //Condition si la data n'est pas en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //On sauvegarde le fichier siege
                                 fs.writeFile(`./data/SC3/siege.json`, httpResultSC3, function(err) {
@@ -626,7 +626,7 @@ function dl (message){
                                 .setFooter("Erreur : reponseFileSaveDataNotJsonError")
                                 
                                 //Condition si la data n'est pas en forma JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) | consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
 
                                 //On sauvegarde le fichier 
                                 fs.writeFile(`./data/SC4/siege.json`, httpResultSC4, function(err) {

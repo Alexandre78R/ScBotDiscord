@@ -15,9 +15,6 @@ const config = require("../config/config.js")
 
 const paginationEmbed = async (msg, pages) => {
 
-	if (!msg && !msg.channel) return console.log('Channel is inaccessible.');
-	if (!pages) return console.log('Pages are not given.');
-
 	var emojiList = ['⏮', '⏪', '⏩', '⏭'];
 	var timeout = 1800000;
 
@@ -82,7 +79,7 @@ const paginationEmbed = async (msg, pages) => {
 					}else{
 						memberMP.send(noPermUserPagination)
 						.then(reponse => {console.log('Réponse mp : Système PaginatioK Ok', reponse)})
-						.catch(err => {console.log('Réponse mp : Système Pagination ERR', err) , msg.channel.send(noPermUserPagination);});
+						.catch(err => {console.log('Réponse mp : Système Pagination ERR', err) && msg.channel.send(noPermUserPagination);});
 					}
 				} else {
 					switch (reaction.emoji.name) {
@@ -131,7 +128,7 @@ const paginationEmbed = async (msg, pages) => {
 
 	});
 
-	return infoMessage, curPage;
+	return infoMessage && curPage;
 };
 
 module.exports = paginationEmbed;

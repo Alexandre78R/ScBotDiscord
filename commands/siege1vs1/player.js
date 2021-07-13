@@ -57,7 +57,7 @@ function player (message){
     .setFooter("Erreur : errorArgsVariant")
 
     //Condition si il n'ya pas d'argument
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
 
     //Switch Variant
     switch (variantSC){
@@ -107,7 +107,7 @@ function player (message){
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
             .setFooter("Erreur : errorPlayerVariant")
-            return message.channel.send(errorPlayerVariant) | consoleLog(`ERROR : errorPlayerVariant`, NaN, infoUser);
+            return message.channel.send(errorPlayerVariant) && consoleLog(`ERROR : errorPlayerVariant`, NaN, infoUser);
     }
 
     //Deuxième argument
@@ -121,7 +121,7 @@ function player (message){
     .setFooter("Erreur : errorPlayerInfoSearch")
 
     //Condition si il n'y a pas de deuxième argument
-    if (infoSearch == undefined) return message.channel.send(errorPlayerInfoSearch) | consoleLog(`ERROR : errorPlayerInfoSearch - ${variantSC}`, NaN, infoUser);
+    if (infoSearch == undefined) return message.channel.send(errorPlayerInfoSearch) && consoleLog(`ERROR : errorPlayerInfoSearch - ${variantSC}`, NaN, infoUser);
 
     //Création tableau vide
     var data = [];

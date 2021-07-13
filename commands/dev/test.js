@@ -254,7 +254,7 @@ function test (message) {
 		.setColor('#0099ff')
 		.setTitle(`title${[i]}`)
 		.setDescription(`description${[i]}`)
-		.addFields(tabListTabResult[i])
+		.addFields(tabListTabResult[i]);
 		pages.push(exampleEmbed);
 	}
 

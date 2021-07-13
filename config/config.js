@@ -28,6 +28,7 @@ module.exports = {
             "deloffense": true,
             "upoffense": true,
             "listoffense" :  true,
+            "listoffenseplayer" : true,
         },
         "roles_id": {
             "ADMIN" : environment.roles_id.ADMIN,

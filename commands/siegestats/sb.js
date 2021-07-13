@@ -292,7 +292,7 @@ function sb (message) {
     .setDescription(`:x: ${infoUser.username}, merci de rentrer les 3 noms de monstre pour voir la liste des offenses disponible.`)
     .setFooter("Erreur : nameMob1NoteFound");
 
-    if (defenseMonsters.length == 0) return message.channel.send(nameMob1NoteFound) | consoleLog(`ERROR : nameMob1NoteFound`, NaN, infoUser);
+    if (defenseMonsters.length == 0) return message.channel.send(nameMob1NoteFound) && consoleLog(`ERROR : nameMob1NoteFound`, NaN, infoUser);
 
     let nameMob2NoteFound = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -300,7 +300,7 @@ function sb (message) {
     .setDescription(`:x: ${infoUser.username}, merci de rentrer 2 noms de monstre en plus, pour voir la liste des offenses disponible.`)
     .setFooter("Erreur : nameMob2NoteFound");
 
-    if (defenseMonsters.length == 1) return message.channel.send(nameMob2NoteFound) | consoleLog(`ERROR : nameMob2NoteFound`, NaN, infoUser);
+    if (defenseMonsters.length == 1) return message.channel.send(nameMob2NoteFound) && consoleLog(`ERROR : nameMob2NoteFound`, NaN, infoUser);
 
     let nameMob3NoteFound = new Discord.MessageEmbed()
     .setColor("#F00E0E")
@@ -308,7 +308,7 @@ function sb (message) {
     .setDescription(`:x: ${infoUser.username}, merci de rentrer le dernier nom de monstre, pour voir la liste des offenses disponible.`)
     .setFooter("Erreur : nameMob3NoteFound");
 
-    if (defenseMonsters.length == 2) return message.channel.send(nameMob3NoteFound) | consoleLog(`ERROR : nameMob3NoteFound`, NaN, infoUser);
+    if (defenseMonsters.length == 2) return message.channel.send(nameMob3NoteFound) && consoleLog(`ERROR : nameMob3NoteFound`, NaN, infoUser);
 
     //Argument pour url juste apr�s la commande
     consoleLog("Monster in the defense", defenseMonsters);

@@ -54,7 +54,7 @@ function stats (message){
     .setFooter("Erreur : errorArgsVariant")
 
     //Condition si il n'y a pas d'argument 
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) | consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
 
     //Switch Variant
     switch (variantSC){
@@ -98,7 +98,7 @@ function stats (message){
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
             .setFooter("Erreur : errorStatsGuildVariant")
-            return message.channel.send(errorStatsGuildVariant) | consoleLog(`ERROR : errorStatsGuildVariant - ${variantSC}`, NaN, infoUser)
+            return message.channel.send(errorStatsGuildVariant) && consoleLog(`ERROR : errorStatsGuildVariant - ${variantSC}`, NaN, infoUser)
     } 
 
     //Message d'erreur si il n'y a pas de fichier des info du siege
@@ -109,7 +109,7 @@ function stats (message){
     .setFooter("Erreur : errorStatsDataUndefined")
 
     //Condition si on ne trouve pas les informations
-    if (tableauResultat == null) return message.channel.send(errorStatsDataUndefined) | consoleLog(`ERROR : Impossible de toruver le fichier : ../data/${variantSC}/tableauResultat.json - ${variantSC}`, NaN, infoUser)
+    if (tableauResultat == null) return message.channel.send(errorStatsDataUndefined) && consoleLog(`ERROR : Impossible de toruver le fichier : ../data/${variantSC}/tableauResultat.json - ${variantSC}`, NaN, infoUser)
 
     //Récupération des informations des Guildes
     var infoGuilde = tableauResultat.Guildes

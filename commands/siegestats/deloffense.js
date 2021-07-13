@@ -145,7 +145,7 @@ function deloffense (message) {
     .setDescription(`:x: ${infoUser.username}, impossible vous n'avez pas entré d'id à coter de la commande !`)
     .setFooter("Erreur : argumentUndefined");
 
-    if (args[0] == undefined) return message.channel.send(argumentUndefined) | consoleLog(`ERROR : argumentUndefined`, NaN, infoUser);
+    if (args[0] == undefined) return message.channel.send(argumentUndefined) && consoleLog(`ERROR : argumentUndefined`, NaN, infoUser);
 
     var checkArgsNum = checkNumber(args[0]);
 
@@ -155,7 +155,7 @@ function deloffense (message) {
     .setDescription(`:x: ${infoUser.username}, merci de entré un vrais id !`)
     .setFooter("Erreur : noNumberValue");
 
-    if (checkArgsNum == "Not a Number!") return message.channel.send(noNumberValue) | consoleLog(`ERROR : noNumberValue`, NaN, infoUser);
+    if (checkArgsNum == "Not a Number!") return message.channel.send(noNumberValue) && consoleLog(`ERROR : noNumberValue`, NaN, infoUser);
     
     processRequest(args[0], message, infoUser);
 }

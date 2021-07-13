@@ -173,7 +173,7 @@ function listoffense (message) {
     // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) !`)
     // .setFooter("Erreur : argumentOneUndefined");
 
-    // if (args[0] == undefined) return message.channel.send(argumentOneUndefined) | consoleLog(`ERROR : argumentOneUndefined`, NaN, infoUser);
+    // if (args[0] == undefined) return message.channel.send(argumentOneUndefined) && consoleLog(`ERROR : argumentOneUndefined`, NaN, infoUser);
     // console.log('args', args);
 
     // const argumentTwoUndefined = new Discord.MessageEmbed()
@@ -182,7 +182,7 @@ function listoffense (message) {
     // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) !`)
     // .setFooter("Erreur : argumentTwoUndefined");
 
-    // if (args[1] == undefined) return message.channel.send(argumentTwoUndefined) | consoleLog(`ERROR : argumentTwoUndefined`, NaN, infoUser);
+    // if (args[1] == undefined) return message.channel.send(argumentTwoUndefined) && consoleLog(`ERROR : argumentTwoUndefined`, NaN, infoUser);
     // console.log('args', args);
 
     // var dateStart = args[0];
@@ -197,7 +197,7 @@ function listoffense (message) {
     .setFooter("Erreur : errorArgsTiretInferior");
 
     console.log("verifMessage", verifMessage);
-    if (verifMessage.tiret < 1) return message.channel.send(errorArgsTiretInferior) | consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
+    if (verifMessage.tiret < 1) return message.channel.send(errorArgsTiretInferior) && consoleLog(`ERROR : errorArgsTiretInferior`, NaN, infoUser);
 
     let messageArray = verifMessage.message.split("-");
     let dateStart = messageArray[0].split(" ").slice(1).filter(Boolean);
@@ -208,7 +208,7 @@ function listoffense (message) {
     .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
     .setFooter("Erreur : errorArgsDateStart");
 
-    if (dateStart.length == 0) return message.channel.send(errorArgsDateStart) | consoleLog(`ERROR : errorArgsDateStart`, NaN, infoUser);
+    if (dateStart.length == 0) return message.channel.send(errorArgsDateStart) && consoleLog(`ERROR : errorArgsDateStart`, NaN, infoUser);
 
     let dateEnd = messageArray[1];
 
@@ -218,7 +218,7 @@ function listoffense (message) {
     .setDescription(`:x: ${infoUser.username},  merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) vous pouvez mettre l'heure mais c'est facultatif en format hh:mm:ss !`) 
     .setFooter("Erreur : errorArgsDateEnd");
 
-    if (dateEnd == undefined) return message.channel.send(errorArgsDateEnd) | consoleLog(`ERROR : errorArgsDateEnd`, NaN, infoUser);
+    if (dateEnd == undefined) return message.channel.send(errorArgsDateEnd) && consoleLog(`ERROR : errorArgsDateEnd`, NaN, infoUser);
 
     console.log('dateStart', dateStart);
     var newDateStart = '';

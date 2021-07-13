@@ -54,7 +54,7 @@ function help (message){
     )
     .setFooter(`Tapez ${config.discord.prefix}help + le nom de la commandes pour avoir plus d'information !`);
 
-    if (notCommand == undefined) return message.channel.send(notCommandEmbed) | consoleLog("OK : notCommandEmbed", NaN, infoUser);
+    if (notCommand == undefined) return message.channel.send(notCommandEmbed) && consoleLog("OK : notCommandEmbed", NaN, infoUser);
     
     notCommand = notCommand.toLowerCase();
 
