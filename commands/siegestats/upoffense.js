@@ -1,11 +1,11 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import function consoleLog
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Function checkMaintenance 
 const checkMaintenance = require('../../function/checkMaintenance.js');
@@ -20,10 +20,10 @@ const checkNumber = require('../../function/checkNumber.js');
 const sqlMonster = require("../../query/monster.js");
 
 //Import user query
-const sqlUser = require("../../query/user.js");
+const sqlUser = require('../../query/user.js');
 
 //Import battle query
-const sqlBattle = require("../../query/battle.js");
+const sqlBattle = require('../../query/battle.js');
 
 //Immport function checkMessageContent 
 var checkMessageContent = require('../../function/checkMessageContent.js');

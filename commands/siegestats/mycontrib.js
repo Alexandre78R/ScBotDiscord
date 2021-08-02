@@ -106,9 +106,9 @@ async function processRequest (message, infoUser){
             .setColor("#F00E0E")
             .setTitle(`:x: Impossible d'envoyer les données  :x:`)
             .setDescription(`:x: ${infoUser.username}, impossible de vous trouver dans la base de donnée merci d'abord d'ajouter des offenses avec la commande ${config.discord.prefix}offense.`)
-            .setFooter("Erreur : inaccessibilityListBattleError")
-            message.channel.send(inaccessibilityListBattleError)
-            consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser)
+            .setFooter("Erreur : inaccessibilityListBattleError");
+            message.channel.send(inaccessibilityListBattleError);
+            consoleLog(`ERROR : inaccessibilityListBattleError`, NaN, infoUser);
 
         }
     }

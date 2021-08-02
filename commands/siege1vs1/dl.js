@@ -1,28 +1,28 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import du module fs
-var fs = require("fs")
+var fs = require('fs');
 
 //Import du module http
-var http = require('http')
+var http = require('http');
 
 //Import du module https
 var https = require('https');
 
 //Import de la function vérification du format en JSON
-var validateJSON = require('../../function/validateJSON.js')
+var validateJSON = require('../../function/validateJSON.js');
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../../function/consoleLog.js");
+const consoleLog = require('../../function/consoleLog.js');
 
 //Function check maintenance
-var checkMaintenance = require("../../function/checkMaintenance.js")
+var checkMaintenance = require('../../function/checkMaintenance.js');
 
-var userInfo = require('../../function/userinfo.js')
+var userInfo = require('../../function/userinfo.js');
 
 function dl (message){
 
@@ -46,7 +46,7 @@ function dl (message){
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/dl.js", message);
 
-    var statutcommand = checkMaintenance (message, "dl", infoUser)
+    var statutcommand = checkMaintenance (message, "dl", infoUser);
     if(statutcommand == false) return;
     
     //Premier argument
@@ -73,9 +73,9 @@ function dl (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Récupération du fichier  :x:`)
         .setDescription(":x: Merci d'indiquer un lien pour récupérer le fichier.")
-        .setFooter("Erreur : urlJsonError")
-        message.channel.send(urlJsonError)
-        consoleLog(`ERROR : urlJsonError - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : urlJsonError");
+        message.channel.send(urlJsonError);
+        consoleLog(`ERROR : urlJsonError - ${variantSC}`, NaN, infoUser);
 
     }else {
 
@@ -100,7 +100,7 @@ function dl (message){
                             //On surrpime le fichier siege si il existe
                             fs.unlink('./data/SC1/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC1/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC1/siege.json - ${variantSC}`, err);
                                 }else {
                                     consoleLog(`OK : Fichier supprimé : ./data/SC1/siege.json - ${variantSC}`);
                                 }
@@ -115,17 +115,17 @@ function dl (message){
                             response.on('end', () => {
 
                                 //On vérifie la data si il conrepond à un JSON
-                                let dataVerif = validateJSON(httpsResultSC1)
+                                let dataVerif = validateJSON(httpsResultSC1);
 
                                 //Message d'erreur si le format du fichier n'est pas en JSON
                                 let reponseFileSaveDataNotJsonError = new Discord.MessageEmbed()
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition si la data n'est pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //Sauvegarde du fichier
                                 fs.writeFile(`./data/SC1/siege.json`, httpsResultSC1, function(err) {
@@ -138,9 +138,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -148,9 +148,9 @@ function dl (message){
                                         let httpsVariantSC1Embed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC1}`)
-                                        message.channel.send(httpsVariantSC1Embed)
-                                        consoleLog(`OK : httpsVariantSC1Embed - ${variantSC}`, httpsResultSC1, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC1}`);
+                                        message.channel.send(httpsVariantSC1Embed);
+                                        consoleLog(`OK : httpsVariantSC1Embed - ${variantSC}`, httpsResultSC1, infoUser);
 
                                     }
 
@@ -167,7 +167,7 @@ function dl (message){
                             //On surrpime le fichier siege si ll existe
                             fs.unlink('./data/SC2/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC2/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC2/siege.json - ${variantSC}`, err);
                                 }else {
                                     consoleLog(`Ok : Fichier supprimé : ./data/SC2/siege.json - ${variantSC}`);
                                 }
@@ -182,17 +182,17 @@ function dl (message){
                             response.on('end', () => {
 
                                 //On vérifi la data si c'est en format JSON 
-                                let dataVerif = validateJSON(httpsResultSC2)
+                                let dataVerif = validateJSON(httpsResultSC2);
 
                                 //Message d'erreur si le fichier n'est pas en format en JSON
                                 let reponseFileSaveDataNotJsonError = new Discord.MessageEmbed()
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condtion si la data n'est pas en format en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //Sauvegarde du fichier
                                 fs.writeFile(`./data/SC2/siege.json`, httpsResultSC2, function(err) {
@@ -205,9 +205,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -215,9 +215,9 @@ function dl (message){
                                         let httpsVariantEmbed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC2}`)
-                                        message.channel.send(httpsVariantEmbed)
-                                        console.log(`OK : httpsVariantEmbed - ${variantSC}`, httpsResultSC2, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC2}`);
+                                        message.channel.send(httpsVariantEmbed);
+                                        console.log(`OK : httpsVariantEmbed - ${variantSC}`, httpsResultSC2, infoUser);
                                         
                                     }
                                 }); 
@@ -233,7 +233,7 @@ function dl (message){
                             //On supprime le fichier siege si il existe
                             fs.unlink('./data/SC3/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC3/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC3/siege.json - ${variantSC}`, err);
                                 }else {
                                     consoleLog(`OK : Fichier supprimé : ./data/SC3/siege.json - ${variantSC}`);
                                 }
@@ -255,10 +255,10 @@ function dl (message){
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition les datas ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //On sauvegarde le fichier du siege
                                 fs.writeFile(`./data/SC3/siege.json`, httpsResultSC3, function(err) {
@@ -271,9 +271,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -281,9 +281,9 @@ function dl (message){
                                         let httpsVariantEmbed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC3}`)
-                                        message.channel.send(httpsVariantEmbed)
-                                        consoleLog(`OK  : httpsVariantEmbed - ${variantSC}`, httpsResultSC3, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC3}`);
+                                        message.channel.send(httpsVariantEmbed);
+                                        consoleLog(`OK  : httpsVariantEmbed - ${variantSC}`, httpsResultSC3, infoUser);
                                         
                                     }
                                 }); 
@@ -321,10 +321,10 @@ function dl (message){
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition en cas les datas ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //Sauvegarde du fichier siege
                                 fs.writeFile(`./data/SC4/siege.json`, httpsResultSC4, function(err) {
@@ -337,9 +337,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -347,9 +347,9 @@ function dl (message){
                                         let httpsVariantEmbed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC4}`)
-                                        message.channel.send(httpsVariantEmbed)
-                                        consoleLog(`OK : httpsVariantEmbed - ${variantSC}`, httpsResultSC4, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC4}`);
+                                        message.channel.send(httpsVariantEmbed);
+                                        consoleLog(`OK : httpsVariantEmbed - ${variantSC}`, httpsResultSC4, infoUser);
                                         
                                     }
 
@@ -364,9 +364,9 @@ function dl (message){
                             .setColor("#F00E0E")
                             .setTitle(`:x: Récupération du fichier  :x:`)
                             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-                            .setFooter("Erreur : errorGuildVariant")
-                            message.channel.send(errorHttpsGuildVariant)
-                            consoleLog(`ERROR : errorHttpsGuildVariant - ${variantSC}`, NaN, infoUser)
+                            .setFooter("Erreur : errorGuildVariant");
+                            message.channel.send(errorHttpsGuildVariant);
+                            consoleLog(`ERROR : errorHttpsGuildVariant - ${variantSC}`, NaN, infoUser);
                     } 
         
                 }else {
@@ -376,9 +376,9 @@ function dl (message){
                     .setColor("#F00E0E")
                     .setTitle(`:x: Récupération du fichier  :x:`)
                     .setDescription(":x: La récupération du fichier à eu un problème ! Merci de vérifier votre liens.")
-                    .setFooter("Erreur : httpsError")
-                    message.channel.send(httpsError)
-                    consoleLog(`ERROR : httpsError - ${variantSC}`, NaN, infoUser)
+                    .setFooter("Erreur : httpsError");
+                    message.channel.send(httpsError);
+                    consoleLog(`ERROR : httpsError - ${variantSC}`, NaN, infoUser);
 
                 }
             });
@@ -404,9 +404,9 @@ function dl (message){
                             //On supprime le fichier si il existe
                             fs.unlink('./data/SC1/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC1/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC1/siege.json - ${variantSC}`, err);
                                 }else {
-                                    consoleLog(`OK : Fichier supprimé : ./data/SC1/siege.json- ${variantSC}`)
+                                    consoleLog(`OK : Fichier supprimé : ./data/SC1/siege.json- ${variantSC}`);
                                 }
                             });
 
@@ -426,10 +426,10 @@ function dl (message){
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition si les infos ne sont pas en format JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //Sauvegade du fichier siege 
                                 fs.writeFile(`./data/SC1/siege.json`, httpResultSC1, function(err) {
@@ -442,9 +442,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -453,8 +453,8 @@ function dl (message){
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
                                         .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC1}`)
-                                        message.channel.send(httpVariantEmbed)
-                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC1, infoUser)
+                                        message.channel.send(httpVariantEmbed);
+                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC1, infoUser);
                                     }
                                 }); 
                             });
@@ -469,9 +469,9 @@ function dl (message){
                             //On supprime le fichier si il existe
                             fs.unlink('./data/SC2/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC2/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC2/siege.json - ${variantSC}`, err);
                                 }else {
-                                    consoleLog(`Fichier supprimé : ./data/SC2/siege.json' - ${variantSC}`)
+                                    consoleLog(`Fichier supprimé : ./data/SC2/siege.json' - ${variantSC}`);
                                 }
                             });
 
@@ -484,17 +484,17 @@ function dl (message){
                             response.on('end', () => {
 
                                 //On vérifi si la data es format JSON
-                                let dataVerif = validateJSON(httpResultSC2)
+                                let dataVerif = validateJSON(httpResultSC2);
 
                                 //Message d'erreur en cas les datas ne sont pas en format de JSON
                                 let reponseFileSaveDataNotJsonError = new Discord.MessageEmbed()
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition si les datas ne sont pas en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //On sauvegarde le fichier siege
                                 fs.writeFile(`./data/SC2/siege.json`, httpResultSC2, function(err) {
@@ -507,9 +507,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -518,8 +518,8 @@ function dl (message){
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
                                         .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC2}`)
-                                        message.channel.send(httpVariantEmbed)
-                                        consoleLog(`ERROR : httpVariantEmbed - ${variantSC}`, httpResultSC2, infoUser)
+                                        message.channel.send(httpVariantEmbed);
+                                        consoleLog(`ERROR : httpVariantEmbed - ${variantSC}`, httpResultSC2, infoUser);
 
                                     }
                                 }); 
@@ -535,9 +535,9 @@ function dl (message){
                             //On suprime le fichier si il existe déjà
                             fs.unlink('./data/SC3/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC3/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC3/siege.json - ${variantSC}`, err);
                                 }else {
-                                    consoleLog(`OK : Fichier supprimé : ./data/SC3/siege.json - ${variantSC}`)
+                                    consoleLog(`OK : Fichier supprimé : ./data/SC3/siege.json - ${variantSC}`);
                                 }
                             });
 
@@ -550,17 +550,17 @@ function dl (message){
                             response.on('end', () => {
 
                                 //On vérifie que la data est en format JSON
-                                let dataVerif = validateJSON(httpResultSC3)
+                                let dataVerif = validateJSON(httpResultSC3);
 
                                 //Message d'erreur si la data n'est pas en format JSON
                                 let reponseFileSaveDataNotJsonError = new Discord.MessageEmbed()
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
 
                                 //Condition si la data n'est pas en JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //On sauvegarde le fichier siege
                                 fs.writeFile(`./data/SC3/siege.json`, httpResultSC3, function(err) {
@@ -573,9 +573,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -583,9 +583,9 @@ function dl (message){
                                         let httpVariantEmbed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC3}`)
-                                        message.channel.send(httpVariantEmbed)
-                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC3, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC3}`);
+                                        message.channel.send(httpVariantEmbed);
+                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC3, infoUser);
                                         
                                     }
                                 }); 
@@ -601,9 +601,9 @@ function dl (message){
                             //On supprime le fichier siege si il existe déjà
                             fs.unlink('./data/SC4/siege.json', function (err) {
                                 if (err) {
-                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC4/siege.json - ${variantSC}`, err)
+                                    consoleLog(`ERROR : Rien a supprimé : ./data/SC4/siege.json - ${variantSC}`, err);
                                 }else {
-                                    consoleLog(`OK : Fichier supprimé : ./data/SC4/siege.json - ${variantSC}`)
+                                    consoleLog(`OK : Fichier supprimé : ./data/SC4/siege.json - ${variantSC}`);
                                 }
                             });
 
@@ -623,10 +623,10 @@ function dl (message){
                                 .setColor("#F00E0E")
                                 .setTitle(`:x: Récupération du fichier  :x:`)
                                 .setDescription(":x: L'url que vous venez de rentrer ne correspond pas a fichier JSON merci de vérifier votre liens.")
-                                .setFooter("Erreur : reponseFileSaveDataNotJsonError")
+                                .setFooter("Erreur : reponseFileSaveDataNotJsonError");
                                 
                                 //Condition si la data n'est pas en forma JSON
-                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser)
+                                if (dataVerif == null) return message.channel.send(reponseFileSaveDataNotJsonError) && consoleLog(`ERROR : reponseFileSaveDataNotJsonError - ${variantSC}`, NaN, infoUser);
 
                                 //On sauvegarde le fichier 
                                 fs.writeFile(`./data/SC4/siege.json`, httpResultSC4, function(err) {
@@ -639,9 +639,9 @@ function dl (message){
                                         .setColor("#F00E0E")
                                         .setTitle(`:x: Récupération du fichier  :x:`)
                                         .setDescription(":x: Merci de refaire la commandes , le fichier n'a pas été sauvegarder.")
-                                        .setFooter("Erreur : reponseFileSaveError")
-                                        message.channel.send(reponseFileSaveError)
-                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser)
+                                        .setFooter("Erreur : reponseFileSaveError");
+                                        message.channel.send(reponseFileSaveError);
+                                        consoleLog(`ERROR : reponseFileSaveError - ${variantSC}`, err, infoUser);
 
                                     } else {
 
@@ -649,9 +649,9 @@ function dl (message){
                                         let httpVariantEmbed = new Discord.MessageEmbed()
                                         .setColor("#01E007")
                                         .setTitle(`:white_check_mark: Récupération du fichier  :white_check_mark:`)
-                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC4}`)
-                                        message.channel.send(httpVariantEmbed)
-                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC4, infoUser)
+                                        .setDescription(`:white_check_mark: La récupération du fichier à bien éffectuer sur ${config.discord.variantSC4}`);
+                                        message.channel.send(httpVariantEmbed);
+                                        consoleLog(`OK : httpVariantEmbed - ${variantSC}`, httpResultSC4, infoUser);
                                         
                                     }
                                 }); 
@@ -664,9 +664,9 @@ function dl (message){
                             .setColor("#F00E0E")
                             .setTitle(`:x: Récupération du fichier  :x:`)
                             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-                            .setFooter("Erreur : errorHttpGuildVariant")
-                            message.channel.send(errorHttpGuildVariant)
-                            consoleLog(`ERROR : errorHttpGuildVariant - ${variantSC}`, NaN, infoUser)
+                            .setFooter("Erreur : errorHttpGuildVariant");
+                            message.channel.send(errorHttpGuildVariant);
+                            consoleLog(`ERROR : errorHttpGuildVariant - ${variantSC}`, NaN, infoUser);
                     } 
 
                 }else {
@@ -676,9 +676,9 @@ function dl (message){
                     .setColor("#F00E0E")
                     .setTitle(`:x: Récupération du fichier  :x:`)
                     .setDescription(":x: La récupération du fichier est imposible ! Merci de vérifier votre liens.")
-                    .setFooter("Erreur : httpError")
-                    message.channel.send(httpError)
-                    consoleLog(`ERROR : httpError - ${variantSC}`, NaN, infoUser)
+                    .setFooter("Erreur : httpError");
+                    message.channel.send(httpError);
+                    consoleLog(`ERROR : httpError - ${variantSC}`, NaN, infoUser);
 
                 }
             });
@@ -690,9 +690,9 @@ function dl (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(":x: La récupération du fichier est imposible ! Merci d'indiquer un liens qui commence par HTTPS ou HTTP !")
-            .setFooter("Erreur : httpsHttpError")
-            message.channel.send(httpsHttpError)
-            consoleLog(`ERROR : httpsHttpError - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : httpsHttpError");
+            message.channel.send(httpsHttpError);
+            consoleLog(`ERROR : httpsHttpError - ${variantSC}`, NaN, infoUser);
 
         }
     }

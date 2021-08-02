@@ -1,22 +1,22 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import du module fs
-const fs = require("fs");
+const fs = require('fs');
 
 //Import function KeyJson
-var keyJson = require("../../function/keyJson")
+var keyJson = require('../../function/keyJson');
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Function check commandes
-var checkMaintenance = require("../../function/checkMaintenance.js")
+var checkMaintenance = require('../../function/checkMaintenance.js');
 
-var userInfo = require("../../function/userinfo.js")
+var userInfo = require('../../function/userinfo.js');
 
 function listplayer (message){
 
@@ -47,17 +47,17 @@ function listplayer (message){
     if(statutcommand == false) return;
     
     //Premier argument
-    var variantSC = args[0]
+    var variantSC = args[0];
 
     //Message d'erreur si on ne trouve pas le premier argument 
     let errorArgsVariant = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur Info listes des joueurs :x:`)
     .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-    .setFooter("Erreur : errorArgsVariant")
+    .setFooter("Erreur : errorArgsVariant");
 
     //Condition si il n'ya pas d'argument
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser);
 
     //Switch variant 
     switch (variantSC){
@@ -67,8 +67,8 @@ function listplayer (message){
             //On vérifi que le fichier existe 
             if (fs.existsSync(`./data/SC1/tableauResultat.json`)) {
                 //On remplace null par les datas
-                tableauResultat = require("../data/SC1/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC1/tableauResultat.json - ${variantSC}`)
+                tableauResultat = require('../data/SC1/tableauResultat.json');
+                consoleLog(`Ok : Fichier trouver : ./data/SC1/tableauResultat.json - ${variantSC}`);
             }
         break;
 
@@ -77,8 +77,8 @@ function listplayer (message){
             //On vérifi que le fichier existe 
             if (fs.existsSync(`./data/SC2/tableauResultat.json`)) {
                 //On remplace null par les datas
-                tableauResultat = require("../data/SC2/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC2/tableauResultat.json  - ${variantSC}`)
+                tableauResultat = require('../data/SC2/tableauResultat.json');
+                consoleLog(`Ok : Fichier trouver : ./data/SC2/tableauResultat.json  - ${variantSC}`);
             }
         break;
 
@@ -87,8 +87,8 @@ function listplayer (message){
             //On vérifi que le fichier existe 
             if (fs.existsSync(`./data/SC3/tableauResultat.json`)) {
                 //On remplace null par les datas
-                tableauResultat = require("../data/SC3/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC3/tableauResultat.json  - ${variantSC}`)
+                tableauResultat = require('../data/SC3/tableauResultat.json');
+                consoleLog(`Ok : Fichier trouver : ./data/SC3/tableauResultat.json  - ${variantSC}`);
             }
         break;
 
@@ -97,8 +97,8 @@ function listplayer (message){
             //On vérifi que le fichier existe 
             if (fs.existsSync(`./data/SC4/tableauResultat.json`)) {
                 //On remplace null par les datas
-                tableauResultat = require("../data/SC4/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC4/tableauResultat.json  - ${variantSC}`)
+                tableauResultat = require('../data/SC4/tableauResultat.json');
+                consoleLog(`Ok : Fichier trouver : ./data/SC4/tableauResultat.json  - ${variantSC}`);
             }
         break;
 
@@ -108,8 +108,8 @@ function listplayer (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-            .setFooter("Erreur : errorListPlayerVariant")
-            return message.channel.send(errorListPlayerVariant) && consoleLog(`ERROR : errorListPlayerVariant - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorListPlayerVariant");
+            return message.channel.send(errorListPlayerVariant) && consoleLog(`ERROR : errorListPlayerVariant - ${variantSC}`, NaN, infoUser);
     }
 
     //On créer un tableau vide
@@ -123,20 +123,20 @@ function listplayer (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Info listes des joueurs :x:`)
         .setDescription(`:x:Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}processing .`) 
-        .setFooter("Erreur : errorStatsListPlayer")
-        message.channel.send(errorStatsListPlayer)
-        consoleLog(`ERROR : errorStatsListPlayer - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorStatsListPlayer");
+        message.channel.send(errorStatsListPlayer);
+        consoleLog(`ERROR : errorStatsListPlayer - ${variantSC}`, NaN, infoUser);
 
     } else {
 
         //On utilise la function KeyJson
-        var newData = keyJson(tableauResultat.Joueurs, "Player")
+        var newData = keyJson(tableauResultat.Joueurs, "Player");
         
         //On remplace tableau vide par les données de la function keyJson
-        data = newData
+        data = newData;
 
         //On créer un tableau vide
-        var listePlayer = []
+        var listePlayer = [];
 
         //Condition si le tableau est vide
         if (data.length == 0) {
@@ -146,13 +146,13 @@ function listplayer (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Erreur Info listes des joueurs :x:`)
             .setDescription(`:x: Imposible de trouver les informations.`) 
-            .setFooter("Erreur : errorStatsListJoueurData")
-            message.channel.send(errorStatsListJoueurData)
-            consoleLog(`ERROR : errorStatsListJoueurData - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorStatsListJoueurData");
+            message.channel.send(errorStatsListJoueurData);
+            consoleLog(`ERROR : errorStatsListJoueurData - ${variantSC}`, NaN, infoUser);
 
             //On vide les deux tableaux
-            listePlayer = []
-            data = []
+            listePlayer = [];
+            data = [];
 
         }else{
 
@@ -163,8 +163,8 @@ function listplayer (message){
                     name : data[i].Player,
                     value : data[i].player_id,
                     inline: true
-                }
-                listePlayer.push(objetListePlayerBoucle)
+                };
+                listePlayer.push(objetListePlayerBoucle);
             }
 
             //Message avec la liste des joueurs dans les data avec leur nom + l'id
@@ -172,13 +172,13 @@ function listplayer (message){
             .setColor("#FEAC09")
             .setTitle(`Listes des Joueurs :`)
             .setDescription(`A noter si le joueur n'a pas attaqué ou n'a pas reçus une défense. Impossible de récupérer les informations. La liste ci-dessous c'est avec les joueurs que vous pouvez regarder les statistiques avec la commande ${config.discord.prefix}player ${variantSC} (nom du joueur ou son ID).`)
-            .addFields(listePlayer)
-            message.channel.send(infoListPlayerEmbed)
-            consoleLog(`OK : infoListPlayerEmbed - ${variantSC}`, listePlayer, infoUser)
+            .addFields(listePlayer);
+            message.channel.send(infoListPlayerEmbed);
+            consoleLog(`OK : infoListPlayerEmbed - ${variantSC}`, listePlayer, infoUser);
 
             //On vide les deux tableaux
-            listePlayer = []
-            data = []
+            listePlayer = [];
+            data = [];
         }
     }
 }   

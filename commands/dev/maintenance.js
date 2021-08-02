@@ -1,16 +1,16 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import function consoleLog
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import function checkRoleDev
 const checkRoleDev = require('../../function/checkRoleDev.js');
 
-var userInfo = require("../../function/userinfo.js")
+var userInfo = require('../../function/userinfo.js');
 
 function maintenance (message) {
 
@@ -60,10 +60,11 @@ function maintenance (message) {
             { name: 'lastoffense', value: config.discord.maintenance.lastoffense, inline: true },
             { name: 'deloffense', value: config.discord.maintenance.deloffense, inline: true },
             { name: 'upoffense', value: config.discord.maintenance.upoffense, inline: true },
-            { name: 'listoffense', value: config.discord.maintenance.upoffense, inline: true }
+            { name: 'listoffense', value: config.discord.maintenance.upoffense, inline: true },
+            { name: 'findteam', value: config.discord.maintenance.upoffense, inline: true }
         )
         .setFooter(`Pour désactiver ou activer une commandes merci de taper ${config.discord.prefix}maintenance + le nom de la commande.`);
-        return message.channel.send(undefinedNameCommand) && consoleLog(`Ok : undefinedNameCommand`, NaN, infoUser)
+        return message.channel.send(undefinedNameCommand) && consoleLog(`Ok : undefinedNameCommand`, NaN, infoUser);
 
     }else{
 
@@ -256,8 +257,20 @@ function maintenance (message) {
                 let statusListOffensePlayer = new Discord.MessageEmbed()
                 .setColor("#01E007")
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
-                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.listoffense} !`);
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.listoffenseplayer} !`);
                 message.channel.send(statusListOffensePlayer) && consoleLog(`OK : statusListOffensePlayer`, NaN, infoUser);
+
+            break;
+
+            case "findteam" :
+
+                config.discord.maintenance.findteam = !config.discord.maintenance.findteam;
+
+                let statusFindTeam = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.findteam} !`);
+                message.channel.send(statusFindTeam) && consoleLog(`OK : statusFindTeam`, NaN, infoUser);
 
             break;
 

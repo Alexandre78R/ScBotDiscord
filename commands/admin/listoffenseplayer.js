@@ -1,11 +1,11 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import function consoleLog
-const consoleLog = require("../../function/consoleLog.js");
+const consoleLog = require('../../function/consoleLog.js');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 // Import userInfo
 const userInfo = require('../../function/userinfo.js');
@@ -14,13 +14,13 @@ const userInfo = require('../../function/userinfo.js');
 const checkMaintenance = require('../../function/checkMaintenance.js');
 
 //Import user query
-const sqlUser = require("../../query/user.js");
+const sqlUser = require('../../query/user.js');
 
 //Import Battle query
-const sqlBattle = require("../../query/battle.js");
+const sqlBattle = require('../../query/battle.js');
 
 //Import function dateFormat
-var dateFormat = require("../../function/dateFormat.js");
+var dateFormat = require('../../function/dateFormat.js');
 
 // Import the discord.js-pagination package
 const paginationEmbed = require('../../module/discord.js-pagination.js');
@@ -77,7 +77,7 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
         .setDescription(`:x: ${infoUser.username}, ${objectUserSearch.usernameDiscord} (#${objectUserSearch.idDiscord}) n'a pas jamais entré d'offense pendant cette période : ${dateStart} au ${dateEnd} ! `)
         .setFooter("Erreur : infouserNotFound");
 
-        var messageError = message.channel.send(infouserNotFound)
+        var messageError = message.channel.send(infouserNotFound);
         return messageError;
 
     } else {

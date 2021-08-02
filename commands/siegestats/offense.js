@@ -273,6 +273,7 @@ function offense (message) {
 
     let outcome = messageArray[2].trim().toUpperCase();
 
+    console.log('offenseMonsters', offenseMonsters)
     //V�rifier la validit� des noms des monstres
     processRequest(offenseMonsters, defenseMonsters, outcome, message, infoUser);
 

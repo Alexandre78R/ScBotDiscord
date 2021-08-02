@@ -72,7 +72,7 @@ function checkNameValidity(offenseMonsters) {
                     });
                     idMonster = idealCandidate[0];
                     pointerList += maxArg;
-                    console.log(idealCandidate)
+                    console.log(idealCandidate);
                 } else {
                     idMonster = -2;
                 };

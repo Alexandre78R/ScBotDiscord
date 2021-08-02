@@ -14,7 +14,7 @@ function checkUserId(message, infoUser) {
     const userDiscordId = infoUser.id;
     const userDiscordName = `${infoUser.username}#${infoUser.tagNumber}`;
 
-    console.log("userDiscordId", userDiscordId, "userDiscordName", userDiscordName)
+    console.log("userDiscordId", userDiscordId, "userDiscordName", userDiscordName);
 
     var userGuildTag = "";
     for (const [key, value] of message.guild.members.cache) {
@@ -28,7 +28,7 @@ function checkUserId(message, infoUser) {
     if (userDiscordId != "" && userDiscordName != "" && userGuildTag != "") {
         return knex.from('user').where({ idNameDiscord: userDiscordId }).select('id', 'nameGuild', 'nameTagDiscord').then(rows => {
             if (rows.length >= 1) {
-                var listDB = rows.map(row => [row.id, row.nameGuild, row.nameTagDiscord])
+                var listDB = rows.map(row => [row.id, row.nameGuild, row.nameTagDiscord]);
                     var ObjetUserWhere = {
                         id : listDB[0][0],
                         idNameDiscord: userDiscordId,
@@ -56,7 +56,7 @@ function checkUserId(message, infoUser) {
                         nameTagDiscord: userDiscordName,
                         nameGuild: userGuildTag 
                     }
-                    consoleLog(`OK : SaveUserBdd`, ObjetUserCreate, infoUser)
+                    consoleLog(`OK : SaveUserBdd`, ObjetUserCreate, infoUser);
                     return id[0];
                 });
             }

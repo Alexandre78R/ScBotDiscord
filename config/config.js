@@ -29,6 +29,7 @@ module.exports = {
             "upoffense": true,
             "listoffense" :  true,
             "listoffenseplayer" : true,
+            "findteam" : true,
         },
         "roles_id": {
             "ADMIN" : environment.roles_id.ADMIN,

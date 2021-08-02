@@ -1,11 +1,8 @@
 //Import de la config
-const config = require('../../config/config')
-
-//Import function consoleLog
-const consoleLog = require("../../function/consoleLog.js")
+const config = require('../../config/config');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import function checkRolePerm
 const checkRoleDev = require('../../function/checkRoleDev.js');
@@ -16,7 +13,7 @@ const paginationEmbed = require('../../module/discord.js-pagination.js');
 //Function checkMaintenance 
 const checkMaintenance = require('../../function/checkMaintenance.js');
 
-const userInfo = require('../../function/userinfo.js')
+const userInfo = require('../../function/userinfo.js');
 
 function test (message) {
 

@@ -52,8 +52,8 @@ async function listBattleLastoffense (userId, infoUser, message) {
 }
 
 async function checkValueIdTable (valueId, listBattle, infoUser, message) {
-    console.log("ValueID", valueId)
-    var newTabId = []
+    // console.log("ValueID", valueId);
+    var newTabId = [];
     for (let i = 0; i < listBattle[0].length; i++) {
         newTabId.push(`${listBattle[0][i].id}`);
     }

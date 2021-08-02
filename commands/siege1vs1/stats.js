@@ -33,7 +33,7 @@ function stats (message){
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/stats.js", message);
     
-    var statutcommand = checkMaintenance (message, "stats", infoUser)
+    var statutcommand = checkMaintenance (message, "stats", infoUser);
     if(statutcommand == false) return;
     
     //On définit une variable null
@@ -44,17 +44,17 @@ function stats (message){
     let args = messageArray.slice(1);
 
     //Premier argument 
-    var variantSC = args[0]
+    var variantSC = args[0];
 
     //Message d'erreur si il n'y apas d'argument
     let errorArgsVariant = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur Lecture du fichier :x:`)
     .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-    .setFooter("Erreur : errorArgsVariant")
+    .setFooter("Erreur : errorArgsVariant");
 
     //Condition si il n'y a pas d'argument 
-    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser)
+    if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant - ${variantSC}`, NaN, infoUser);
 
     //Switch Variant
     switch (variantSC){
@@ -63,7 +63,7 @@ function stats (message){
         case config.discord.variantSC1:
             if (fs.existsSync(`./data/SC1/tableauResultat.json`)) {
                 tableauResultat = require("../data/SC1/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC1/tableauResultat.json - ${variantSC}`)
+                consoleLog(`Ok : Fichier trouver : ./data/SC1/tableauResultat.json - ${variantSC}`);
             }
         break;
 
@@ -71,7 +71,7 @@ function stats (message){
         case config.discord.variantSC2:
             if (fs.existsSync(`./data/SC2/tableauResultat.json`)) {
                 tableauResultat = require("../data/SC2/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC2/tableauResultat.json - ${variantSC}`)
+                consoleLog(`Ok : Fichier trouver : ./data/SC2/tableauResultat.json - ${variantSC}`);
             }
         break;
 
@@ -79,7 +79,7 @@ function stats (message){
         case config.discord.variantSC3:
             if (fs.existsSync(`./data/SC3/tableauResultat.json`)) {
                 tableauResultat = require("../data/SC3/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC3/tableauResultat.json - ${variantSC}`)
+                consoleLog(`Ok : Fichier trouver : ./data/SC3/tableauResultat.json - ${variantSC}`);
             }
         break;
 
@@ -87,7 +87,7 @@ function stats (message){
         case config.discord.variantSC4:
             if (fs.existsSync(`./data/SC4/tableauResultat.json`)) {
                 tableauResultat = require("../data/SC4/tableauResultat.json");
-                consoleLog(`Ok : Fichier trouver : ./data/SC4/tableauResultat.json - ${variantSC}`)
+                consoleLog(`Ok : Fichier trouver : ./data/SC4/tableauResultat.json - ${variantSC}`);
             }
         break;
 
@@ -97,8 +97,8 @@ function stats (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-            .setFooter("Erreur : errorStatsGuildVariant")
-            return message.channel.send(errorStatsGuildVariant) && consoleLog(`ERROR : errorStatsGuildVariant - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorStatsGuildVariant");
+            return message.channel.send(errorStatsGuildVariant) && consoleLog(`ERROR : errorStatsGuildVariant - ${variantSC}`, NaN, infoUser);
     } 
 
     //Message d'erreur si il n'y a pas de fichier des info du siege
@@ -107,12 +107,12 @@ function stats (message){
     .setTitle(`:x: Traitement du fichier  :x:`)
     .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}processing .`) 
     .setFooter("Erreur : errorStatsDataUndefined")
-
+;
     //Condition si on ne trouve pas les informations
-    if (tableauResultat == null) return message.channel.send(errorStatsDataUndefined) && consoleLog(`ERROR : Impossible de toruver le fichier : ../data/${variantSC}/tableauResultat.json - ${variantSC}`, NaN, infoUser)
+    if (tableauResultat == null) return message.channel.send(errorStatsDataUndefined) && consoleLog(`ERROR : Impossible de toruver le fichier : ../data/${variantSC}/tableauResultat.json - ${variantSC}`, NaN, infoUser);
 
     //Récupération des informations des Guildes
-    var infoGuilde = tableauResultat.Guildes
+    var infoGuilde = tableauResultat.Guildes;
 
     //Conditon en cas d'Erreur Undefined
     if (infoGuilde == undefined) {
@@ -121,9 +121,9 @@ function stats (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Lecture du fichier :x:`)
         .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-        .setFooter("Erreur : errorUndefined")
-        message.channel.send(errorUndefined)
-        consoleLog(`ERROR : errorUndefined - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorUndefined");
+        message.channel.send(errorUndefined);
+        consoleLog(`ERROR : errorUndefined - ${variantSC}`, NaN, infoUser);
 
     //Conditon en cas d'Erreur null
     }else if (infoGuilde == null) {
@@ -133,9 +133,9 @@ function stats (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Lecture du fichier :x:`)
         .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-        .setFooter("Erreur : errorNull")
-        message.channel.send(errorNull)
-        consoleLog(`ERROR : errorNull - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorNull");
+        message.channel.send(errorNull);
+        consoleLog(`ERROR : errorNull - ${variantSC}`, NaN, infoUser);
     
     //Conditon en cas d'Erreur NaN
     }else if (infoGuilde == NaN) {
@@ -145,9 +145,9 @@ function stats (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Lecture du fichier :x:`)
         .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-        .setFooter("Erreur : errorNaN")
-        message.channel.send(errorNaN)
-        consoleLog(`ERROR : errorNaN - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorNaN");
+        message.channel.send(errorNaN);
+        consoleLog(`ERROR : errorNaN - ${variantSC}`, NaN, infoUser);
     
     //Conditon en cas d'Erreur length
     }else if (infoGuilde.length == 0) {
@@ -157,9 +157,9 @@ function stats (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Lecture du fichier :x:`)
         .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-        .setFooter("Erreur : errorLength")
-        message.channel.send(errorLength)
-        consoleLog(`ERROR : errorLength - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorLength");
+        message.channel.send(errorLength);
+        consoleLog(`ERROR : errorLength - ${variantSC}`, NaN, infoUser);
 
     }else{
 
@@ -173,11 +173,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorGuildName")
-                message.channel.send(errorGuildName)
+                .setFooter("Erreur : errorGuildName");
+                message.channel.send(errorGuildName);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorGuildName - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorGuildName - ${variantSC}`, NaN, infoUser);
 
             //Condition attack_use en cas de Undefined 
             }else if (infoGuilde[i].attack_use == undefined) {
@@ -187,11 +187,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorAttackUse")
-                message.channel.send(errorAttackUse)
+                .setFooter("Erreur : errorAttackUse");
+                message.channel.send(errorAttackUse);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorAttackUse - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorAttackUse - ${variantSC}`, NaN, infoUser);
 
             //Condition attack_not_use en cas de Undefined 
             }else if (infoGuilde[i].attack_not_use == undefined) {
@@ -201,11 +201,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorAttackNotUse")
-                message.channel.send(errorAttackNotUse)
+                .setFooter("Erreur : errorAttackNotUse");
+                message.channel.send(errorAttackNotUse);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorAttackNotUse - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorAttackNotUse - ${variantSC}`, NaN, infoUser);
 
             //Condition winrates en cas de Undefined 
             }else if (infoGuilde[i].winrate == undefined) {
@@ -215,11 +215,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorWinrate")
-                message.channel.send(errorWinrate)
+                .setFooter("Erreur : errorWinrate");
+                message.channel.send(errorWinrate);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorWinrate - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorWinrate - ${variantSC}`, NaN, infoUser);
             
             //Condition total_attack_winen en cas de Undefined
             }else if (infoGuilde[i].total_attack_win == undefined) {
@@ -229,11 +229,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorTotalAttackWin")
-                message.channel.send(errorTotalAttackWin)
+                .setFooter("Erreur : errorTotalAttackWin");
+                message.channel.send(errorTotalAttackWin);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorTotalAttackWin - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorTotalAttackWin - ${variantSC}`, NaN, infoUser);
 
             //Condition total_attack_lose en cas de Undefined
             }else if (infoGuilde[i].total_attack_lose == undefined) {
@@ -243,11 +243,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorTotalAttackLose")
-                message.channel.send(errorTotalAttackLose)
+                .setFooter("Erreur : errorTotalAttackLose");
+                message.channel.send(errorTotalAttackLose);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorTotalAttackLose - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorTotalAttackLose - ${variantSC}`, NaN, infoUser);
 
             //Condition total_defense_win  en cas de  Undefined
             }else if (infoGuilde[i].total_defense_win == undefined) {
@@ -257,11 +257,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorTotalDefenseWin")
-                message.channel.send(errorTotalDefenseWin)
+                .setFooter("Erreur : errorTotalDefenseWin");
+                message.channel.send(errorTotalDefenseWin);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorTotalDefenseWin - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorTotalDefenseWin - ${variantSC}`, NaN, infoUser);
 
             //Condition total_defense_lose en cas de  Undefined
             }else if (infoGuilde[i].total_defense_lose == undefined) {
@@ -271,11 +271,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorTotalDefenseLose")
-                message.channel.send(errorTotalDefenseLose)
+                .setFooter("Erreur : errorTotalDefenseLose");
+                message.channel.send(errorTotalDefenseLose);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorTotalDefenseLose - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorTotalDefenseLose - ${variantSC}`, NaN, infoUser);
 
             //Condition number_players en cas de  Undefined
             }else if (infoGuilde[i].number_players == undefined){
@@ -285,11 +285,11 @@ function stats (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Lecture du fichier :x:`)
                 .setDescription(":x: Impossible de récupérer les informartion du siège ! ")
-                .setFooter("Erreur : errorNumberPlayer")
-                message.channel.send(errorNumberPlayer)
+                .setFooter("Erreur : errorNumberPlayer");
+                message.channel.send(errorNumberPlayer);
                 //On remet les données en NULL
                 tableauResultat = null;
-                consoleLog(`ERROR : errorNumberPlayer - ${variantSC}`, NaN, infoUser)
+                consoleLog(`ERROR : errorNumberPlayer - ${variantSC}`, NaN, infoUser);
             }else {
 
                 //On envois les information des guildes du siège
@@ -306,9 +306,9 @@ function stats (message){
                     { name: "Nombre défense réussie", value: infoGuilde[i].total_defense_win, inline: true },
                     { name: "Nombre défense perdu", value: infoGuilde[i].total_defense_lose, inline: true },
                     { name : "Nombre de joueur", value : infoGuilde[i].number_players, inline: true}
-                )
-                message.channel.send(infoEmbed)
-                consoleLog(`OK : DATA - ${variantSC}`, infoGuilde[i], infoUser)
+                );
+                message.channel.send(infoEmbed);
+                consoleLog(`OK : DATA - ${variantSC}`, infoGuilde[i], infoUser);
                 
                 //On remet les données en NULL
                 tableauResultat = null;

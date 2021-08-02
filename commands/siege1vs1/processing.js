@@ -2,7 +2,7 @@
 //!IMPORTANT --> Ce fichier n'est pas commenté entièrement risque de grosse modification par la suite.
 
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import du module FS
 const fs = require('fs');
@@ -10,15 +10,15 @@ const fs = require('fs');
 //Import discord
 const Discord = require('discord.js');
 
-var tableauResultat = {Guildes : [], Joueurs : {}}
+var tableauResultat = {Guildes : [], Joueurs : {}};
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Function checkMaintence 
-var checkMaintenance = require("../../function/checkMaintenance")
+var checkMaintenance = require('../../function/checkMaintenance');
 
-var userInfo = require("../../function/userinfo.js")
+var userInfo = require('../../function/userinfo.js');
 
 function processing (message) {
 
@@ -44,7 +44,7 @@ function processing (message) {
     //Data de l'utilisateur qui a utiliser les commandes 
     var infoUser = userInfo("./commands/processing.js", message);
     
-    var statutcommand = checkMaintenance (message, "processing", infoUser)
+    var statutcommand = checkMaintenance (message, "processing", infoUser);
     if(statutcommand == false) return;
 
     var variantSC = args[0]
@@ -53,7 +53,7 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Traitement  du fichier  :x:`)
     .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-    .setFooter("Erreur : errorArgsVariant")
+    .setFooter("Erreur : errorArgsVariant");
 
     if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
 
@@ -61,25 +61,25 @@ function processing (message) {
                         
         case config.discord.variantSC1:
             if (fs.existsSync(`./data/SC1/siege.json`)) {
-                infoSiege = require("../data/SC1/siege.json");
+                infoSiege = require('../data/SC1/siege.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC1/siege.json - ${variantSC}`);
             }
         break;
         case config.discord.variantSC2:
             if (fs.existsSync(`./data/SC2/siege.json`)) {
-                infoSiege = require("../data/SC2/siege.json");
+                infoSiege = require('../data/SC2/siege.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC2/siege.json - ${variantSC}`);
             }
         break;
         case config.discord.variantSC3: 
             if (fs.existsSync(`./data/SC3/siege.json`)) {
-                infoSiege = require("../data/SC3/siege.json");
+                infoSiege = require('../data/SC3/siege.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC3/siege.json - ${variantSC}`);
             }
         break;
         case config.discord.variantSC4:
             if (fs.existsSync(`./data/SC4/siege.json`)) {
-                infoSiege = require("../data/SC4/siege.json");
+                infoSiege = require('../data/SC4/siege.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC4/siege.json - ${variantSC}`);
             }
         break;
@@ -88,17 +88,17 @@ function processing (message) {
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-            .setFooter("Erreur : errorProcessingGuildVariant")
-            return message.channel.send(errorProcessingGuildVariant) && consoleLog(`ERROR : errorProcessingGuildVariant - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorProcessingGuildVariant");
+            return message.channel.send(errorProcessingGuildVariant) && consoleLog(`ERROR : errorProcessingGuildVariant - ${variantSC}`, NaN, infoUser);
     } 
 
     let errorProccessingDataUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Traitement du fichier  :x:`)
     .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}dl .`) 
-    .setFooter("Erreur : errorProccessingDataUndefined")
+    .setFooter("Erreur : errorProccessingDataUndefined");
 
-    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) && consoleLog(`ERROR : errorProccessingDataUndefined - ${variantSC}`, NaN, infoUser)
+    if (infoSiege == null) return message.channel.send(errorProccessingDataUndefined) && consoleLog(`ERROR : errorProccessingDataUndefined - ${variantSC}`, NaN, infoUser);
 
     //Lecture du première argument apr_s la commandes (pour récupérer l'id)
     var siegeId = args[1];
@@ -107,9 +107,9 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: Vous n'avez pas rentrer d'ID !")
-    .setFooter("Erreur : errorArgsId")
+    .setFooter("Erreur : errorArgsId");
 
-    if (siegeId == undefined) return message.channel.send(errorArgsId) && consoleLog(`ERROR : errorArgsId - ${variantSC}`, NaN, infoUser)
+    if (siegeId == undefined) return message.channel.send(errorArgsId) && consoleLog(`ERROR : errorArgsId - ${variantSC}`, NaN, infoUser);
 
     //Vérification id en caractère
     let idVerife = Number.isNaN(Number(siegeId));
@@ -118,17 +118,17 @@ function processing (message) {
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: Vous n'avez pas rentrer un id correct !")
-    .setFooter("Erreur : errorValueId")
+    .setFooter("Erreur : errorValueId");
 
-    if(idVerife == true) return message.channel.send(errorValueId) && consoleLog(`ERROR : errorValueId - ${variantSC}`, NaN, infoUser)
+    if(idVerife == true) return message.channel.send(errorValueId) && consoleLog(`ERROR : errorValueId - ${variantSC}`, NaN, infoUser);
 
     let errorAtttackLogUndefined = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur :x:`)
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
-    .setFooter("Erreur : errorAtttackLogUndefined")
+    .setFooter("Erreur : errorAtttackLogUndefined");
 
-    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) && consoleLog(`ERROR : errorAtttackLogUndefined - ${variantSC}`, NaN, infoUser)
+    if(infoSiege.attack_log == undefined) return message.channel.send(errorAtttackLogUndefined) && consoleLog(`ERROR : errorAtttackLogUndefined - ${variantSC}`, NaN, infoUser);
 
     var attack_log = infoSiege.attack_log.log_list;
 
@@ -138,9 +138,9 @@ function processing (message) {
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur :x:`)
         .setDescription(":x: Impossible de récupérer les informations des attaques !")
-        .setFooter("Erreur : errorAttackLog")
-        message.channel.send(errorAttackLog)
-        consoleLog(`ERROR : errorAttackLog - ${variantSC}`, NaN, infoUser)
+        .setFooter("Erreur : errorAttackLog");
+        message.channel.send(errorAttackLog);
+        consoleLog(`ERROR : errorAttackLog - ${variantSC}`, NaN, infoUser);
 
     }else {
 
@@ -154,16 +154,16 @@ function processing (message) {
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur :x:`)
                 .setDescription(":x: Impossible de récupérer les informations du siège. ! ")
-                .setFooter("Erreur : errorAttackGuildInfoList")
-                message.channel.send(errorAttackGuildInfoList)
-                consoleLog(`ERROR : errorAttackGuildInfoList - ${variantSC}`, NaN, infoUser)
+                .setFooter("Erreur : errorAttackGuildInfoList");
+                message.channel.send(errorAttackGuildInfoList);
+                consoleLog(`ERROR : errorAttackGuildInfoList - ${variantSC}`, NaN, infoUser);
 
             }else{
 
                 for (let i = 0; i < attack_guild_info_list.length; i++) {
 
                     if (attack_guild_info_list[i].match_id == siegeId) {
-                        var attack_not_use_Calcul = (attack_guild_info_list[i].play_member_count * 10) - attack_guild_info_list[i].attack_count
+                        var attack_not_use_Calcul = (attack_guild_info_list[i].play_member_count * 10) - attack_guild_info_list[i].attack_count;
                         var guildeInfo = {
                             "guild_id": attack_guild_info_list[i].guild_id,
                             "guild_name" : attack_guild_info_list[i].guild_name,
@@ -175,16 +175,16 @@ function processing (message) {
                             "total_attack_lose" : 0,
                             "total_defense_win" : 0,
                             "total_defense_lose" : 0, 
-                        }                   
-                        tableauResultat.Guildes.push(guildeInfo)
-                        consoleLog(`OK : DATA - ${variantSC}`, guildeInfo, infoUser)
+                        };
+                        tableauResultat.Guildes.push(guildeInfo);
+                        consoleLog(`OK : DATA - ${variantSC}`, guildeInfo, infoUser);
                     }
                 }
             }
     
             var attack_battle_log_list = attack_log[key].battle_log_list;
     
-            var tabGuilde = tableauResultat.Guildes
+            var tabGuilde = tableauResultat.Guildes;
     
             if (tabGuilde.length == 0) {
 
@@ -192,9 +192,9 @@ function processing (message) {
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur :x:`)
                 .setDescription(":x: Impossible de récupérer les informations des guildes. Merci de vérifier l'id ! ")
-                .setFooter("Erreur : errorTabGuildeLength")
-                message.channel.send(errorTabGuildeLength)
-                consoleLog(`ERROR : errorTabGuildeLength - ${variantSC}`, NaN, infoUser)
+                .setFooter("Erreur : errorTabGuildeLength");
+                message.channel.send(errorTabGuildeLength);
+                consoleLog(`ERROR : errorTabGuildeLength - ${variantSC}`, NaN, infoUser);
 
             }else {
 
@@ -216,9 +216,9 @@ function processing (message) {
                                 };
                                 for (let n = 0; n < tabGuilde.length; n++) {
                                     if(tabGuilde[n].guild_name == attack_battle_log_list[i].guild_name){
-                                        tabGuilde[n].total_attack_win++
+                                        tabGuilde[n].total_attack_win++;
                                     }else if(tabGuilde[n].guild_name == attack_battle_log_list[i].opp_guild_name){
-                                        tabGuilde[n].total_defense_lose++
+                                        tabGuilde[n].total_defense_lose++;
                                     }
                                 }  
                             } else {
@@ -226,9 +226,9 @@ function processing (message) {
                                 tableauResultat.Joueurs[attack_wizard_name].contribution = tableauResultat.Joueurs[attack_wizard_name].contribution+15;
                                 for (let n = 0; n < tabGuilde.length; n++) {
                                     if(tabGuilde[n].guild_name == attack_battle_log_list[i].guild_name){
-                                        tabGuilde[n].total_attack_win++
+                                        tabGuilde[n].total_attack_win++;
                                     }else if(tabGuilde[n].guild_name == attack_battle_log_list[i].opp_guild_name){
-                                        tabGuilde[n].total_defense_lose++
+                                        tabGuilde[n].total_defense_lose++;
                                     }
                                 }
                             }
@@ -244,18 +244,18 @@ function processing (message) {
                                 };
                                 for (let n = 0; n < tabGuilde.length; n++) {
                                     if(tabGuilde[n].guild_name == attack_battle_log_list[i].guild_name){
-                                        tabGuilde[n].total_attack_lose++
+                                        tabGuilde[n].total_attack_lose++;
                                     }else if(tabGuilde[n].guild_name == attack_battle_log_list[i].opp_guild_name){
-                                        tabGuilde[n].total_defense_win++
+                                        tabGuilde[n].total_defense_win++;
                                     }
                                 }
                             } else {
                                 tableauResultat.Joueurs[attack_wizard_name].attack_lose++;
                                 for (let n = 0; n < tabGuilde.length; n++) {
                                     if(tabGuilde[n].guild_name == attack_battle_log_list[i].guild_name){
-                                        tabGuilde[n].total_attack_lose++
+                                        tabGuilde[n].total_attack_lose++;
                                     }else if(tabGuilde[n].guild_name == attack_battle_log_list[i].opp_guild_name){
-                                        tabGuilde[n].total_defense_win++
+                                        tabGuilde[n].total_defense_win++;
                                     }
                                 }
                             }
@@ -272,7 +272,7 @@ function processing (message) {
     .setDescription(":x: :x: Impossible de récupérer les informations des attaques !")
     .setFooter("Erreur : errorDefenseLogUndefined")
 
-    if(infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) && consoleLog(`ERROR : errorDefenseLogUndefined - ${variantSC}`, NaN, infoUser)
+    if (infoSiege.defense_log == undefined) return message.channel.send(errorDefenseLogUndefined) && consoleLog(`ERROR : errorDefenseLogUndefined - ${variantSC}`, NaN, infoUser);
 
     var defense_log = infoSiege.defense_log.log_list;
 
@@ -298,9 +298,9 @@ function processing (message) {
                         };
                         for (let n = 0; n < tabGuilde.length; n++) {
                             if(tabGuilde[n].guild_name == defense_battle_log_list[key].guild_name){
-                                tabGuilde[n].total_defense_win++
+                                tabGuilde[n].total_defense_win++;
                             }else if(tabGuilde[n].guild_name == defense_battle_log_list[key].opp_guild_name){
-                                tabGuilde[n].total_attack_lose++
+                                tabGuilde[n].total_attack_lose++;
                             }
                         }
                     } else {
@@ -308,9 +308,9 @@ function processing (message) {
                         tableauResultat.Joueurs[def_wizard_name].contribution =  tableauResultat.Joueurs[def_wizard_name].contribution+5;
                         for (let n = 0; n < tabGuilde.length; n++) {
                             if(tabGuilde[n].guild_name == defense_battle_log_list[key].guild_name){
-                                tabGuilde[n].total_defense_win++
+                                tabGuilde[n].total_defense_win++;
                             }else if(tabGuilde[n].guild_name == defense_battle_log_list[key].opp_guild_name){
-                                tabGuilde[n].total_attack_lose++
+                                tabGuilde[n].total_attack_lose++;
                             }
                         }
                     }
@@ -326,18 +326,18 @@ function processing (message) {
                         };
                         for (let n = 0; n < tabGuilde.length; n++) {
                             if(tabGuilde[n].guild_name == defense_battle_log_list[key].guild_name){
-                                tabGuilde[n].total_defense_lose++
+                                tabGuilde[n].total_defense_lose++;
                             }else if(tabGuilde[n].guild_name == defense_battle_log_list[key].opp_guild_name){
-                                tabGuilde[n].total_attack_win++
+                                tabGuilde[n].total_attack_win++;
                             }
                         }
                     } else {
                         tableauResultat.Joueurs[def_wizard_name].defense_lose++;
                         for (let n = 0; n < tabGuilde.length; n++) {
                             if(tabGuilde[n].guild_name == defense_battle_log_list[key].guild_name){
-                                tabGuilde[n].total_defense_lose++
+                                tabGuilde[n].total_defense_lose++;
                             }else if(tabGuilde[n].guild_name == defense_battle_log_list[key].opp_guild_name){
-                                tabGuilde[n].total_attack_win++
+                                tabGuilde[n].total_attack_win++;
                             }
                         }
                     }
@@ -347,15 +347,15 @@ function processing (message) {
     }
 
     if (tableauResultat.Guildes.length == 0){
-        consoleLog(`ERROR : INTERNE="tableauResultat.Guildes.length == 0" - ${variantSC}`, NaN, infoUser)
+        consoleLog(`ERROR : INTERNE="tableauResultat.Guildes.length == 0" - ${variantSC}`, NaN, infoUser);
     } else {
         var winrate_calcul1 = null;
         var winrate_calcul2 =  null;
     
         for (let i = 0; i < tableauResultat.Guildes.length; i++) {
     
-            winrate_calcul1 = tableauResultat.Guildes[i].total_attack_lose / (tableauResultat.Guildes[i].total_attack_win + tableauResultat.Guildes[i].total_attack_lose) * 100
-            winrate_calcul2  = 100 - winrate_calcul1
+            winrate_calcul1 = tableauResultat.Guildes[i].total_attack_lose / (tableauResultat.Guildes[i].total_attack_win + tableauResultat.Guildes[i].total_attack_lose) * 100;
+            winrate_calcul2  = 100 - winrate_calcul1;
             tableauResultat.Guildes[i].winrate = winrate_calcul2.toFixed(0)+"%";
             
         }
@@ -370,9 +370,9 @@ function processing (message) {
             }else {
                 fs.unlink('./data/SC1/tableauResultat.json', function (err) {
                     if (err) {
-                        consoleLog(`ERROR : Rien a supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`);
                     }else {
-                        consoleLog(`OK : Fichier supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`OK : Fichier supprimé : ./data/SC1/tableauResultat.json - ${variantSC}`);
                     }
                 });
                 fs.writeFile(`./data/SC1/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -381,10 +381,10 @@ function processing (message) {
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
                         .setDescription(`:x: Problème tecnique sur le traitement ${config.discord.variantSC1} :x:`)
-                        .setFooter("Erreur : errorSaveFile")
-                        message.channel.send(errorSaveFile)
-                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        .setFooter("Erreur : errorSaveFile");
+                        message.channel.send(errorSaveFile);
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     } else {
                         //On envois les information des guildes du siège
@@ -392,9 +392,9 @@ function processing (message) {
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
                         .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC1}!`)
-                        message.channel.send(processingEmbed)
-                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        message.channel.send(processingEmbed);
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     }
                 }); 
@@ -406,9 +406,9 @@ function processing (message) {
             }else {
                 fs.unlink('./data/SC2/tableauResultat.json', function (err) {
                     if (err) {
-                        consoleLog(`ERROR : Rien a supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`);
                     }else {
-                        consoleLog(`OK : Fichier supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`OK : Fichier supprimé : ./data/SC2/tableauResultat.json - ${variantSC}`);
                     }
                 });
                 fs.writeFile(`./data/SC2/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -417,10 +417,10 @@ function processing (message) {
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
                         .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC2} :x:`)
-                        .setFooter("Erreur : errorSaveFile")
-                        message.channel.send(errorSaveFile)
-                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        .setFooter("Erreur : errorSaveFile");
+                        message.channel.send(errorSaveFile);
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     } else {
                         //On envois les information des guildes du siège
@@ -428,9 +428,9 @@ function processing (message) {
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
                         .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC2}!`)
-                        message.channel.send(processingEmbed)
-                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        message.channel.send(processingEmbed);
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     }
                 });        
@@ -442,9 +442,9 @@ function processing (message) {
             }else {
                 fs.unlink('./data/SC3/tableauResultat.json', function (err) {
                     if (err) {
-                        consoleLog(`ERROR : Rien a supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`);
                     }else {
-                        consoleLog(`OK : Fichier supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`OK : Fichier supprimé : ./data/SC3/tableauResultat.json - ${variantSC}`);
                     }
                 });
                 fs.writeFile(`./data/SC3/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -453,20 +453,20 @@ function processing (message) {
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
                         .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC3} :x:`)
-                        .setFooter("Erreur : errorSaveFile")
-                        message.channel.send(errorSaveFile)
-                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        .setFooter("Erreur : errorSaveFile");
+                        message.channel.send(errorSaveFile);
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     } else {
                         //On envois les information des guildes du siège
                         let processingEmbed = new Discord.MessageEmbed()
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
-                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC3}!`)
-                        message.channel.send(processingEmbed)
-                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC3}!`);
+                        message.channel.send(processingEmbed);
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     }
                 });    
@@ -478,9 +478,9 @@ function processing (message) {
             }else {
                 fs.unlink('./data/SC4/tableauResultat.json', function (err) {
                     if (err) {
-                        consoleLog(`ERROR : Rien a supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`ERROR : Rien a supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`);
                     }else {
-                        consoleLog(`OK : Fichier supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`)
+                        consoleLog(`OK : Fichier supprimé : ./data/SC4/tableauResultat.json - ${variantSC}`);
                     }
                 });
                 fs.writeFile(`./data/SC4/tableauResultat.json`, JSON.stringify(tableauResultat, null, 4) , function(err) {
@@ -489,10 +489,10 @@ function processing (message) {
                         .setColor("#F00E0E")
                         .setTitle(`:x: Erreur :x:`)
                         .setDescription(`:x: Problème technique sur le traitement ${config.discord.variantSC4} :x:`)
-                        .setFooter("Erreur : errorSaveFile")
-                        message.channel.send(errorSaveFile)
-                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        .setFooter("Erreur : errorSaveFile");
+                        message.channel.send(errorSaveFile);
+                        consoleLog(`ERROR : errorSaveFile - ${variantSC}`, err, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     } else {
                         //On envois les information des guildes du siège
@@ -500,9 +500,9 @@ function processing (message) {
                         .setColor("#01E007")
                         .setTitle(':white_check_mark: Traitement fini :white_check_mark:')
                         .setDescription(`Les traitement des données on été effectuée sur ${config.discord.variantSC4}!`)
-                        message.channel.send(processingEmbed)
-                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser)
-                        tableauResultat = {Guildes : [], Joueurs : {}}
+                        message.channel.send(processingEmbed);
+                        consoleLog(`Ok : processingEmbed - ${variantSC}`, NaN, infoUser);
+                        tableauResultat = {Guildes : [], Joueurs : {}};
                         infoSiege = null;
                     }
                 });  
@@ -513,9 +513,9 @@ function processing (message) {
             .setColor("#F00E0E")
             .setTitle(`:x: Traitement du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-            .setFooter("Erreur : errorGuildVariant")
-            message.channel.send(errorHttpsGuildVariant)
-            consoleLog(`ERROR : errorGuildVariant - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorGuildVariant");
+            message.channel.send(errorHttpsGuildVariant);
+            consoleLog(`ERROR : errorGuildVariant - ${variantSC}`, NaN, infoUser);
     } 
 }
 

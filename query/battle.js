@@ -10,6 +10,9 @@ const sqlTeam = require('./team.js')
 //Import sqlUser query
 const sqlUser = require('./user.js');
 
+const sqlMonster = require('./monster.js');
+const { translateMonsterNames } = require('../function/name_translation');
+
 //Envoyer les donn�es du combat vers la BD
 function sendBattleData(monsterOffenseId, monsterDefenseId, outComeId, userId, infoUser) {
     return knex.insert([{ offense_id: monsterOffenseId, defense_id: monsterDefenseId, result: outComeId, user_id: userId }], ['id']).into('battle').then(function (id) {
@@ -52,9 +55,21 @@ function populateOffenseWinRate(offense, defense) {
     });
 }
 
-function offenseUsedList(defense) {
+function offenseUsedList (defense) {
     return knex.from('battle').where({ defense_id: defense }).distinct().pluck('offense_id').then(offenses => {
         return offenses;
+    });
+}
+
+function findOffenseUsedList (offense) {
+    return knex.from('battle').where({ offense_id: offense }).then(offenses => {
+        return offenses;
+    });
+}
+
+function findDefenseUsedList (defense) {
+    return knex.from('battle').where({ defense_id: defense }).then(defenses => {
+        return defenses;
     });
 }
 
@@ -254,13 +269,13 @@ async function dataTableListOffenseAdmin (dateStart, dateEnd, filterGuild) {
     
             if (user_info[3].toLowerCase() === filterGuild.toLowerCase().trim()){
                 countBattle = countBattle + listOffenseFrequencyByUser[o].nomber_offense;
-                if (filterGuild.toLowerCase().trim() == 'sc1') {
+                if (filterGuild.toLowerCase() == 'sc1') {
                     countBattleSC1 = countBattleSC1 + listOffenseFrequencyByUser[o].nomber_offense;
-                } else if (filterGuild.toLowerCase().trim() == 'sc2') {
+                } else if (filterGuild.toLowerCase() == 'sc2') {
                     countBattleSC2 = countBattleSC2 + listOffenseFrequencyByUser[o].nomber_offense;
-                } else if (filterGuild.toLowerCase().trim() == 'sc3') {
+                } else if (filterGuild.toLowerCase() == 'sc3') {
                     countBattleSC3 = countBattleSC3 + listOffenseFrequencyByUser[o].nomber_offense;
-                } else if (filterGuild.toLowerCase().trim() == 'sc4') {
+                } else if (filterGuild.toLowerCase() == 'sc4') {
                     countBattleSC4 = countBattleSC4 + listOffenseFrequencyByUser[o].nomber_offense;
                 } else {
                     console.log('Erreur interne');
@@ -283,7 +298,7 @@ async function dataTableListOffensePlayerAdmin (userId, dateStart, dateEnd) {
     console.log("dateEnd", dateEnd);
     var listOffenselayer = await listOffensePlayerAdmin(userId, dateEnd, dateStart);
 
-    console.log("listOffenselayer", listOffenselayer);
+    // console.log("listOffenselayer", listOffenselayer);
     for (var o = 0; o < listOffenselayer.length; o++) {
         // console.log('listOffenselayer[0]', listOffenselayer[0]);
         var teamNameOffense = await sqlTeam.getNameTeam(listOffenselayer[o].offense_id);
@@ -317,12 +332,11 @@ async function dataTableLastoffense(userId) {
     return [newTabBattle];
 }
 
-async function datatableDefense(defense) {
+async function datatableDefense (defense) {
 
     const offenses = await offenseUsedList(defense);
     var tableResult = [];
     for (let index = 0; index < offenses.length; index++) {
-
         var result = await populateOffenseWinRate(offenses[index], defense);
         var teamName = await sqlTeam.getNameTeam(offenses[index]);
         tableResult.push([teamName, result[1], result[0]]);
@@ -331,6 +345,159 @@ async function datatableDefense(defense) {
 
     return tableResult;
 }
+
+async function datatableFindOffense (list) {
+    
+    var tableResult = [];
+
+    // console.log('List dans datatableFindOffense', list);
+
+    for (let i = 0; i < list.length; i++) {
+
+        var listBattle = await findOffenseUsedList(list[i].id);
+        var nameMonsterLead = await sqlMonster.getNameMonster(list[i].id_monster_lead);
+        var nameMonster2 = await sqlMonster.getNameMonster(list[i].id_monster_2);
+        var nameMonster3 = await sqlMonster.getNameMonster(list[i].id_monster_3);
+        var allNameTeam =  `${nameMonsterLead} ${nameMonster2} ${nameMonster3}`;
+
+        var newObjectList = {};
+    
+        for (let n = 0; n < listBattle.length; n++) {
+
+            var nameOffense = await sqlTeam.getNameTeam(listBattle[n].offense_id);
+            var nameDefense = await sqlTeam.getNameTeam(listBattle[n].defense_id);
+            var infoUser = await sqlUser.searchUserNameByID(listBattle[n].user_id);
+
+            if (!newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id]) {
+
+                newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id] = {
+                    id_offense:  listBattle[n].offense_id,
+                    id_defense: listBattle[n].defense_id,
+                    name_offense:  nameOffense,
+                    name_defense: nameDefense,
+                    listUser : {
+                        [infoUser[0]] : {
+                            info_user: infoUser,
+                            win : listBattle[n].result == 1 ? 1 : 0,
+                            lose : listBattle[n].result == 0 ? 1 : 0,
+                            winrate : listBattle[n].result == 1 ? 100 : 0
+                        }
+                    }
+                }
+
+            } else {
+
+                if (!newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]]) {
+
+                    newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]] = {  
+                            info_user: infoUser,
+                            win : listBattle[n].result == 1 ? 1 : 0,
+                            lose : listBattle[n].result == 0 ? 1 : 0,
+                            winrate : listBattle[n].result == 1 ? 100 : 0
+                    }
+
+                } else {
+
+                    var addWin = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].win++;
+                    var addLose = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].lose++;
+                    var viewWin = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].win;
+                    var viewLose = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].lose;
+                    listBattle[n].result == 1 ? addWin : addLose;
+                    newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].winrate = Math.round( viewWin * 100 / (viewWin + viewLose) * 10 ) / 10;
+                
+                }
+            }
+        }
+
+        tableResult.push({
+            id_team : list[i].id,
+            id_monster_lead_team : list[i].id_monster_lead,
+            id_monster_2_team : list[i].id_monster_2,
+            id_monster_3_team : list[i].id_monster_3,
+            name_monster_team : allNameTeam,
+            listBattle : newObjectList
+        });
+    }
+
+    return tableResult;
+
+}
+
+async function datatableFindDefense (list) {
+
+    var tableResult = [];
+
+    // console.log('List dans datatableFindOffense', list);
+
+    for (let i = 0; i < list.length; i++) {
+
+        var listBattle = await findDefenseUsedList(list[i].id);
+        var nameMonsterLead = await sqlMonster.getNameMonster(list[i].id_monster_lead);
+        var nameMonster2 = await sqlMonster.getNameMonster(list[i].id_monster_2);
+        var nameMonster3 = await sqlMonster.getNameMonster(list[i].id_monster_3);
+        var allNameTeam =  `${nameMonsterLead} ${nameMonster2} ${nameMonster3}`;
+
+        var newObjectList = {};
+    
+        for (let n = 0; n < listBattle.length; n++) {
+
+            var nameOffense = await sqlTeam.getNameTeam(listBattle[n].offense_id);
+            var nameDefense = await sqlTeam.getNameTeam(listBattle[n].defense_id);
+            var infoUser = await sqlUser.searchUserNameByID(listBattle[n].user_id);
+
+            if (!newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id]) {
+
+                newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id] = {
+                    id_offense:  listBattle[n].offense_id,
+                    id_defense: listBattle[n].defense_id,
+                    name_offense:  nameOffense,
+                    name_defense: nameDefense,
+                    listUser : {
+                        [infoUser[0]] : {
+                            info_user: infoUser,
+                            win : listBattle[n].result == 1 ? 1 : 0,
+                            lose : listBattle[n].result == 0 ? 1 : 0,
+                            winrate : listBattle[n].result == 1 ? 100 : 0
+                        }
+                    }
+                }
+
+            } else {
+                if (!newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]]) {
+
+                    newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]] = {  
+                            info_user: infoUser,
+                            win : listBattle[n].result == 1 ? 1 : 0,
+                            lose : listBattle[n].result == 0 ? 1 : 0,
+                            winrate : listBattle[n].result == 1 ? 100 : 0
+                    }
+
+                } else {
+
+                    var addWin = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].win++;
+                    var addLose = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].lose++;
+                    var viewWin = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].win;
+                    var viewLose = newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].lose;
+                    listBattle[n].result == 1 ? addWin : addLose;
+                    newObjectList[listBattle[n].offense_id+'_'+listBattle[n].defense_id].listUser[infoUser[0]].winrate = Math.round( viewWin * 100 / (viewWin + viewLose) * 10 ) / 10;
+                
+                }
+            }
+        }
+
+        tableResult.push({
+            id_team : list[i].id,
+            id_monster_lead_team : list[i].id_monster_lead,
+            id_monster_2_team : list[i].id_monster_2,
+            id_monster_3_team : list[i].id_monster_3,
+            name_monster_team : allNameTeam,
+            listBattle : newObjectList
+        });
+    }
+
+    return tableResult;
+}
+
 
 module.exports.delBattles = delBattles;
 module.exports.dataTableLastoffense = dataTableLastoffense;
@@ -341,3 +508,5 @@ module.exports.dataTableByUser = dataTableByUser;
 module.exports.sendBattleData = sendBattleData;
 module.exports.upBattleData = upBattleData;
 module.exports.datatableDefense = datatableDefense;
+module.exports.datatableFindOffense = datatableFindOffense;
+module.exports.datatableFindDefense = datatableFindDefense;

@@ -1,22 +1,22 @@
 //Import de la config
-const config = require('../../config/config.js')
+const config = require('../../config/config.js');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import du module fs
-const fs = require("fs")
+const fs = require('fs');
 
 //Import des consoleLog pour un système de historique
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Import function KeyJson
-const keyJson = require('../../function/keyJson.js')
+const keyJson = require('../../function/keyJson.js');
 
 //Function checkMaintenance 
-var checkMaintenance = require("../../function/checkMaintenance.js")
+var checkMaintenance = require('../../function/checkMaintenance.js');
 
-var userInfo = require("../../function/userinfo.js");
+var userInfo = require('../../function/userinfo.js');
 
 function player (message){
 
@@ -47,14 +47,14 @@ function player (message){
     if(statutcommand == false) return;
 
     //Premier argument
-    var variantSC = args[0]
+    var variantSC = args[0];
 
     //Message d'erreur si il n'y a pas d'argument 
     let errorArgsVariant = new Discord.MessageEmbed()
     .setColor("#F00E0E")
     .setTitle(`:x: Erreur Info joueur :x:`)
     .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-    .setFooter("Erreur : errorArgsVariant")
+    .setFooter("Erreur : errorArgsVariant");
 
     //Condition si il n'ya pas d'argument
     if (variantSC == undefined) return message.channel.send(errorArgsVariant) && consoleLog(`ERROR : errorArgsVariant`, NaN, infoUser);
@@ -66,7 +66,7 @@ function player (message){
         case config.discord.variantSC1:
             //On Vérifie si le fichier existe
             if (fs.existsSync(`./data/SC1/tableauResultat.json`)) {
-                tableauResultat = require("../data/SC1/tableauResultat.json");
+                tableauResultat = require('../data/SC1/tableauResultat.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC1/tableauResultat.json`);
             }
         break;
@@ -75,7 +75,7 @@ function player (message){
         case config.discord.variantSC2:
             //On Vérifie si le fichier existe
             if (fs.existsSync(`./data/SC2/tableauResultat.json`)) {
-                tableauResultat = require("../data/SC2/tableauResultat.json");
+                tableauResultat = require('../data/SC2/tableauResultat.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC2/tableauResultat.json`);
             }
         break;
@@ -84,7 +84,7 @@ function player (message){
         case config.discord.variantSC3: 
             //On Vérifie si le fichier existe
             if (fs.existsSync(`./data/SC3/tableauResultat.json`)) {
-                tableauResultat = require("../data/SC3/tableauResultat.json");
+                tableauResultat = require('../data/SC3/tableauResultat.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC3/tableauResultat.json`);
             }
         break;
@@ -93,7 +93,7 @@ function player (message){
         case config.discord.variantSC4:
             //On Vérifie si le fichier existe
             if (fs.existsSync(`./data/SC4/tableauResultat.json`)) {
-                tableauResultat = require("../data/SC4/tableauResultat.json");
+                tableauResultat = require('../data/SC4/tableauResultat.json');
                 consoleLog(`OK : Fichier trouver : ./data/SC4/tableauResultat.json`);
             }
         break;
@@ -106,7 +106,7 @@ function player (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Récupération du fichier  :x:`)
             .setDescription(`:x: Merci d'indiquer votre guilde. Avec les choix suivant : ${config.discord.variantSC1} ${config.discord.variantSC2} ${config.discord.variantSC3} ${config.discord.variantSC4}`) 
-            .setFooter("Erreur : errorPlayerVariant")
+            .setFooter("Erreur : errorPlayerVariant");
             return message.channel.send(errorPlayerVariant) && consoleLog(`ERROR : errorPlayerVariant`, NaN, infoUser);
     }
 
@@ -118,7 +118,7 @@ function player (message){
     .setColor("#F00E0E")
     .setTitle(`:x: Récupération du fichier  :x:`)
     .setDescription(`:x: Merci d'indiquer un nom de joueur ou un ID.`) 
-    .setFooter("Erreur : errorPlayerInfoSearch")
+    .setFooter("Erreur : errorPlayerInfoSearch");
 
     //Condition si il n'y a pas de deuxième argument
     if (infoSearch == undefined) return message.channel.send(errorPlayerInfoSearch) && consoleLog(`ERROR : errorPlayerInfoSearch - ${variantSC}`, NaN, infoUser);
@@ -134,20 +134,20 @@ function player (message){
         .setColor("#F00E0E")
         .setTitle(`:x: Erreur Info joueur :x:`)
         .setDescription(`:x: Imposible de trouver le fichier des informations du siège, merci de refaire la commandes ${config.discord.prefix}processing .`) 
-        .setFooter("Erreur : errorStatsPlayer")
-        message.channel.send(errorStatsPlayer)
+        .setFooter("Erreur : errorStatsPlayer");
+        message.channel.send(errorStatsPlayer);
         consoleLog(`ERROR : errorStatsPlayer - ${variantSC}`, NaN, infoUser);
 
     } else {
 
         //On utilise la function KeyJson
-        var newData = keyJson(tableauResultat.Joueurs, "Player")
+        var newData = keyJson(tableauResultat.Joueurs, "Player");
         
         //On remplace tableau vide par les données de la function keyJson
-        data = newData
+        data = newData;
 
         //On créer un tableau vide
-        var tabPlayer = []
+        var tabPlayer = [];
 
         //Condition si le tableau est vide
         if (data.length == 0) {
@@ -157,13 +157,14 @@ function player (message){
             .setColor("#F00E0E")
             .setTitle(`:x: Erreur Info listes des joueurs :x:`)
             .setDescription(`:x: Imposible de trouver les informations.`) 
-            .setFooter("Erreur : errorStatsListJoueurData")
-            message.channel.send(errorStatsListJoueurData)
-            consoleLog(`ERROR : errorStatsJoueurData - ${variantSC}`, NaN, infoUser)
+            .setFooter("Erreur : errorStatsListJoueurData");
+            message.channel.send(errorStatsListJoueurData);
+            consoleLog(`ERROR : errorStatsJoueurData - ${variantSC}`, NaN, infoUser);
 
             //On vide les deux tableaux
-            listePlayer = []
-            data = []
+            listePlayer = [];
+            data = [];
+
         }else{
             //On boucle sur la data
             for (var i = 0; i < data.length; i++) {
@@ -180,8 +181,8 @@ function player (message){
                         defense_win: data[i].defense_win,
                         defense_lose: data[i].defense_lose,
                         contribution: data[i].contribution
-                    }
-                    tabPlayer.push(dataPlayer)
+                    };
+                    tabPlayer.push(dataPlayer);
                     consoleLog(`Ok : infoSearch NAMEPLAYER - ${variantSC}`, dataPlayer, infoUser);
 
                 //On cherche un id précis avec l'argument infoSearch
@@ -196,8 +197,8 @@ function player (message){
                         defense_win: data[i].defense_win,
                         defense_lose: data[i].defense_lose,
                         contribution: data[i].contribution
-                    }
-                    tabPlayer.push(dataPlayer)
+                    };
+                    tabPlayer.push(dataPlayer);
                     consoleLog(`Ok : infoSearch IDPLAYER - ${variantSC}`, dataPlayer, infoUser);
 
                 }
@@ -211,13 +212,13 @@ function player (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Info joueur :x:`)
                 .setDescription(`:x: Imposible de trouver l'info du joueur avec ce id ou le nom du joueur. Merci de vérifier sur la commandes !listplayer .`) 
-                .setFooter("Erreur : errorInfoPlayerUndefined")
-                message.channel.send(errorInfoPlayerUndefined)
+                .setFooter("Erreur : errorInfoPlayerUndefined");
+                message.channel.send(errorInfoPlayerUndefined);
                 consoleLog(`ERROR : errorInfoPlayerUndefined - ${variantSC}`, NaN, infoUser);
 
                 //On vide les deux tableaux
-                tabPlayer = []
-                data = []
+                tabPlayer = [];
+                data = [];
             
             //Condtion en cas si il trouve 2 ou plus objet dans le tableau data du joueur précis 
             } else if (tabPlayer.length >=2) {
@@ -227,13 +228,13 @@ function player (message){
                 .setColor("#F00E0E")
                 .setTitle(`:x: Erreur Info joueur :x:`)
                 .setDescription(`:x: Erreur interne merci de refaire la commande avec les mêmes informtations.`) 
-                .setFooter("Erreur : errorInfoPlayerMulti")
-                message.channel.send(errorInfoPlayerMulti)
+                .setFooter("Erreur : errorInfoPlayerMulti");
+                message.channel.send(errorInfoPlayerMulti);
                 consoleLog(`ERROR : errorInfoPlayerMulti - ${variantSC}`, NaN, infoUser);
 
                 //On vide les deux tableaux
-                tabPlayer = []
-                data = []
+                tabPlayer = [];
+                data = [];
 
             } else {
 
@@ -249,12 +250,12 @@ function player (message){
                     { name: "Défense perdu", value: tabPlayer[0].defense_lose, inline: true },
                     { name: "Contribution", value: tabPlayer[0].contribution, inline: true },
                 )
-                message.channel.send(infoPlyerEmbed)
-                consoleLog(`OK : DATA - ${variantSC}`, tabPlayer[0], infoUser)
+                message.channel.send(infoPlyerEmbed);
+                consoleLog(`OK : DATA - ${variantSC}`, tabPlayer[0], infoUser);
 
                 //On vide les deux tableaux
-                tabPlayer = []
-                data = []
+                tabPlayer = [];
+                data = [];
             }
         }
     }

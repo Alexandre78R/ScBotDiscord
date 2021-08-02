@@ -74,7 +74,7 @@ function buildSuccessfulMessage(results, objectUserSearch, message, infoUser) {
         .setDescription(`:x: ${infoUser.username}, désolé on n'a aucune information sur ${objectUserSearch.usernameDiscord}...`)
         .setFooter("Erreur : infouserNotFound");
 
-        var messageError = message.channel.send(infouserNotFound)
+        var messageError = message.channel.send(infouserNotFound);
         return messageError;
 
     } else {

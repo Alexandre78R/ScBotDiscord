@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 //Import de la configuration
-var config = require("../config/config");
+var config = require('../config/config');
 
 //Import de la commande Info
 const cmdStats = require('../commands/siege1vs1/stats.js');
@@ -17,7 +17,7 @@ const cmdDL = require('../commands/siege1vs1/dl.js');
 const cmdProcessing = require('../commands/siege1vs1/processing.js');
 
 //Import de la commande Player
-const cmdPlayer = require("../commands/siege1vs1/player.js");
+const cmdPlayer = require('../commands/siege1vs1/player.js');
 
 //Import de la commande ListPlayer
 const cmdListPlayer = require('../commands/siege1vs1/listplayer.js');
@@ -44,22 +44,25 @@ const cmdMyStats = require('../commands/siegestats/mystats.js');
 const cmdMaintenance = require('../commands/dev/maintenance.js');
 
 //Import de la commande playerstats
-const cmdPlayerStats = require("../commands/siegestats/playerstats.js");
+const cmdPlayerStats = require('../commands/siegestats/playerstats.js');
 
 //Import de la commande lastOffense
-const cmdLastOffense = require("../commands/siegestats/lastoffense.js");
+const cmdLastOffense = require('../commands/siegestats/lastoffense.js');
 
 //Import de la commande Deloffense
-const cmdDelOffense = require("../commands/siegestats/deloffense.js");
+const cmdDelOffense = require('../commands/siegestats/deloffense.js');
 
 //Import de la commande Upoffense
-const cmdUpOffense = require("../commands/siegestats/upoffense.js");
+const cmdUpOffense = require('../commands/siegestats/upoffense.js');
 
 //Import de la commande listoffense 
 const cmdListOffense = require('../commands/admin/listoffense.js');
 
 //Import de la commande listoffenseplayer
-const cmdListOffensePlayer = require("../commands/admin/listoffenseplayer.js");
+const cmdListOffensePlayer = require('../commands/admin/listoffenseplayer.js');
+
+//Import commande findteam 
+const cmdFindTeam = require('../commands/siegestats/findteam.js');
 
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
@@ -429,24 +432,25 @@ client.on('message', msg => {
 //Gestion des fichiers pour les commandes discord.
 function getCmdFunction(cmd) {
     const COMMANDS = {
-    'stats': cmdStats,
-    'dl': cmdDL,
-    'processing' : cmdProcessing,
-    'player' : cmdPlayer,
-    'listplayer' : cmdListPlayer,
-    'help': cmdHelp,
-    'offense': cmdOffense,
-    'sb': cmdSb,
-    'mycontrib': cmdMyContrib,
-    'mystats': cmdMyStats,
-    'maintenance' : cmdMaintenance,
-    'test' : cmdTest,
-    "playerstats" : cmdPlayerStats,
-    "lastoffense" : cmdLastOffense,
-    "deloffense" : cmdDelOffense,
-    "upoffense" : cmdUpOffense,
-    "listoffense"  : cmdListOffense,
-    "listoffenseplayer" : cmdListOffensePlayer,
+        'stats': cmdStats,
+        'dl': cmdDL,
+        'processing' : cmdProcessing,
+        'player' : cmdPlayer,
+        'listplayer' : cmdListPlayer,
+        'help': cmdHelp,
+        'offense': cmdOffense,
+        'sb': cmdSb,
+        'mycontrib': cmdMyContrib,
+        'mystats': cmdMyStats,
+        'maintenance' : cmdMaintenance,
+        'test' : cmdTest,
+        "playerstats" : cmdPlayerStats,
+        "lastoffense" : cmdLastOffense,
+        "deloffense" : cmdDelOffense,
+        "upoffense" : cmdUpOffense,
+        "listoffense"  : cmdListOffense,
+        "listoffenseplayer" : cmdListOffensePlayer,
+        "findteam" : cmdFindTeam,
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }

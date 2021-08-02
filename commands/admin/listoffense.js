@@ -1,11 +1,11 @@
 //Import de la config
-const config = require('../../config/config')
+const config = require('../../config/config');
 
 //Import function consoleLog
-const consoleLog = require("../../function/consoleLog.js")
+const consoleLog = require('../../function/consoleLog.js');
 
 //Import de la LIBS discord.js
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 //Import function checkRolePerm
 const checkRoleAdmin = require('../../function/checkRoleAdmin.js');
@@ -16,16 +16,16 @@ const paginationEmbed = require('../../module/discord.js-pagination.js');
 //Function checkMaintenance 
 const checkMaintenance = require('../../function/checkMaintenance.js');
 
-const userInfo = require('../../function/userinfo.js')
+const userInfo = require('../../function/userinfo.js');
 
 //Import user query
-const sqlUser = require("../../query/user.js");
+const sqlUser = require('../../query/user.js');
 
 //Import battle query
-const sqlBattle = require("../../query/battle.js");
+const sqlBattle = require('../../query/battle.js');
 
 //Import function checkMessageContent 
-const checkMessageContent = require("../../function/checkMessageContent.js");
+const checkMessageContent = require('../../function/checkMessageContent.js');
 
 async function checkUserId (message, infoUser) {
     var result = await sqlUser.checkUserId(message, infoUser);
@@ -162,32 +162,6 @@ function listoffense (message) {
     var checkPerm = checkRoleAdmin(message, infoUser);
     if (checkPerm == false) return;
 
-    //Ancien code pour l'instant je garde
-    // // Récupération des arguments après la commandes
-    // let messageArray = message.content.split(" ");
-    // let args = messageArray.slice(1);
-
-    // const argumentOneUndefined = new Discord.MessageEmbed()
-    // .setColor("#F00E0E")
-    // .setTitle(`:x: Argument introuvable  :x:`)
-    // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de départ pour la recherche) !`)
-    // .setFooter("Erreur : argumentOneUndefined");
-
-    // if (args[0] == undefined) return message.channel.send(argumentOneUndefined) && consoleLog(`ERROR : argumentOneUndefined`, NaN, infoUser);
-    // console.log('args', args);
-
-    // const argumentTwoUndefined = new Discord.MessageEmbed()
-    // .setColor("#F00E0E")
-    // .setTitle(`:x: Argument introuvable  :x:`)
-    // .setDescription(`:x: ${infoUser.username}, merci de entré une date en format yyyy-mm-dd (Date de fin pour la recherche) !`)
-    // .setFooter("Erreur : argumentTwoUndefined");
-
-    // if (args[1] == undefined) return message.channel.send(argumentTwoUndefined) && consoleLog(`ERROR : argumentTwoUndefined`, NaN, infoUser);
-    // console.log('args', args);
-
-    // var dateStart = args[0];
-    // var dateEnd = args[1];
-
     var verifMessage = checkMessageContent(message.content.split(" "));
 
     let errorArgsTiretInferior = new Discord.MessageEmbed()
@@ -222,8 +196,13 @@ function listoffense (message) {
 
     console.log('dateStart', dateStart);
     var newDateStart = '';
+
     for (let i = 0; i < dateStart.length; i++) {
-        newDateStart += dateStart[i] + " "; 
+        if(dateStart.length == i) {
+            newDateStart += dateStart[i]; 
+        } else{
+            newDateStart += dateStart[i] + " "; 
+        }
     }
     
     console.log('new date start', newDateStart);
