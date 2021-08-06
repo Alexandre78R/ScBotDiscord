@@ -195,7 +195,7 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
 
             // for (let i = 0; i < newListUserOrderLimit3.length; i++) {
                 // console.log("newListUserOrderLimit3[0]",newListUserOrderLimit3[0]);
-                if (countLimite3 <= 3 ) {
+                if (countLimite3 <= 2) {
                     rankingListUser += `${listUserTabObject[j].info_user[2]} ${listUserTabObject[j].win} Victoire/${listUserTabObject[j].lose} Perdu - Winrate : ${listUserTabObject[j].winrate}`  + '\n';
                     countLimite3++;
                 }
