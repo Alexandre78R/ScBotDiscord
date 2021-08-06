@@ -181,19 +181,25 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
 
         // console.log(listUserTabObject);
         var rankingListUser = "";
+        var countLimite3 = 0;
+        // console.log("listUserTabObject", listUserTabObject);
         for (let j = 0; j < listUserTabObject.length; j++) {
             // console.log('listUserTabObject[j]', listUserTabObject[j]);
+            // console.log('listUserTabObject[j].length', listUserTabObject[j].length);
 
             var newListUserOrderLimit3 = [];
-            if (newListUserOrderLimit3.length < 4) {
-                newListUserOrderLimit3.push(listUserTabObject[j]);
-            }
+            // console.log("newListUserOrderLimit3", newListUserOrderLimit3);
+            // if (newListUserOrderLimit3.length < 4) {
+            //     newListUserOrderLimit3.push(listUserTabObject[j]);
+            // }
 
-            for (let i = 0; i < newListUserOrderLimit3.length; i++) {
+            // for (let i = 0; i < newListUserOrderLimit3.length; i++) {
                 // console.log("newListUserOrderLimit3[0]",newListUserOrderLimit3[0]);
-                rankingListUser += `${newListUserOrderLimit3[i].info_user[2]} ${newListUserOrderLimit3[i].win} Victoire/${newListUserOrderLimit3[i].lose} Perdu - Winrate : ${newListUserOrderLimit3[i].winrate}`  + '\n';
-
-            }
+                if (countLimite3 <= 3 ) {
+                    rankingListUser += `${listUserTabObject[j].info_user[2]} ${listUserTabObject[j].win} Victoire/${listUserTabObject[j].lose} Perdu - Winrate : ${listUserTabObject[j].winrate}`  + '\n';
+                    countLimite3++;
+                }
+            // }
         }
 
         if (tabListTabResult.length == 0) {
