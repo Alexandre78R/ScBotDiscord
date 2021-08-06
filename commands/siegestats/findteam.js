@@ -124,54 +124,44 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
     var tabObject = [];
 
     for (let i = 0; i < result.length; i++) {
-        // console.log('result[i]', result[i]);
+       
         var newResult = result[i].listBattle;
         var newData = keyJson(newResult, "listbattle");
-        // console.log("newData", newData);
-        if (newData.length == 0){
-            // console.log("newData if", newData);
-        } else {
-            // console.log("newData else", newData);
-            for (let n = 0; n < newData.length; n++) {
-                // console.log("newData[n]", newData[n]);
-                var listuser = newData[n].listUser;
-                var newData2 = keyJson(listuser, "idUser");
-                // console.log('newData2', newData2);
-                var newListUserFinnish = [];
-                for (let j = 0; j < newData2.length; j++) {
-                    // console.log("newData2[j]", newData2[j]);
-                    newListUserFinnish.push({
-                        idUser: newData2[j].idUser,
-                        info_user: newData2[j].info_user,
-                        win: newData2[j].win,
-                        lose: newData2[j].lose,
-                        winrate: newData2[j].winrate
-                    });
-                }
-                tabObject.push({
-                    listbattle : newData[n].listbattle,
-                    name_offense: newData[n].name_offense,
-                    name_defense: newData[n].name_defense,
-                    listUser : newListUserFinnish
+        
+        for (let n = 0; n < newData.length; n++) {
+
+            var listuser = newData[n].listUser;
+            var newData2 = keyJson(listuser, "idUser");
+            
+            var newListUserFinnish = [];
+            for (let j = 0; j < newData2.length; j++) {
+                
+                newListUserFinnish.push({
+                    idUser: newData2[j].idUser,
+                    info_user: newData2[j].info_user,
+                    win: newData2[j].win,
+                    lose: newData2[j].lose,
+                    winrate: newData2[j].winrate
                 });
             }
+            tabObject.push({
+                listbattle : newData[n].listbattle,
+                name_offense: newData[n].name_offense,
+                name_defense: newData[n].name_defense,
+                listUser : newListUserFinnish
+            });
         }
     }
-
-    // console.log("tabObject", tabObject);
 
     var pages = [];
     var tabListTabResult = [];
     var lengthPage = 5;
 
     for (let n = 0; n < tabObject.length; n++) {
-        // console.log("tabObject[n]", tabObject[n]);
 
         var listUserTabObject = tabObject[n].listUser;
 
         listUserTabObject.sort(function(a, b) {
-            // console.log('A :', a);
-            // console.log('b :', b);
             if ((b.win+b.lose) == (a.win+a.lose)) {
                 return (b.win+b.lose) - (a.win+a.lose) && b.winrate - a.winrate;
             } else {
@@ -179,47 +169,31 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
             }
         });
 
-        // console.log(listUserTabObject);
         var rankingListUser = "";
         var countLimite3 = 0;
-        // console.log("listUserTabObject", listUserTabObject);
+
         for (let j = 0; j < listUserTabObject.length; j++) {
-            // console.log('listUserTabObject[j]', listUserTabObject[j]);
-            // console.log('listUserTabObject[j].length', listUserTabObject[j].length);
-
-            var newListUserOrderLimit3 = [];
-            // console.log("newListUserOrderLimit3", newListUserOrderLimit3);
-            // if (newListUserOrderLimit3.length < 4) {
-            //     newListUserOrderLimit3.push(listUserTabObject[j]);
-            // }
-
-            // for (let i = 0; i < newListUserOrderLimit3.length; i++) {
-                // console.log("newListUserOrderLimit3[0]",newListUserOrderLimit3[0]);
-                if (countLimite3 <= 2) {
-                    rankingListUser += `${listUserTabObject[j].info_user[2]} ${listUserTabObject[j].win} Victoire/${listUserTabObject[j].lose} Perdu - Winrate : ${listUserTabObject[j].winrate}`  + '\n';
-                    countLimite3++;
-                }
-            // }
+            if (countLimite3 <= 2) {
+                rankingListUser += `${listUserTabObject[j].info_user[2]} ${listUserTabObject[j].win} Victoire/${listUserTabObject[j].lose} Perdu - Winrate : ${listUserTabObject[j].winrate}`  + '\n';
+                countLimite3++;
+            }
         }
 
         if (tabListTabResult.length == 0) {
             tabListTabResult.push([]);
             tabListTabResult[tabListTabResult.length-1].push({
-                // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,
                 name : `Offense : ${tabObject[n].name_offense}`,
                 value : rankingListUser
             });
         } else {
             if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
                 tabListTabResult[tabListTabResult.length-1].push({
-                    // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,
                     name : `Offense : ${tabObject[n].name_offense}`,
                     value : rankingListUser
                 });
             } else {
                 tabListTabResult.push([]);
                 tabListTabResult[tabListTabResult.length-1].push({
-                    // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,*
                     name : `Offense : ${tabObject[n].name_offense}`,
                     value : rankingListUser
                 });
@@ -254,9 +228,6 @@ async function processRequest (newParam, listMobs, message, infoUser) {
         if (monsterList != "invalid") {
 
             var listId = await monsterList.status;
-            // console.log("monsterList", monsterList.nameMonster)
-            // console.log("monsterList", monsterList);
-            // console.log('ListId dans function processRequest', listId);
 
             var nameMonster = monsterList.nameMonster;
             var newNameMonster = "";
@@ -289,14 +260,6 @@ async function processRequest (newParam, listMobs, message, infoUser) {
                     message.channel.send(inaccessibilityError);
                     consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser);
                 } else {
-                    // console.log("Result :", result);
-                    // for (let i = 0; i < result.length; i++) {
-                    //     // console.log("result[i]", result[i]);
-                    //     var objectBattle = result[i].listBattle;
-                    //     for (const listBattle in objectBattle) {
-                    //         console.log('objectBattle[listBattle]', objectBattle[listBattle]);
-                    //     }
-                    // }
                     var succesMessage = buildSuccessfulMessage(result, newParam, newNameMonster, message, infoUser);
                     return succesMessage;
                 }
@@ -311,14 +274,6 @@ async function processRequest (newParam, listMobs, message, infoUser) {
                     message.channel.send(inaccessibilityError);
                     consoleLog(`ERROR : inaccessibilityError`, NaN, infoUser);
                 } else {
-                    // console.log("Result :", result);
-                    // for (let i = 0; i < result.length; i++) {
-                    //     // console.log("result[i]", result[i]);
-                    //     var objectBattle = result[i].listBattle;
-                    //     for (const listBattle in objectBattle) {
-                    //         console.log('objectBattle[listBattle]', objectBattle[listBattle]);
-                    //     }
-                    // }
                     var succesMessage = buildSuccessfulMessage(result, newParam, newNameMonster, message, infoUser);
                     return succesMessage;
                 }
