@@ -210,6 +210,14 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
         pages.push(exampleEmbed);
     }
 
+    let pagesPaginationLength0 = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, on n'a pas ${newParam === "off" ? "d'offense" : "de défense"} avec ${teamMob} !`) 
+    .setFooter("Erreur : pagesPaginationLength0");
+
+    if (pages.length == 0) return message.channel.send(pagesPaginationLength0) && consoleLog(`ERROR : pagesPaginationLength0`, NaN, infoUser); 
+
     var resultPage = paginationEmbed(message, pages);
     return resultPage;
 
@@ -246,13 +254,15 @@ async function processRequest (newParam, listMobs, message, infoUser) {
 
             if (listId.length == 0) return message.channel.send(undefiniedTeamListMob) && consoleLog(`ERROR : undefiniedTeamListMob`, NaN, infoUser);
 
-            let errorListIdNumber = new Discord.MessageEmbed()
-            .setColor("#F00E0E")
-            .setTitle(`:x: Resultat incorrect  :x:`)
-            .setDescription(`:x: ${infoUser.username},  merci d'entré  3 noms de monstres.`) 
-            .setFooter("Erreur : errorListIdNumber");
+            // console.log("listId", listId);
 
-            if (listId.length < 2) return message.channel.send(errorListIdNumber) && consoleLog(`ERROR : errorListIdNumber`, NaN, infoUser);
+            // let errorListIdNumber = new Discord.MessageEmbed()
+            // .setColor("#F00E0E")
+            // .setTitle(`:x: Resultat incorrect  :x:`)
+            // .setDescription(`:x: ${infoUser.username},  merci d'entré  3 noms de monstres.`) 
+            // .setFooter("Erreur : errorListIdNumber");
+
+            // if (listId.length < 2) return message.channel.send(errorListIdNumber) && consoleLog(`ERROR : errorListIdNumber`, NaN, infoUser);
 
             console.log("Count listId", listId.length);
 

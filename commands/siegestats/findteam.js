@@ -121,6 +121,8 @@ async function checkTeam (team, side, message, infoUser) {
 
 function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
 
+
+    console.log("result", result);
     var tabObject = [];
 
     for (let i = 0; i < result.length; i++) {
@@ -182,19 +184,19 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
         if (tabListTabResult.length == 0) {
             tabListTabResult.push([]);
             tabListTabResult[tabListTabResult.length-1].push({
-                name : `Offense : ${tabObject[n].name_offense}`,
+                name : newParam === "off" ? `Offense : ${tabObject[n].name_offense}` : `Défense : ${tabObject[n].name_defense}`,
                 value : rankingListUser
             });
         } else {
             if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
                 tabListTabResult[tabListTabResult.length-1].push({
-                    name : `Offense : ${tabObject[n].name_offense}`,
+                    name : newParam === "off" ? `Offense : ${tabObject[n].name_offense}` : `Défense : ${tabObject[n].name_defense}`,
                     value : rankingListUser
                 });
             } else {
                 tabListTabResult.push([]);
                 tabListTabResult[tabListTabResult.length-1].push({
-                    name : `Offense : ${tabObject[n].name_offense}`,
+                    name : newParam === "off" ? `Offense : ${tabObject[n].name_offense}` : `Défense : ${tabObject[n].name_defense}`,
                     value : rankingListUser
                 });
             }
@@ -210,6 +212,16 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
         .addFields(tabListTabResult[i])
         pages.push(exampleEmbed);
     }
+
+    console.log('pages', pages);
+
+    let pagesPaginationLength0 = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username}, on n'a pas ${newParam === "off" ? "d'offense" : "de défense"} avec ${teamMob} !`) 
+    .setFooter("Erreur : pagesPaginationLength0");
+
+    if (pages.length == 0) return message.channel.send(pagesPaginationLength0) && consoleLog(`ERROR : pagesPaginationLength0`, NaN, infoUser); 
 
     var resultPage = paginationEmbed(message, pages);
     return resultPage;
