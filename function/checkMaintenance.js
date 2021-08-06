@@ -138,6 +138,12 @@ function checkMaintenance (message, command, infoUser) {
 
             break;
 
+            case "detfindteam" :
+
+                checkMaintenanceStatus = config.discord.maintenance.detfindteam;
+
+            break;
+
             default:
     
                 let commandNotFound = new Discord.MessageEmbed()

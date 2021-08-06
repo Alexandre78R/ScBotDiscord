@@ -50,7 +50,9 @@ function help (message){
         { name: `${config.discord.prefix}playerstats`, value: `${config.discord.prefix}help playerstats`, inline: true },
         { name: `${config.discord.prefix}lastoffense`, value: `${config.discord.prefix}help lastoffense`, inline: true },
         { name: `${config.discord.prefix}deloffense`, value: `${config.discord.prefix}help deloffense`, inline: true },
-        { name: `${config.discord.prefix}upoffense`, value: `${config.discord.prefix}help upoffense`, inline: true }
+        { name: `${config.discord.prefix}upoffense`, value: `${config.discord.prefix}help upoffense`, inline: true },
+        { name: `${config.discord.prefix}findteam`, value: `${config.discord.prefix}help findteam`, inline: true },
+        { name: `${config.discord.prefix}detfindteam`, value: `${config.discord.prefix}help detfindteam`, inline: true }
     )
     .setFooter(`Tapez ${config.discord.prefix}help + le nom de la commandes pour avoir plus d'information !`);
 
@@ -138,6 +140,26 @@ function help (message){
             .setFooter(`Aide : ${config.discord.prefix}${notCommand} [leadNameMobOffense] [2NameMobOffense] [3NameMobOffense] - [leadNameMobDefense] [2NameMobDefense] [3NameMobDefense] - [W/L] - [idOffense]\n Ex : ${config.discord.prefix}${notCommand} galion tiana poseidon - khmun orion savannah - W - 1`);
             message.channel.send(helpCommandUpOffense);
             consoleLog("OK : helpCommandUpOffense", NaN, infoUser);
+        break;
+
+        case "findteam":
+            let helpCommandFindTeam = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet de chercher une team offense ou sois défense en siège en tapent de 1 à 3 noms de monstres !`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [off(Offense)/def(Défense)] [1NameMobOffense] [2NameMobOffense] [3NameMobOffense]\n Ex n°1 : ${config.discord.prefix}${notCommand} off - poseidon\n Ex n°2 : ${config.discord.prefix}${notCommand} def - Carcano triana`);
+            message.channel.send(helpCommandFindTeam);
+            consoleLog("OK : helpCommandFindTeam", NaN, infoUser);
+        break;
+
+        case "detfindteam":
+            let helpCommandDetFindTeam = new Discord.MessageEmbed()
+            .setColor("#FEAC09")
+            .setTitle(`Les informations pour la commmande : ${config.discord.prefix}${notCommand}`)
+            .setDescription(`${infoUser.username}, commande qui permet de détaillé une team offense ou sois défense en siège en tapent une team de monstre qui se trouve dans la commande ${config.discord.prefix}findteam !`)
+            .setFooter(`Aide : ${config.discord.prefix}${notCommand} [off(Offense)/def(Défense)] [1NameMobOffense] [2NameMobOffense] [3NameMobOffense]\n Ex n°1 : ${config.discord.prefix}${notCommand} off - galion tiana poseidon\n Ex n°2 : ${config.discord.prefix}${notCommand} def - Carcano vigor triana`);
+            message.channel.send(helpCommandDetFindTeam);
+            consoleLog("OK : helpCommandDetFindTeam", NaN, infoUser);
         break;
 
         default:

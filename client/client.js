@@ -64,6 +64,9 @@ const cmdListOffensePlayer = require('../commands/admin/listoffenseplayer.js');
 //Import commande findteam 
 const cmdFindTeam = require('../commands/siegestats/findteam.js');
 
+//Import commande detfindteam
+const cmdDetfindteam = require('../commands/siegestats/detfindteam.js');
+
 //En cas d'erreur pour le bot discord
 client.on('warn', console.warn);
 client.on('error', console.error);
@@ -451,6 +454,7 @@ function getCmdFunction(cmd) {
         "listoffense"  : cmdListOffense,
         "listoffenseplayer" : cmdListOffensePlayer,
         "findteam" : cmdFindTeam,
+        "detfindteam" : cmdDetfindteam
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }

@@ -200,21 +200,21 @@ function buildSuccessfulMessage(result, newParam, teamMob, message, infoUser) {
             tabListTabResult.push([]);
             tabListTabResult[tabListTabResult.length-1].push({
                 // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,
-                name : `Offense : ${tabObject[n].name_offense}`,
+                name : `Offense : ${tabObject[n].name_offense} - Défense : ${tabObject[n].name_defense}`,
                 value : rankingListUser
             });
         } else {
             if (tabListTabResult[tabListTabResult.length-1].length < lengthPage){
                 tabListTabResult[tabListTabResult.length-1].push({
                     // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,
-                    name : `Offense : ${tabObject[n].name_offense}`,
+                    name : `Offense : ${tabObject[n].name_offense} - Défense : ${tabObject[n].name_defense}`,
                     value : rankingListUser
                 });
             } else {
                 tabListTabResult.push([]);
                 tabListTabResult[tabListTabResult.length-1].push({
                     // name : newParam === "off" ? tabObject[n].name_offense : tabObject[n].name_defense,*
-                    name : `Offense : ${tabObject[n].name_offense}`,
+                    name : `Offense : ${tabObject[n].name_offense} - Défense : ${tabObject[n].name_defense}`,
                     value : rankingListUser
                 });
             }
@@ -270,10 +270,18 @@ async function processRequest (newParam, listMobs, message, infoUser) {
 
             if (listId.length == 0) return message.channel.send(undefiniedTeamListMob) && consoleLog(`ERROR : undefiniedTeamListMob`, NaN, infoUser);
 
+            let errorListIdNumber = new Discord.MessageEmbed()
+            .setColor("#F00E0E")
+            .setTitle(`:x: Resultat incorrect  :x:`)
+            .setDescription(`:x: ${infoUser.username},  merci d'entré  3 noms de monstres.`) 
+            .setFooter("Erreur : errorListIdNumber");
+
+            if (listId.length < 2) return message.channel.send(errorListIdNumber) && consoleLog(`ERROR : errorListIdNumber`, NaN, infoUser);
+
             console.log("Count listId", listId.length);
 
             if (newParam === "off") {
-                const result = await sqlBattle.datatableFindOffense(listId);
+                const result = await sqlBattle.datatableDetFindOffense(listId);
                 if (result.length == 0) {
                     let inaccessibilityError = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
@@ -295,7 +303,7 @@ async function processRequest (newParam, listMobs, message, infoUser) {
                     return succesMessage;
                 }
             } else {
-                const result = await sqlBattle.datatableFindDefense(listId);
+                const result = await sqlBattle.datatableDetFindDefense(listId);
                 if (result.length == 0) {
                     let inaccessibilityError = new Discord.MessageEmbed()
                         .setColor("#F00E0E")
@@ -321,7 +329,7 @@ async function processRequest (newParam, listMobs, message, infoUser) {
     }
 };
 
-function findteam (message) {
+function detfindteam (message) {
 
     //S�curit� pour pas que le bot r�agi avec lui-m�me
     if (message.author.bot) return;
@@ -336,10 +344,12 @@ function findteam (message) {
     }
 
     //Data de l'utilisateur qui a utiliser les commandes 
-    var infoUser = userInfo("./commands/findteam.js", message);
+    var infoUser = userInfo("./commands/detfindteam.js", message);
 
-    var statutcommand = checkMaintenance(message, "findteam", infoUser);
+    var statutcommand = checkMaintenance(message, "detfindteam", infoUser);
+
     // console.log('status commande', statutcommand);
+
     if(statutcommand == false) return;
 
     // message.channel.send("Commande activé")
@@ -381,10 +391,18 @@ function findteam (message) {
 
     var listMobs = messageArray[1].split(" ").slice(1).filter(value => { return value !== ''});
 
+    let errorListMobsNumber = new Discord.MessageEmbed()
+    .setColor("#F00E0E")
+    .setTitle(`:x: Resultat incorrect  :x:`)
+    .setDescription(`:x: ${infoUser.username},  merci d'entré  3 noms de monstres.`) 
+    .setFooter("Erreur : errorListMobsNumber");
+
+    if (listMobs.length < 3 ) return message.channel.send(errorListMobsNumber) && consoleLog(`ERROR : errorListMobsNumber`, NaN, infoUser);
+
     console.log('ListMobs', listMobs);
 
     processRequest(newParam, listMobs, message, infoUser);
 }
 
 //Module export
-module.exports = findteam;
+module.exports = detfindteam;

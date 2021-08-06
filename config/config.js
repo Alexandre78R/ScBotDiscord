@@ -30,6 +30,7 @@ module.exports = {
             "listoffense" :  true,
             "listoffenseplayer" : true,
             "findteam" : true,
+            "detfindteam" : true,
         },
         "roles_id": {
             "ADMIN" : environment.roles_id.ADMIN,

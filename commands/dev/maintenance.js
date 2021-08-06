@@ -60,8 +60,10 @@ function maintenance (message) {
             { name: 'lastoffense', value: config.discord.maintenance.lastoffense, inline: true },
             { name: 'deloffense', value: config.discord.maintenance.deloffense, inline: true },
             { name: 'upoffense', value: config.discord.maintenance.upoffense, inline: true },
-            { name: 'listoffense', value: config.discord.maintenance.upoffense, inline: true },
-            { name: 'findteam', value: config.discord.maintenance.upoffense, inline: true }
+            { name: 'listoffense', value: config.discord.maintenance.listoffense, inline: true },
+            { name: 'listoffenseplayer', value: config.discord.maintenance.listoffenseplayer, inline: true },
+            { name: 'findteam', value: config.discord.maintenance.findteam, inline: true },
+            { name: 'detfindteam', value: config.discord.maintenance.detfindteam, inline: true }
         )
         .setFooter(`Pour désactiver ou activer une commandes merci de taper ${config.discord.prefix}maintenance + le nom de la commande.`);
         return message.channel.send(undefinedNameCommand) && consoleLog(`Ok : undefinedNameCommand`, NaN, infoUser);
@@ -271,6 +273,18 @@ function maintenance (message) {
                 .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
                 .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.findteam} !`);
                 message.channel.send(statusFindTeam) && consoleLog(`OK : statusFindTeam`, NaN, infoUser);
+
+            break;
+
+            case "detfindteam" :
+
+                config.discord.maintenance.detfindteam = !config.discord.maintenance.detfindteam;
+
+                let statusDetFindTeam = new Discord.MessageEmbed()
+                .setColor("#01E007")
+                .setTitle(`:white_check_mark: Commande Status :white_check_mark:`)
+                .setDescription(`:tada: ${infoUser.username}, le status de la commandes ${nameCommand} à était changer en ${config.discord.maintenance.detfindteam} !`);
+                message.channel.send(statusDetFindTeam) && consoleLog(`OK : statusDetFindTeam`, NaN, infoUser);
 
             break;
 
